@@ -1,15 +1,15 @@
-import * as CodeMirror from '../../';
+import * as CodeMirror from "../../";
 
 export interface MultiplexedInnerMode {
     open: string;
     close: string;
     mode: CodeMirror.Mode<any>;
-    parseDelimiters?: boolean;
-    delimStyle?: string;
-    innerStyle?: string;
+    parseDelimiters?: boolean | undefined;
+    delimStyle?: string | undefined;
+    innerStyle?: string | undefined;
 }
 
-declare module '../../' {
+declare module "../../" {
     /**
      * Mode combinator that can be used to easily 'multiplex' between several modes.
      * When given as first argument a mode object, and as other arguments any number of

@@ -1,56 +1,60 @@
-// Type definitions for mParticle/web-sdk SDK 2.12
-// Project: https://github.com/mParticle/mparticle-web-sdk
-// Definitions by: Alex Sapountzis <https://github.com/asap>
-//                 Robert Ing <https://github.com/rmi22186>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// Minimum TypeScript Version: 3.6
+import { Batch } from "@mparticle/event-models";
+
+// Placeholder for Dictionary-like Types
+export type Dictionary<V = any> = Record<string, V>;
 
 export as namespace mParticle;
 export {};
 export interface MPConfiguration {
-    isDevelopmentMode?: boolean;
-    identifyRequest?: IdentifyRequest;
-    identityCallback?: IdentityCallback;
-    dataPlan?: DataPlanConfig;
-    appVersion?: string;
-    appName?: string;
-    logLevel?: 'verbose' | 'warning' | 'none';
-    logger?: Logger;
-    sessionTimeout?: number;
-    useCookieStorage?: boolean;
-    maxCookieSize?: number;
-    cookieDomain?: string;
-    customFlags?: SDKEventCustomFlags;
+    isDevelopmentMode?: boolean | undefined;
+    identifyRequest?: IdentifyRequest | undefined;
+    identityCallback?: IdentityCallback | undefined;
+    dataPlan?: DataPlanConfig | undefined;
+    appVersion?: string | undefined;
+    appName?: string | undefined;
+    package?: string | undefined;
+    logLevel?: "verbose" | "warning" | "none" | undefined;
+    logger?: Logger | undefined;
+    sessionTimeout?: number | undefined;
+    deviceId?: string | undefined;
+    onCreateBatch?: onCreateBatch | undefined;
+    useCookieStorage?: boolean | undefined;
+    maxCookieSize?: number | undefined;
+    cookieDomain?: string | undefined;
+    customFlags?: SDKEventCustomFlags | undefined;
+    sideloadedKits?: MPForwarder[];
     /**
      * @warning only change workspaceToken if you are absolutely sure you know what you are doing
      */
-    workspaceToken?: string;
+    workspaceToken?: string | undefined;
     /**
      * @warning only change requiredWebviewBridgeName if you are absolutely sure you know what you are doing
      */
-    requiredWebviewBridgeName?: string;
+    requiredWebviewBridgeName?: string | undefined;
     /**
      * @warning only change minWebviewBridgeVersion if you are absolutely sure you know what you are doing
      */
-    minWebviewBridgeVersion?: 1 | 2;
+    minWebviewBridgeVersion?: 1 | 2 | undefined;
 }
 
+export type MPForwarder = Dictionary;
+
 export interface Logger {
-    error?: (error: string) => void;
-    warning?: (error: string) => void;
-    verbose?: (error: string) => void;
+    error?: ((error: string) => void) | undefined;
+    warning?: ((error: string) => void) | undefined;
+    verbose?: ((error: string) => void) | undefined;
 }
 export interface SDKEventCustomFlags {
-    [key: string]:
-        | number
-        | string
-        | boolean
-        | unknown[]
-        | Record<string, unknown>;
+    [key: string]: number | string | boolean | unknown[] | Record<string, unknown>;
 }
+
+export interface SDKEventOptions {
+    shouldUploadEvent: boolean;
+}
+
 export interface DataPlanConfig {
     planId: string;
-    planVersion?: number;
+    planVersion?: number | undefined;
 }
 
 interface EndSession {
@@ -65,12 +69,20 @@ interface GetAppVersion {
 interface GetDeviceId {
     (): string;
 }
+
+interface GetEnvironment {
+    (): string;
+}
 interface GetVersion {
     (): string;
 }
 
 interface Init {
     (apiKey: string, config: MPConfiguration, instanceName?: string): void;
+}
+
+interface IsInitialized {
+    (): boolean;
 }
 
 interface LogError {
@@ -83,25 +95,16 @@ interface LogEvent {
         eventType?: EventType,
         eventInfo?: SDKEventAttrs,
         customFlags?: SDKEventCustomFlags,
+        eventOptions?: SDKEventOptions,
     ): void;
 }
 
 interface LogForm {
-    (
-        selector: string | HTMLElement,
-        eventName: string,
-        eventType?: EventType,
-        eventInfo?: SDKEventAttrs,
-    ): void;
+    (selector: string | HTMLElement, eventName: string, eventType?: EventType, eventInfo?: SDKEventAttrs): void;
 }
 
 interface LogLink {
-    (
-        selector: string | HTMLElement,
-        eventName: string,
-        eventType?: EventType,
-        eventInfo?: SDKEventAttrs,
-    ): void;
+    (selector: string | HTMLElement, eventName: string, eventType?: EventType, eventInfo?: SDKEventAttrs): void;
 }
 
 interface LogPageView {
@@ -109,13 +112,18 @@ interface LogPageView {
         eventName?: string,
         attrs?: SDKEventAttrs,
         customFlags?: SDKEventCustomFlags,
+        eventOptions?: SDKEventOptions,
     ): void;
 }
+
 interface Ready {
     (callback: () => void): void;
 }
 interface Reset {
     (): void;
+}
+interface SetDeviceId {
+    (uuid: string): void;
 }
 interface SetAppName {
     (name: string): void;
@@ -124,7 +132,7 @@ interface SetAppVersion {
     (version: string): void;
 }
 interface SetLogLevel {
-    (newLogLevel: 'verbose' | 'warning' | 'none'): void;
+    (newLogLevel: "verbose" | "warning" | "none"): void;
 }
 interface SetOptOut {
     (isOptingOut: boolean): void;
@@ -147,7 +155,7 @@ interface StopTrackingLocation {
 }
 
 interface LogBaseEvent {
-    (event: BaseEvent): void;
+    (event: BaseEvent, eventOptions?: SDKEventOptions): void;
 }
 interface Upload {
     (): void;
@@ -197,7 +205,7 @@ interface Login {
     (identityApiData: IdentityApiData, callback?: IdentityCallback): void;
 }
 interface Logout {
-    (identityApiData: IdentityApiData, callback?: IdentityCallback): void;
+    (identityApiData?: IdentityApiData | {} | null, callback?: IdentityCallback): void;
 }
 interface Modify {
     (identityApiData: IdentityApiData, callback?: IdentityCallback): void;
@@ -220,12 +228,7 @@ interface CreateProduct {
     ): Product;
 }
 interface CreatePromotion {
-    (
-        id: string,
-        creative?: string,
-        name?: string,
-        position?: number,
-    ): Promotion;
+    (id: string, creative?: string, name?: string, position?: number): Promotion;
 }
 interface CreateTransactionAttributes {
     (
@@ -238,18 +241,14 @@ interface CreateTransactionAttributes {
     ): TransactionAttributes;
 }
 interface LogCheckout {
-    (
-        step: number,
-        options?: string,
-        attrs?: SDKEventAttrs,
-        customFlags?: SDKEventCustomFlags,
-    ): void;
+    (step: number, options?: string, attrs?: SDKEventAttrs, customFlags?: SDKEventCustomFlags): void;
 }
 interface LogImpression {
     (
         impression: Impression[] | Impression,
         attrs?: Record<string, unknown>,
         customFlags?: Record<string, unknown>,
+        eventOptions?: SDKEventOptions,
     ): void;
 }
 interface LogProductAction {
@@ -259,14 +258,16 @@ interface LogProductAction {
         attrs?: SDKEventAttrs,
         customFlags?: SDKEventCustomFlags,
         transactionAttributes?: TransactionAttributes,
+        eventOptions?: SDKEventOptions,
     ): void;
 }
 interface LogPromotion {
     (
         type: number,
-        promotion: Promotion,
+        promotion: Promotion[] | Promotion,
         attrs?: SDKEventAttrs,
         customFlags?: SDKEventCustomFlags,
+        eventOptions?: SDKEventOptions,
     ): void;
 }
 interface LogPurchase {
@@ -306,12 +307,15 @@ export const endSession: EndSession;
 export const getAppName: GetAppName;
 export const getAppVersion: GetAppVersion;
 export const getDeviceId: GetDeviceId;
+export const setDeviceId: SetDeviceId;
+export const getEnvironment: GetEnvironment;
 export function getInstance(instanceName?: string): mParticleInstance;
 export const getVersion: GetVersion;
 /**
  * @warning You should only use mParticle.init if you are in a self-hosted environment. https://docs.mparticle.com/developers/sdk/web/self-hosting/
  */
 export const init: Init;
+export const isInitialized: IsInitialized;
 export const logBaseEvent: LogBaseEvent;
 export const logError: LogError;
 export const logEvent: LogEvent;
@@ -356,10 +360,7 @@ export namespace Consent {
 export interface ConsentState {
     setGDPRConsentState: (gdprConsentState: GDPRConsentState) => ConsentState;
     setCCPAConsentState: (ccpaConsentState: CCPAConsentState) => ConsentState;
-    addGDPRConsentState: (
-        purpose: string,
-        gdprConsent: PrivacyConsentState,
-    ) => ConsentState;
+    addGDPRConsentState: (purpose: string, gdprConsent: PrivacyConsentState) => ConsentState;
     getGDPRConsentState: () => GDPRConsentState;
     getCCPAConsentState: () => CCPAConsentState;
     removeGDPRConsentState: (purpose: string) => ConsentState;
@@ -475,7 +476,6 @@ export namespace eCommerce {
     const logPromotion: LogPromotion;
     const logPurchase: LogPurchase;
     /**
-     *
      * @deprecated logRefund has been deprecated
      */
     const logRefund: LogRefund;
@@ -491,7 +491,7 @@ export interface IdentifyRequest {
 
 export type MPID = string;
 export interface User {
-    getUserIdentities: () => UserIdentities;
+    getUserIdentities: () => IdentityApiData;
     getMPID: () => MPID;
     setUserTag: (tag: string) => void;
     removeUserTag: (tag: string) => void;
@@ -503,7 +503,6 @@ export interface User {
     getUserAttributesLists: () => Record<string, UserAttributesValue[]>;
     getAllUserAttributes: () => AllUserAttributes;
     /**
-     *
      * @deprecated Cart persistence in mParticle has been deprecated
      */
     getCart: () => Cart;
@@ -514,84 +513,78 @@ export interface User {
     getFirstSeenTime: () => number;
 }
 export type UserAttributesValue = string | number | boolean | null;
-export type AllUserAttributes = Record<
-    string,
-    UserAttributesValue | UserAttributesValue[]
->;
+export type AllUserAttributes = Record<string, UserAttributesValue | UserAttributesValue[]>;
 export interface UserIdentities {
-    customerid?: string;
-    email?: string;
-    other?: string;
-    other2?: string;
-    other3?: string;
-    other4?: string;
-    other5?: string;
-    other6?: string;
-    other7?: string;
-    other8?: string;
-    other9?: string;
-    other10?: string;
-    mobile_number?: string;
-    phone_number_2?: string;
-    phone_number_3?: string;
-    facebook?: string;
-    facebookcustomaudienceid?: string;
-    google?: string;
-    twitter?: string;
-    microsoft?: string;
-    yahoo?: string;
+    customerid?: string | undefined;
+    email?: string | undefined;
+    other?: string | undefined;
+    other2?: string | undefined;
+    other3?: string | undefined;
+    other4?: string | undefined;
+    other5?: string | undefined;
+    other6?: string | undefined;
+    other7?: string | undefined;
+    other8?: string | undefined;
+    other9?: string | undefined;
+    other10?: string | undefined;
+    mobile_number?: string | undefined;
+    phone_number_2?: string | undefined;
+    phone_number_3?: string | undefined;
+    facebook?: string | undefined;
+    facebookcustomaudienceid?: string | undefined;
+    google?: string | undefined;
+    twitter?: string | undefined;
+    microsoft?: string | undefined;
+    yahoo?: string | undefined;
 }
 
 interface Cart {
     /**
-     *
      * @deprecated Cart persistence in mParticle has been deprecated. Please use mParticle.eCommerce.logProductAction(mParticle.ProductActionType.AddToCart, [products])
      */
     add: (product: Product, logEventBoolean?: boolean) => void;
     /**
-     *
      * @deprecated Cart persistence in mParticle has been deprecated. Please use mParticle.eCommerce.logProductAction(mParticle.ProductActionType.RemoveFromCart, [products])
      */
     remove: (product: Product, logEventBoolean?: boolean) => void;
     /**
-     *
      * @deprecated Cart persistence in mParticle has been deprecated.
      */
     clear: () => void;
 }
 
 export interface Product {
-    name: string;
-    sku: string;
-    price: number;
-    quantity?: number;
-    variant?: string;
-    category?: string;
-    brand?: string;
-    position?: number;
-    coupon?: string;
-    attributes?: Record<string, unknown>;
+    Name: string;
+    Sku: string;
+    Price: number;
+    Quantity?: number | undefined;
+    Variant?: string | undefined;
+    Category?: string | undefined;
+    Brand?: string | undefined;
+    Position?: number | undefined;
+    Coupon?: string | undefined;
+    Attributes?: Record<string, unknown> | undefined;
 }
 
 export interface TransactionAttributes {
     Id: string | number;
-    Affiliation?: string;
-    CouponCode?: string;
-    Revenue?: number;
-    Shipping?: string;
-    Tax?: number;
+    Affiliation?: string | undefined;
+    CouponCode?: string | undefined;
+    Revenue?: number | undefined;
+    Shipping?: string | undefined;
+    Tax?: number | undefined;
 }
 
 export interface Impression {
-    name: string;
-    product: Product;
+    Name: string;
+    Product: Product;
 }
 
 export interface Promotion {
-    id: string;
-    creative?: string;
-    name?: string;
-    position?: number;
+    Id: string;
+    Creative?: string | undefined;
+    Name?: string | undefined;
+    Position?: number | undefined;
 }
 
 export interface IdentityApiData {
@@ -619,7 +612,7 @@ export interface BaseEvent {
     name: string;
     eventType: number;
     messageType: number;
-    toEventAPIObject?: () => unknown;
+    toEventAPIObject?: (() => unknown) | undefined;
 }
 export interface SDKEventAttrs {
     [key: string]: SDKEventAttrTypes;
@@ -635,6 +628,10 @@ export interface errorObject {
     name: string;
     message: string;
     stack: string;
+}
+
+export interface onCreateBatch {
+    (batch: Batch): Batch;
 }
 
 export interface IdentityCallback {
@@ -661,6 +658,7 @@ export interface UserAliasRequest {
     sourceMpid: string;
     startTime: number;
     endTime: number;
+    scope?: string;
 }
 
 export interface AliasUsersCallback {
@@ -674,8 +672,11 @@ declare class mParticleInstance {
     getAppName: GetAppName;
     getAppVersion: GetAppVersion;
     getDeviceId: GetDeviceId;
+    setDeviceId: SetDeviceId;
+    getEnvironment: GetEnvironment;
     getVersion: GetVersion;
     init: Init;
+    isInitialized: IsInitialized;
     logBaseEvent: LogBaseEvent;
     logError: LogError;
     logEvent: LogEvent;

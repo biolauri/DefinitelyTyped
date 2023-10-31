@@ -1,15 +1,7 @@
-// Type definitions for Google Page Speed Online Api
-// Project: https://developers.google.com/speed/pagespeed/
-// Definitions by: Frank M <https://github.com/sgtfrankieboy>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.3
-
-///<reference types="gapi" />
+/// <reference types="gapi" />
 
 declare namespace gapi.client.pagespeedonline {
-
     export interface pagespeedapi {
-
         /**
          * Runs Page Speed analysis on the page at the specified URL, and returns a Page Speed score, a list of suggestions to make that page faster, and other information.
          */
@@ -21,26 +13,25 @@ declare namespace gapi.client.pagespeedonline {
             /**
              * The locale that results should be generated in.
              */
-            locale?: string;
+            locale?: string | undefined;
             /**
              * The PageSpeed rules to run. Can be specified multiple times
              */
-            rule?: string[];
+            rule?: string[] | undefined;
             /**
              * Indicates if binary data containing a screenshot should be included
              */
-            screenshot?: boolean;
+            screenshot?: boolean | undefined;
             /**
              * The strategy to use when analyzing the page. Valid values are desktop and mobile.
              */
-            stategy?: string;
+            stategy?: string | undefined;
             /**
              * Selector specifying which fields to include in a partial response.
              */
-            fields?: string;
+            fields?: string | undefined;
         }): HttpRequest<GoogleApiPageSpeedOnlineResource>;
     }
-
 }
 
 interface GoogleApiPageSpeedOnlineResource {
@@ -67,8 +58,7 @@ interface GoogleApiPageSpeedOnlineResource {
     /**
      * Summary statistics for the page, such as number of JavaScript bytes, number of HTML bytes, etc.
      */
-    pageStats:
-    {
+    pageStats: {
         /**
          * Number of HTTP resources loaded by the page.
          */
@@ -121,7 +111,7 @@ interface GoogleApiPageSpeedOnlineResource {
          * Number of CSS resources referenced by the page.
          */
         numberCssResources: number;
-    }
+    };
     /**
      * Localized PageSpeed results. Contains a ruleResults entry for each PageSpeed rule instantiated and run by the server.
      */
@@ -162,8 +152,8 @@ interface GoogleApiPageSpeedOnlineResource {
             SpecifyCharsetEarly: GoogleApiPageSpeedOnlineRuleResource;
             SpecifyImageDimensions: GoogleApiPageSpeedOnlineRuleResource;
             SpriteImages: GoogleApiPageSpeedOnlineRuleResource;
-        }
-    }
+        };
+    };
     /**
      * The version of the PageSpeed SDK used to generate these results.
      */
@@ -176,7 +166,7 @@ interface GoogleApiPageSpeedOnlineResource {
          * The minor version number of the PageSpeed SDK used to generate these results.
          */
         minor: number;
-    }
+    };
     /**
      * List of rules that were specified in the request, but which the server did not know how to instantiate.
      */
@@ -221,7 +211,7 @@ interface GoogleApiPageSpeedOnlineRuleResource {
                  */
                 value: string;
             }[];
-        }
+        };
         /**
          * List of entries that provide information about URLs in the URL block. Optional.
          */
@@ -247,7 +237,7 @@ interface GoogleApiPageSpeedOnlineRuleResource {
                      */
                     value: string;
                 }[];
-            }
+            };
             /**
              * List of entries that provide additional details about a single URL. Optional.
              */
@@ -274,7 +264,4 @@ interface GoogleApiPageSpeedOnlineRuleResource {
     }[];
 }
 
-
-                    /**
-                     *
-                     */
+/** */

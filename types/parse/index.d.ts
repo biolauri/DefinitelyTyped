@@ -1,30 +1,3 @@
-// Type definitions for parse 2.18
-// Project: https://parseplatform.org/
-// Definitions by:  Ullisen Media Group <https://github.com/ullisenmedia>
-//                  David Poetzsch-Heffter <https://github.com/dpoetzsch>
-//                  Cedric Kemp <https://github.com/jaeggerr>
-//                  Flavio Negrão <https://github.com/flavionegrao>
-//                  Wes Grimes <https://github.com/wesleygrimes>
-//                  Otherwise SAS <https://github.com/owsas>
-//                  Andrew Goldis <https://github.com/agoldis>
-//                  Alexandre Hétu Rivard <https://github.com/AlexandreHetu>
-//                  Diamond Lewis <https://github.com/dplewis>
-//                  Jong Eun Lee <https://github.com/yomybaby>
-//                  Colin Ulin <https://github.com/pocketcolin>
-//                  Robert Helms <https://github.com/rdhelms>
-//                  Julien Quere <https://github.com/jlnquere>
-//                  Thibault MOCELLIN <https://github.com/tybi>
-//                  Raschid JF Rafaelly <https://github.com/RaschidJFR>
-//                  Jeff Gu Kang <https://github.com/jeffgukang>
-//                  Bui Tan Loc <https://github.com/buitanloc>
-//                  Linus Unnebäck <https://github.com/LinusU>
-//                  Jerome De Leon <https://github.com/JeromeDeLeon>
-//                  Kent Robin Haugen <https://github.com/kentrh>
-//                  Asen Lekov <https://github.com/L3K0V>
-//                  Switt Kongdachalert <https://github.com/swittk>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// Minimum TypeScript Version: 3.5
-
 /// <reference types="node" />
 /// <reference path="node.d.ts" />
 /// <reference path="react-native.d.ts" />
@@ -32,60 +5,189 @@
 import { EventEmitter } from "events";
 
 declare enum ErrorCode {
+    /** Error code indicating some error other than those enumerated here */
     OTHER_CAUSE = -1,
+    /** Error code indicating that something has gone wrong with the server. */
     INTERNAL_SERVER_ERROR = 1,
+    /** Error code indicating the connection to the Parse servers failed. */
     CONNECTION_FAILED = 100,
+    /** Error code indicating the specified object doesn't exist. */
     OBJECT_NOT_FOUND = 101,
+    /**
+     * Error code indicating you tried to query with a datatype that doesn't
+     * support it, like exact matching an array or object.
+     */
     INVALID_QUERY = 102,
+    /*
+     * Error code indicating a missing or invalid classname. Classnames are
+     * case-sensitive. They must start with a letter, and a-zA-Z0-9_ are the
+     * only valid characters.
+     */
     INVALID_CLASS_NAME = 103,
+    /** Error code indicating an unspecified object id. */
     MISSING_OBJECT_ID = 104,
+    /**
+     * Error code indicating an invalid key name. Keys are case-sensitive. They
+     * must start with a letter, and a-zA-Z0-9_ are the only valid characters.
+     */
     INVALID_KEY_NAME = 105,
+    /**
+     * Error code indicating a malformed pointer. You should not see this unless
+     * you have been mucking about changing internal Parse code.
+     */
     INVALID_POINTER = 106,
+    /*
+     * Error code indicating that badly formed JSON was received upstream. This
+     * either indicates you have done something unusual with modifying how
+     * things encode to JSON, or the network is failing badly.
+     */
     INVALID_JSON = 107,
+    /**
+     * Error code indicating that the feature you tried to access is only
+     * available internally for testing purposes.
+     */
     COMMAND_UNAVAILABLE = 108,
+    /** You must call Parse.initialize before using the Parse library. */
     NOT_INITIALIZED = 109,
+    /** Error code indicating that a field was set to an inconsistent type. */
     INCORRECT_TYPE = 111,
+    /**
+     * Error code indicating an invalid channel name. A channel name is either
+     * an empty string (the broadcast channel) or contains only a-zA-Z0-9_
+     * characters and starts with a letter.
+     */
     INVALID_CHANNEL_NAME = 112,
+    /** Error code indicating that push is misconfigured. */
     PUSH_MISCONFIGURED = 115,
+    /** Error code indicating that the object is too large. */
     OBJECT_TOO_LARGE = 116,
+    /** Error code indicating that the operation isn't allowed for clients. */
     OPERATION_FORBIDDEN = 119,
+    /** Error code indicating the result was not found in the cache. */
     CACHE_MISS = 120,
+    /** Error code indicating that an invalid key was used in a nested JSONObject. */
     INVALID_NESTED_KEY = 121,
+    /**
+     * Error code indicating that an invalid filename was used for ParseFile.
+     * A valid file name contains only a-zA-Z0-9_. characters and is between 1
+     * and 128 characters.
+     */
     INVALID_FILE_NAME = 122,
+    /** Error code indicating an invalid ACL was provided. */
     INVALID_ACL = 123,
+    /**
+     * Error code indicating that the request timed out on the server. Typically
+     * this indicates that the request is too expensive to run.
+     */
     TIMEOUT = 124,
+    /** Error code indicating that the email address was invalid. */
     INVALID_EMAIL_ADDRESS = 125,
+    /** Error code indicating a missing content type. */
     MISSING_CONTENT_TYPE = 126,
+    /** Error code indicating a missing content length. */
     MISSING_CONTENT_LENGTH = 127,
+    /** Error code indicating an invalid content length. */
     INVALID_CONTENT_LENGTH = 128,
+    /** Error code indicating a file that was too large. */
     FILE_TOO_LARGE = 129,
+    /** Error code indicating an error saving a file. */
     FILE_SAVE_ERROR = 130,
+    /**
+     * Error code indicating that a unique field was given a value that is
+     * already taken.
+     */
     DUPLICATE_VALUE = 137,
+    /** Error code indicating that a role's name is invalid. */
     INVALID_ROLE_NAME = 139,
+    /**
+     * Error code indicating that an application quota was exceeded.
+     * Upgrade to resolve.
+     */
     EXCEEDED_QUOTA = 140,
+    /** Error code indicating that a Cloud Code script failed. */
     SCRIPT_FAILED = 141,
+    /** Error code indicating that a Cloud Code validation failed. */
     VALIDATION_ERROR = 142,
+    /** Error code indicating that invalid image data was provided. */
     INVALID_IMAGE_DATA = 150,
+    /** Error code indicating an unsaved file. */
     UNSAVED_FILE_ERROR = 151,
+    /** Error code indicating an invalid push time. */
     INVALID_PUSH_TIME_ERROR = 152,
+    /** Error code indicating an error deleting a file. */
     FILE_DELETE_ERROR = 153,
+    /** Error code indicating that the application has exceeded its request limit. */
     REQUEST_LIMIT_EXCEEDED = 155,
+    /**
+     * Error code indicating that the request was a duplicate and has been discarded due to
+     * idempotency rules.
+     */
+    DUPLICATE_REQUEST = 159,
+    /** Error code indicating an invalid event name. */
     INVALID_EVENT_NAME = 160,
+    /** Error code indicating an error deleting an unnamed file. */
+    FILE_DELETE_UNNAMED_ERROR = 161,
+    /** Error code indicating that the username is missing or empty. */
     USERNAME_MISSING = 200,
+    /** Error code indicating that the password is missing or empty. */
     PASSWORD_MISSING = 201,
+    /** Error code indicating that the username has already been taken. */
     USERNAME_TAKEN = 202,
+    /** Error code indicating that the email has already been taken. */
     EMAIL_TAKEN = 203,
+    /** Error code indicating that the email is missing, but must be specified. */
     EMAIL_MISSING = 204,
+    /** Error code indicating that a user with the specified email was not found. */
     EMAIL_NOT_FOUND = 205,
+    /**
+     * Error code indicating that a user object without a valid session could
+     * not be altered.
+     */
     SESSION_MISSING = 206,
+    /** Error code indicating that a user can only be created through signup. */
     MUST_CREATE_USER_THROUGH_SIGNUP = 207,
+    /**
+     * Error code indicating that an an account being linked is already linked
+     * to another user.
+     */
     ACCOUNT_ALREADY_LINKED = 208,
+    /** Error code indicating that the current session token is invalid. */
     INVALID_SESSION_TOKEN = 209,
+    /** Error code indicating an error enabling or verifying MFA */
+    MFA_ERROR = 210,
+    /** Error code indicating that a valid MFA token must be provided */
+    MFA_TOKEN_REQUIRED = 211,
+    /**
+     * Error code indicating that a user cannot be linked to an account because
+     * that account's id could not be found.
+     */
     LINKED_ID_MISSING = 250,
+    /**
+     * Error code indicating that a user with a linked (e.g. Facebook) account
+     * has an invalid session.
+     */
     INVALID_LINKED_SESSION = 251,
+    /**
+     * Error code indicating that a service being linked (e.g. Facebook or
+     * Twitter) is unsupported.
+     */
     UNSUPPORTED_SERVICE = 252,
+    /** Error code indicating an invalid operation occured on schema */
+    INVALID_SCHEMA_OPERATION = 255,
+    /**
+     * Error code indicating that there were multiple errors. Aggregate errors
+     * have an "errors" property, which is an array of error objects with more
+     * detail about each error that occurred.
+     */
     AGGREGATE_ERROR = 600,
+    /** Error code indicating the client was unable to read an input file. */
     FILE_READ_ERROR = 601,
+    /*
+     * Error code indicating a real error code is unavailable because
+     * we had to use an XDomainRequest object to allow CORS requests in
+     * Internet Explorer, which strips the body from HTTP responses that have
+     * a non-2XX status code.
+     */
     X_DOMAIN_REQUEST = 602,
 }
 
@@ -103,49 +205,59 @@ declare global {
         let encryptedUser: boolean;
 
         interface BatchSizeOption {
-            batchSize?: number;
+            batchSize?: number | undefined;
         }
 
         interface CascadeSaveOption {
             /** If `false`, nested objects will not be saved (default is `true`). */
-            cascadeSave?: boolean;
+            cascadeSave?: boolean | undefined;
         }
 
         interface SuccessOption {
-            success?: Function;
+            success?: Function | undefined;
         }
 
         interface ErrorOption {
-            error?: Function;
+            error?: Function | undefined;
+        }
+
+        interface ContextOption {
+            context?: { [key: string]: any };
         }
 
         interface FullOptions {
-            success?: Function;
-            error?: Function;
-            useMasterKey?: boolean;
-            sessionToken?: string;
-            installationId?: string;
-            progress?: Function;
+            success?: Function | undefined;
+            error?: Function | undefined;
+            useMasterKey?: boolean | undefined;
+            sessionToken?: string | undefined;
+            installationId?: string | undefined;
+            progress?: Function | undefined;
+            /**
+             * logIn will default to POST instead of GET method since
+             * version 3.0.0 for security reasons.
+             * If you need to use GET set this to `false`.
+             */
+            usePost?: boolean;
         }
 
         interface RequestOptions {
-            useMasterKey?: boolean;
-            sessionToken?: string;
-            installationId?: string;
-            batchSize?: number;
-            include?: string | string[];
-            progress?: Function;
+            useMasterKey?: boolean | undefined;
+            sessionToken?: string | undefined;
+            installationId?: string | undefined;
+            batchSize?: number | undefined;
+            include?: string | string[] | undefined;
+            progress?: Function | undefined;
         }
 
         interface SuccessFailureOptions extends SuccessOption, ErrorOption {}
 
         interface SignUpOptions {
-            useMasterKey?: boolean;
-            installationId?: string;
+            useMasterKey?: boolean | undefined;
+            installationId?: string | undefined;
         }
 
         interface SessionTokenOption {
-            sessionToken?: string;
+            sessionToken?: string | undefined;
         }
 
         interface WaitOption {
@@ -153,23 +265,31 @@ declare global {
              * Set to true to wait for the server to confirm success
              * before triggering an event.
              */
-            wait?: boolean;
+            wait?: boolean | undefined;
         }
 
         interface UseMasterKeyOption {
             /**
              * In Cloud Code and Node only, causes the Master Key to be used for this request.
              */
-            useMasterKey?: boolean;
+            useMasterKey?: boolean | undefined;
         }
 
+        /**
+         * https://github.com/parse-community/Parse-SDK-JS/pull/1294/files
+         * feat: Add option to return raw json from queries
+         */
+        interface RawJSONOptions {
+            /** (3.0.0+) json: Return raw json without converting to Parse.Object */
+            json?: boolean;
+        }
         interface ScopeOptions extends SessionTokenOption, UseMasterKeyOption {}
 
         interface SilentOption {
             /**
              * Set to true to avoid firing the event.
              */
-            silent?: boolean;
+            silent?: boolean | undefined;
         }
 
         interface Pointer {
@@ -194,7 +314,7 @@ declare global {
             /**
              * (Optional) Called when service is unlinked. Handle any cleanup here.
              */
-            deauthenticate?: () => void;
+            deauthenticate?: (() => void) | undefined;
             /**
              * Unique identifier for this Auth Provider.
              */
@@ -302,13 +422,13 @@ declare global {
              * @returns Promise that is resolved with base64 data
              */
             getData(): Promise<string>;
-            url(options?: { forceSecure?: boolean }): string;
+            url(options?: { forceSecure?: boolean | undefined }): string;
             metadata(): Record<string, any>;
             tags(): Record<string, any>;
             name(): string;
             save(options?: FullOptions): Promise<File>;
             cancel(): void;
-            destroy(): Promise<File>;
+            destroy(options?: FullOptions): Promise<File>;
             toJSON(): { __type: string; name: string; url: string };
             equals(other: File): boolean;
             setMetadata(metadata: Record<string, any>): void;
@@ -402,7 +522,6 @@ declare global {
          * @param options The options for this object instance.
          * @see Parse.Object.extend
          *
-         *
          * Creates a new model with defined attributes.
          */
         interface Object<T extends Attributes = Attributes> {
@@ -412,19 +531,21 @@ declare global {
             attributes: T;
             className: string;
 
-            add<K extends { [K in keyof T]: T[K] extends any[] ? K : never }[keyof T]>(
+            add<K extends { [K in keyof T]: NonNullable<T[K]> extends any[] ? K : never }[keyof T]>(
                 attr: K,
-                item: T[K][number],
+                item: NonNullable<T[K]>[number],
             ): this | false;
-            addAll<K extends { [K in keyof T]: T[K] extends any[] ? K : never }[keyof T]>(
+            addAll<K extends { [K in keyof T]: NonNullable<T[K]> extends any[] ? K : never }[keyof T]>(
                 attr: K,
-                items: T[K],
+                items: NonNullable<T[K]>,
             ): this | false;
             addAllUnique: this["addAll"];
             addUnique: this["add"];
             clear(options: any): any;
             clone(): this;
             destroy(options?: Object.DestroyOptions): Promise<this>;
+            /** EventuallyQueue API; added in version 3.0.0 */
+            destroyEventually(options?: Object.DestroyOptions): Promise<this>;
             dirty(attr?: Extract<keyof T, string>): boolean;
             dirtyKeys(): string[];
             equals<T extends Object>(other: T): boolean;
@@ -468,6 +589,8 @@ declare global {
                 value: T[K] extends undefined ? never : T[K],
                 options?: Object.SaveOptions,
             ): Promise<this>;
+            /** EventuallyQueue API; added in version 3.0.0 */
+            saveEventually(options?: Object.SaveOptions): Promise<this>;
             set<K extends Extract<keyof T, string>>(attrs: Pick<T, K> | T, options?: Object.SetOptions): this | false;
             set<K extends Extract<keyof T, string>>(
                 key: K,
@@ -501,7 +624,7 @@ declare global {
             fromJSON(json: any, override?: boolean): T;
             pinAll(objects: Object[]): Promise<void>;
             pinAllWithName(name: string, objects: Object[]): Promise<void>;
-            registerSubclass(className: string, clazz: new (options?: any) => T): void;
+            registerSubclass(className: string, clazz: new(options?: any) => T): void;
             saveAll<T extends readonly Object[]>(list: T, options?: Object.SaveAllOptions): Promise<T>;
             unPinAll(objects: Object[]): Promise<void>;
             unPinAllObjects(): Promise<void>;
@@ -509,8 +632,8 @@ declare global {
             unPinAllWithName(name: string, objects: Object[]): Promise<void>;
         }
         interface ObjectConstructor extends ObjectStatic {
-            new <T extends Attributes>(className: string, attributes: T, options?: any): Object<T>;
-            new (className?: string, attributes?: Attributes, options?: any): Object;
+            new<T extends Attributes>(className: string, attributes: T, options?: any): Object<T>;
+            new(className?: string, attributes?: Attributes, options?: any): Object;
         }
         const Object: ObjectConstructor;
 
@@ -524,11 +647,8 @@ declare global {
             interface FetchOptions extends SuccessFailureOptions, ScopeOptions {}
 
             interface SaveOptions
-                extends CascadeSaveOption,
-                    SuccessFailureOptions,
-                    SilentOption,
-                    ScopeOptions,
-                    WaitOption {}
+                extends CascadeSaveOption, SuccessFailureOptions, SilentOption, ScopeOptions, ContextOption, WaitOption
+            {}
 
             interface SaveAllOptions extends BatchSizeOption, ScopeOptions {}
 
@@ -537,19 +657,14 @@ declare global {
             }
 
             // From https://github.com/parse-community/Parse-SDK-JS/blob/master/src/encode.js
-            type Encode<T> = T extends Object
-                ? ReturnType<T["toJSON"]> | Pointer
-                : T extends ACL | GeoPoint | Polygon | Relation | File
-                ? ReturnType<T["toJSON"]>
-                : T extends Date
-                ? { __type: "Date"; iso: string }
-                : T extends RegExp
-                ? string
+            type Encode<T> = T extends Object ? ReturnType<T["toJSON"]> | Pointer
+                : T extends ACL | GeoPoint | Polygon | Relation | File ? ReturnType<T["toJSON"]>
+                : T extends Date ? { __type: "Date"; iso: string }
+                : T extends RegExp ? string
                 : T extends Array<infer R>
-                ? // This recursion is unsupported in <=3.6
-                  Array<Encode<R>>
-                : T extends object
-                ? ToJSON<T>
+                // This recursion is unsupported in <=3.6
+                    ? Array<Encode<R>>
+                : T extends object ? ToJSON<T>
                 : T;
 
             type ToJSON<T> = {
@@ -583,8 +698,8 @@ declare global {
             appIdentifier: string;
         }
         interface InstallationConstructor extends ObjectStatic<Installation> {
-            new <T extends Attributes>(attributes: T): Installation<T>;
-            new (): Installation;
+            new<T extends Attributes>(attributes: T): Installation<T>;
+            new(): Installation;
         }
         const Installation: InstallationConstructor;
 
@@ -647,10 +762,10 @@ declare global {
             objectClass: any;
             className: string;
 
-            constructor(objectClass: string | (new (...args: any[]) => T | Object));
+            constructor(objectClass: string | (new(...args: any[]) => T | Object));
 
             static and<U extends Object>(...args: Array<Query<U>>): Query<U>;
-            static fromJSON<U extends Object>(className: string | (new () => U), json: any): Query<U>;
+            static fromJSON<U extends Object>(className: string | (new() => U), json: any): Query<U>;
             static nor<U extends Object>(...args: Array<Query<U>>): Query<U>;
             static or<U extends Object>(...var_args: Array<Query<U>>): Query<U>;
 
@@ -678,7 +793,7 @@ declare global {
             doesNotMatchKeyInQuery<
                 U extends Object,
                 K extends keyof T["attributes"] | keyof BaseAttributes,
-                X extends Extract<keyof U["attributes"], string>
+                X extends Extract<keyof U["attributes"], string>,
             >(key: K, queryKey: X, query: Query<U>): this;
             doesNotMatchQuery<U extends Object, K extends keyof T["attributes"]>(key: K, query: Query<U>): this;
             distinct<K extends keyof T["attributes"], V = T["attributes"][K]>(key: K): Promise<V[]>;
@@ -709,11 +824,9 @@ declare global {
                 key: K,
                 value:
                     | T["attributes"][K]
-                    | (T["attributes"][K] extends Object
-                          ? Pointer
-                          : T["attributes"][K] extends Array<infer E>
-                          ? E
-                          : never),
+                    | (T["attributes"][K] extends Object ? Pointer
+                        : T["attributes"][K] extends Array<infer E> ? E
+                        : never),
             ): this;
             exclude<K extends keyof T["attributes"] | keyof BaseAttributes>(...keys: K[]): this;
             exists<K extends keyof T["attributes"] | keyof BaseAttributes>(key: K): this;
@@ -756,7 +869,7 @@ declare global {
             matchesKeyInQuery<
                 U extends Object,
                 K extends keyof T["attributes"],
-                X extends Extract<keyof U["attributes"], string>
+                X extends Extract<keyof U["attributes"], string>,
             >(key: K, queryKey: X, query: Query<U>): this;
             matchesQuery<U extends Object, K extends keyof T["attributes"]>(key: K, query: Query<U>): this;
             near<K extends keyof T["attributes"] | keyof BaseAttributes>(key: K, point: GeoPoint): this;
@@ -768,11 +881,9 @@ declare global {
                 key: K,
                 value:
                     | T["attributes"][K]
-                    | (T["attributes"][K] extends Object
-                          ? Pointer
-                          : T["attributes"][K] extends Array<infer E>
-                          ? E
-                          : never),
+                    | (T["attributes"][K] extends Object ? Pointer
+                        : T["attributes"][K] extends Array<infer E> ? E
+                        : never),
             ): this;
             polygonContains<K extends keyof T["attributes"] | keyof BaseAttributes>(key: K, point: GeoPoint): this;
             select<K extends keyof T["attributes"] | keyof BaseAttributes>(...keys: K[]): this;
@@ -780,7 +891,7 @@ declare global {
             skip(n: number): Query<T>;
             sortByTextScore(): this;
             startsWith<K extends keyof T["attributes"] | keyof BaseAttributes>(key: K, prefix: string): this;
-            subscribe(): Promise<LiveQuerySubscription>;
+            subscribe(sessionToken?: string): Promise<LiveQuerySubscription>;
             toJSON(): any;
             withJSON(json: any): this;
             withCount(includeCount?: boolean): this;
@@ -812,32 +923,73 @@ declare global {
         namespace Query {
             interface EachOptions extends SuccessFailureOptions, ScopeOptions {}
             interface CountOptions extends SuccessFailureOptions, ScopeOptions {}
-            interface FindOptions extends SuccessFailureOptions, ScopeOptions {}
-            interface FirstOptions extends SuccessFailureOptions, ScopeOptions {}
-            interface GetOptions extends SuccessFailureOptions, ScopeOptions {}
+            interface FindOptions extends SuccessFailureOptions, ScopeOptions, RawJSONOptions {}
+            interface FirstOptions extends SuccessFailureOptions, ScopeOptions, RawJSONOptions {}
+            interface GetOptions extends SuccessFailureOptions, ScopeOptions, RawJSONOptions {}
 
             // According to http://docs.parseplatform.org/rest/guide/#aggregate-queries
             interface AggregationOptions {
-                group?: { objectId?: string; [key: string]: any };
-                match?: { [key: string]: any };
-                project?: { [key: string]: any };
-                limit?: number;
-                skip?: number;
+                group?: (Record<string, any> & { objectId?: string }) | undefined;
+                match?: Record<string, any> | undefined;
+                project?: Record<string, any> | undefined;
+                limit?: number | undefined;
+                skip?: number | undefined;
                 // Sort documentation https://docs.mongodb.com/v3.2/reference/operator/aggregation/sort/#pipe._S_sort
-                sort?: { [key: string]: 1 | -1 };
+                sort?: Record<string, 1 | -1> | undefined;
                 // Sample documentation: https://docs.mongodb.com/v3.2/reference/operator/aggregation/sample/
-                sample?: { size: number };
+                sample?: { size: number } | undefined;
+                // Count documentation: https://docs.mongodb.com/manual/reference/operator/aggregation/count/
+                count?: string | undefined;
+                // Lookup documentation: https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/
+                lookup?:
+                    | {
+                        from: string;
+                        localField: string;
+                        foreignField: string;
+                        as: string;
+                    }
+                    | {
+                        from: string;
+                        let?: Record<string, any>;
+                        pipeline: Record<string, any>;
+                        as: string;
+                    }
+                    | undefined;
+                // Graph Lookup documentation: https://docs.mongodb.com/manual/reference/operator/aggregation/graphLookup/
+                graphLookup?:
+                    | {
+                        from: string;
+                        startWith?: string;
+                        connectFromField: string;
+                        connectToField: string;
+                        as: string;
+                        maxDepth?: number;
+                        depthField?: string;
+                        restrictSearchWithMatch?: Record<string, any>;
+                    }
+                    | undefined;
+                // Facet documentation: https://docs.mongodb.com/manual/reference/operator/aggregation/facet/
+                facet?: Record<string, Array<Record<string, any>>> | undefined;
+                // Unwind documentation: https://www.mongodb.com/docs/manual/reference/operator/aggregation/unwind/
+                unwind?:
+                    | {
+                        path: string;
+                        includeArrayIndex?: string;
+                        preserveNullAndEmptyArrays?: boolean;
+                    }
+                    | string
+                    | undefined;
             }
 
             // According to https://parseplatform.org/Parse-SDK-JS/api/2.1.0/Parse.Query.html#fullText
             interface FullTextOptions {
-                language?: string;
-                caseSensitive?: boolean;
-                diacriticSensitive?: boolean;
+                language?: string | undefined;
+                caseSensitive?: boolean | undefined;
+                diacriticSensitive?: boolean | undefined;
             }
 
             interface BatchOptions extends FullOptions {
-                batchSize?: number;
+                batchSize?: number | undefined;
             }
         }
 
@@ -923,9 +1075,26 @@ declare global {
 
             /**
              * Closes the subscription.
-             *
              */
             unsubscribe(): void;
+        }
+
+        /**
+         * The LiveQuery namespace is basically an EventEmitter
+         * (source : https://github.com/parse-community/Parse-SDK-JS/blob/8115e959533d1676fe5e5551bc81888b21fc12ef/src/ParseLiveQuery.js)
+         * https://docs.parseplatform.org/js/guide/#websocket-status
+         */
+        namespace LiveQuery {
+            function on(
+                event: "open" | "close",
+                /** When we establish ('open') or lose the WebSocket connection to the LiveQuery server, you’ll get this event */
+                listener: () => void,
+            ): void;
+            function on(
+                event: "error",
+                /** When some network error or LiveQuery server error happens, you’ll get this event. */
+                listener: (error: any) => void,
+            ): void;
         }
 
         /**
@@ -947,8 +1116,8 @@ declare global {
             setName(name: string, options?: SuccessFailureOptions): any;
         }
         interface RoleConstructor extends ObjectStatic<Role> {
-            new <T extends Attributes>(name: string, acl: ACL): Role<Partial<T>>;
-            new (name: string, acl: ACL): Role;
+            new<T extends Attributes>(name: string, acl: ACL): Role<Partial<T>>;
+            new(name: string, acl: ACL): Role;
         }
         const Role: RoleConstructor;
 
@@ -966,15 +1135,14 @@ declare global {
             isCurrentSessionRevocable(): boolean;
         }
         interface SessionConstructor extends ObjectStatic<Session> {
-            new <T extends Attributes>(attributes: T): Session<T>;
-            new (): Session;
+            new<T extends Attributes>(attributes: T): Session<T>;
+            new(): Session;
 
             current(): Promise<Session>;
         }
         const Session: SessionConstructor;
 
         /**
-         *
          * <p>A Parse.User object is a local representation of a user persisted to the
          * Parse cloud. This class is a subclass of a Parse.Object, and retains the
          * same functionality of a Parse.Object, but also extends it with various
@@ -986,6 +1154,8 @@ declare global {
             logIn(options?: FullOptions): Promise<this>;
             authenticated(): boolean;
             isCurrent(): boolean;
+            /** Since version 3.0.0, Returns true if `current` would return this user */
+            isCurrentAsync(): Promise<boolean>;
 
             getEmail(): string | undefined;
             setEmail(email: string, options?: SuccessFailureOptions): boolean;
@@ -998,15 +1168,15 @@ declare global {
 
             linkWith: (
                 provider: string | AuthProvider,
-                options: { authData?: AuthData },
+                options: { authData?: AuthData | undefined },
                 saveOpts?: FullOptions,
             ) => Promise<this>;
             _isLinked: (provider: string | AuthProvider) => boolean;
             _unlinkFrom: (provider: string | AuthProvider, options?: FullOptions) => Promise<this>;
         }
         interface UserConstructor extends ObjectStatic<User> {
-            new <T extends Attributes>(attributes: T): User<T>;
-            new (attributes?: Attributes): User;
+            new<T extends Attributes>(attributes: T): User<T>;
+            new(attributes?: Attributes): User;
 
             allowCustomUserClass(isAllowed: boolean): void;
             become<T extends User>(sessionToken: string, options?: UseMasterKeyOption): Promise<T>;
@@ -1016,17 +1186,44 @@ declare global {
             logIn<T extends User>(username: string, password: string, options?: FullOptions): Promise<T>;
             logOut<T extends User>(): Promise<T>;
             requestPasswordReset<T extends User>(email: string, options?: SuccessFailureOptions): Promise<T>;
+            requestEmailVerification<T extends User>(email: string, options?: UseMasterKeyOption): Promise<T>;
             extend(protoProps?: any, classProps?: any): any;
             hydrate<T extends User>(userJSON: any): Promise<T>;
             enableUnsafeCurrentUser(): void;
+            disableUnsafeCurrentUser(): void;
             logInWith<T extends User>(
                 provider: string | AuthProvider,
-                options: { authData?: AuthData },
+                options: { authData?: AuthData | undefined },
                 saveOpts?: FullOptions,
             ): Promise<T>;
             _registerAuthenticationProvider: (provider: AuthProvider) => void;
         }
         const User: UserConstructor;
+
+        /**
+         * The raw schema response returned from the `GET /parse/schemas` endpoint.
+         * This is defined here: https://docs.parseplatform.org/js/guide/#schema.
+         * Unfortunately, `Schema.all()` and `Schema.prototype.get()` return this rather
+         * than a `Schema`. It is also the only object which provides introspection on
+         * the schema - such as `className` and `fields`.
+         */
+        interface RestSchema {
+            className: string;
+            fields: {
+                [key: string]: {
+                    type: string;
+                    targetClass?: string;
+                    required?: boolean;
+                    defaultValue?: string;
+                };
+            };
+            classLevelPermissions: Schema.CLP;
+            indexes?: {
+                [key: string]: {
+                    [key: string]: any;
+                };
+            };
+        }
 
         /**
          * A Parse.Schema object is for handling schema data from Parse.
@@ -1052,7 +1249,7 @@ declare global {
              * @return A promise that is resolved with the result when
              * the query completes.
              */
-            static all(): Promise<Schema[]>;
+            static all(): Promise<RestSchema[]>;
 
             addArray(key: Schema.AttrType<T, any[]>, options?: Schema.FieldOptions<any[]>): this;
             addBoolean(key: Schema.AttrType<T, boolean>, options?: Schema.FieldOptions<boolean>): this;
@@ -1129,7 +1326,7 @@ declare global {
             /**
              * Get the Schema from Parse
              */
-            get(): Promise<Schema>;
+            get(): Promise<RestSchema>;
 
             /**
              * Removes all objects from a Schema (class) in  EXERCISE CAUTION, running this will delete all objects for this schema and cannot be reversed
@@ -1196,14 +1393,14 @@ declare global {
                     | any[]
                     | object
                     | Pointer
-                    | Relation = any
+                    | Relation = any,
             > {
-                required?: boolean;
-                defaultValue?: T;
+                required?: boolean | undefined;
+                defaultValue?: T | undefined;
             }
 
             interface Index {
-                [fieldName: string]: TYPE;
+                [fieldName: string]: number | string;
             }
 
             /**
@@ -1215,24 +1412,28 @@ declare global {
              *  'idOfASpecificUser': true
              */
             interface CLPField {
-                "*"?: boolean;
-                requiresAuthentication?: boolean;
+                "*"?: boolean | undefined;
+                requiresAuthentication?: boolean | undefined;
                 /** `role:Admin` */
                 [userIdOrRoleName: string]: boolean | undefined;
             }
 
             interface CLP {
-                find?: CLPField;
-                get?: CLPField;
-                count?: CLPField;
-                create?: CLPField;
-                update?: CLPField;
-                delete?: CLPField;
-                addField?: CLPField;
+                find?: CLPField | undefined;
+                get?: CLPField | undefined;
+                count?: CLPField | undefined;
+                create?: CLPField | undefined;
+                update?: CLPField | undefined;
+                delete?: CLPField | undefined;
+                addField?: CLPField | undefined;
                 /** Array of fields that point to a `_User` object's ID or a `Role` object's name */
-                readUserFields?: string[];
+                readUserFields?: string[] | undefined;
                 /** Array of fields that point to a `_User` object's ID or a `Role` object's name */
-                writeUserFields?: string[];
+                writeUserFields?: string[] | undefined;
+                protectedFields?: {
+                    /** '*', user id, or role: followed by a list of fields. */
+                    [userIdOrRoleName: string]: string[];
+                };
             }
         }
 
@@ -1270,21 +1471,21 @@ declare global {
          */
         namespace Cloud {
             interface CookieOptions {
-                domain?: string;
-                expires?: Date;
-                httpOnly?: boolean;
-                maxAge?: number;
-                path?: string;
-                secure?: boolean;
+                domain?: string | undefined;
+                expires?: Date | undefined;
+                httpOnly?: boolean | undefined;
+                maxAge?: number | undefined;
+                path?: string | undefined;
+                secure?: boolean | undefined;
             }
 
             interface HttpResponse {
-                buffer?: Buffer;
+                buffer?: Buffer | undefined;
                 cookies?: any;
                 data?: any;
                 headers?: any;
-                status?: number;
-                text?: string;
+                status?: number | undefined;
+                text?: string | undefined;
             }
 
             interface JobRequest<T extends Params = Params> {
@@ -1297,58 +1498,59 @@ declare global {
             }
 
             interface FunctionRequest<T extends Params = Params> {
-                installationId?: string;
-                master?: boolean;
+                installationId?: string | undefined;
+                master?: boolean | undefined;
                 params: T;
-                user?: User;
+                user?: User | undefined;
             }
 
             interface ValidatorField {
                 type?: any;
-                constant?: boolean;
+                constant?: boolean | undefined;
                 default?: any;
-                options?: any[] | Function;
-                error?: String;
+                options?: any[] | Function | undefined;
+                error?: String | undefined;
+                required?: boolean;
             }
             interface ValidatorFields {
                 [field: string]: ValidatorField;
             }
             interface Validator {
-                requireUser?: boolean;
-                requireMaster?: boolean;
-                validateMasterKey?: boolean;
-                skipWithMasterKey?: boolean;
-                requireAnyUserRoles?: String[] | Function;
-                requireAllUserRoles?: String[] | Function;
-                fields?: ValidatorFields | String[];
-                requireUserKeys?: ValidatorFields | String[];
+                requireUser?: boolean | undefined;
+                requireMaster?: boolean | undefined;
+                validateMasterKey?: boolean | undefined;
+                skipWithMasterKey?: boolean | undefined;
+                requireAnyUserRoles?: String[] | Function | undefined;
+                requireAllUserRoles?: String[] | Function | undefined;
+                fields?: ValidatorFields | String[] | undefined;
+                requireUserKeys?: ValidatorFields | String[] | undefined;
             }
 
             interface Cookie {
-                name?: string;
-                options?: CookieOptions;
-                value?: string;
+                name?: string | undefined;
+                options?: CookieOptions | undefined;
+                value?: string | undefined;
             }
 
             interface TriggerRequest<T = Object> {
-                installationId?: string;
-                master?: boolean;
-                user?: User;
+                installationId?: string | undefined;
+                master?: boolean | undefined;
+                user?: User | undefined;
                 ip: string;
                 headers: any;
                 triggerName: string;
                 log: any;
                 object: T;
-                original?: T;
+                original?: T | undefined;
             }
 
             interface AfterSaveRequest<T = Object> extends TriggerRequest<T> {
-                context: object;
+                context: Record<string, unknown>;
             }
             interface AfterDeleteRequest<T = Object> extends TriggerRequest<T> {} // tslint:disable-line no-empty-interface
             interface BeforeDeleteRequest<T = Object> extends TriggerRequest<T> {} // tslint:disable-line no-empty-interface
             interface BeforeSaveRequest<T = Object> extends TriggerRequest<T> {
-                context: object;
+                context: Record<string, unknown>;
             }
 
             interface FileTriggerRequest extends TriggerRequest<File> {
@@ -1370,7 +1572,7 @@ declare global {
                 query: Query<T>;
                 count: boolean;
                 isGet: boolean;
-                readPreference?: ReadPreferenceOption;
+                readPreference?: ReadPreferenceOption | undefined;
             }
 
             interface AfterFindRequest<T = Object> extends TriggerRequest<T> {
@@ -1378,32 +1580,32 @@ declare global {
             }
 
             function afterDelete<T extends Object = Object>(
-                arg1: { new (): T } | string,
+                arg1: { new(): T } | string,
                 func?: (request: AfterDeleteRequest<T>) => Promise<void> | void,
                 validator?: Validator | ((request: FunctionRequest) => any),
             ): void;
             function afterSave<T extends Object = Object>(
-                arg1: { new (): T } | string,
+                arg1: { new(): T } | string,
                 func?: (request: AfterSaveRequest<T>) => Promise<void> | void,
                 validator?: Validator | ((request: FunctionRequest) => any),
             ): void;
             function beforeDelete<T extends Object = Object>(
-                arg1: { new (): T } | string,
+                arg1: { new(): T } | string,
                 func?: (request: BeforeDeleteRequest<T>) => Promise<void> | void,
                 validator?: Validator | ((request: FunctionRequest) => any),
             ): void;
             function beforeSave<T extends Object = Object>(
-                arg1: { new (): T } | string,
+                arg1: { new(): T } | string,
                 func?: (request: BeforeSaveRequest<T>) => Promise<void> | void,
                 validator?: Validator | ((request: FunctionRequest) => any),
             ): void;
             function beforeFind<T extends Object = Object>(
-                arg1: { new (): T } | string,
+                arg1: { new(): T } | string,
                 func?: (request: BeforeFindRequest<T>) => Promise<Query<T>> | Promise<void> | Query<T> | void,
                 validator?: Validator | ((request: FunctionRequest) => any),
             ): void;
             function afterFind<T extends Object = Object>(
-                arg1: { new (): T } | string,
+                arg1: { new(): T } | string,
                 func?: (request: AfterFindRequest<T>) => any,
                 validator?: Validator | ((request: FunctionRequest) => any),
             ): void;
@@ -1486,7 +1688,7 @@ declare global {
              *
              *     import Buffer = require("buffer").Buffer;
              */
-            let HTTPOptions: new () => HTTPOptions;
+            let HTTPOptions: new() => HTTPOptions;
             interface HTTPOptions {
                 /**
                  * The body of the request.
@@ -1494,21 +1696,23 @@ declare global {
                  * You can also set this to a Buffer object to send raw bytes.
                  * If you use a Buffer, you should also set the Content-Type header explicitly to describe what these bytes represent.
                  */
-                body?: string | Buffer | object;
+                body?: string | Buffer | object | undefined;
                 /**
                  * Defaults to 'false'.
                  */
-                followRedirects?: boolean;
+                followRedirects?: boolean | undefined;
                 /**
                  * The headers for the request.
                  */
-                headers?: {
-                    [headerName: string]: string | number | boolean;
-                };
+                headers?:
+                    | {
+                        [headerName: string]: string | number | boolean;
+                    }
+                    | undefined;
                 /**
                  * The method of the request (i.e GET, POST, etc).
                  */
-                method?: string;
+                method?: string | undefined;
                 /**
                  * The query portion of the url.
                  */
@@ -1518,9 +1722,76 @@ declare global {
                  */
                 url: string;
 
-                success?: (response: any) => void;
-                error?: (response: any) => void;
+                success?: ((response: any) => void) | undefined;
+                error?: ((response: any) => void) | undefined;
             }
+        }
+
+        namespace EventuallyQueue {
+            interface QueueObject {
+                queueId: string;
+                action: string;
+                object: Object;
+                serverOptions: Object.SaveOptions | RequestOptions;
+                id: string;
+                className: string;
+                hash: string;
+                createdAt: Date;
+            }
+            type Queue = QueueObject[];
+            /**
+             * Add object to queue with save operation.
+             *
+             * @param object Parse.Object to be saved eventually
+             * @param serverOptions See {@link https://parseplatform.org/Parse-SDK-JS/api/master/Parse.Object.html#save Parse.Object.save} options.
+             * @returns A promise that is fulfilled if object is added to queue.
+             * @see Parse.Object#saveEventually
+             */
+            function save(object: Object, serverOptions?: Object.SaveOptions): Promise<void>;
+            /**
+             * Add object to queue with save operation.
+             *
+             * @param object Parse.Object to be destroyed eventually
+             * @param serverOptions See {@link https://parseplatform.org/Parse-SDK-JS/api/master/Parse.Object.html#destroy Parse.Object.destroy} options
+             * @returns A promise that is fulfilled if object is added to queue.
+             * @see Parse.Object#destroyEventually
+             */
+            function destroy(object: Object, serverOptions?: RequestOptions): Promise<void>;
+            // function store(data: any): Promise<void>;
+            // function load(): Promise<void>;
+            /**
+             * Sets the in-memory queue from local storage and returns.
+             */
+            function getQueue(): Promise<any[]>;
+            /**
+             * Removes all objects from queue.
+             * @returns A promise that is fulfilled when queue is cleared.
+             */
+            function clear(): Promise<void>;
+            /**
+             * Return the number of objects in the queue.
+             */
+            function length(): Promise<number>;
+            /**
+             * Sends the queue to the server.
+             * @returns Returns true if queue was sent successfully.
+             */
+            function sendQueue(): Promise<boolean>;
+            /**
+             * Start polling server for network connection.
+             * Will send queue if connection is established.
+             *
+             * @param [ms] Milliseconds to ping the server. Default 2000ms
+             */
+            function poll(ms?: number): void;
+            /**
+             * Turns off polling.
+             */
+            function stopPoll(): void;
+            /**
+             * Return true if pinging the server.
+             */
+            function isPolling(): boolean;
         }
 
         class Error {
@@ -1638,23 +1909,23 @@ declare global {
             function send<T>(data: PushData, options?: SendOptions): Promise<T>;
 
             interface PushData {
-                channels?: string[];
-                push_time?: Date;
-                expiration_time?: Date;
-                expiration_interval?: number;
-                where?: Query<Installation>;
+                channels?: string[] | undefined;
+                push_time?: Date | undefined;
+                expiration_time?: Date | undefined;
+                expiration_interval?: number | undefined;
+                where?: Query<Installation> | undefined;
                 data?: any;
-                alert?: string;
-                badge?: string;
-                sound?: string;
-                title?: string;
+                alert?: string | undefined;
+                badge?: string | undefined;
+                sound?: string | undefined;
+                title?: string | undefined;
                 notification?: any;
                 content_available?: any;
             }
 
             interface SendOptions extends UseMasterKeyOption {
-                success?: () => void;
-                error?: (error: Error) => void;
+                success?: (() => void) | undefined;
+                error?: ((error: Error) => void) | undefined;
             }
         }
 

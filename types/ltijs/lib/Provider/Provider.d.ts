@@ -1,41 +1,41 @@
-import { Request, Response, Express, NextFunction } from 'express';
-import { GradeService } from './Services/GradeService';
-import { DeepLinkingService } from './Services/DeepLinking';
-import { Database, DatabaseOptions } from '../Utils/Database';
-import { NamesAndRolesService } from './Services/NamesAndRoles';
-import { PlatformConfig } from './../Utils/Platform';
-import { IdToken } from '../IdToken';
-import { Platform } from '../Utils/Platform';
+import { Express, NextFunction, Request, Response } from "express";
+import { IdToken } from "../IdToken";
+import { Database, DatabaseOptions } from "../Utils/Database";
+import { PlatformConfig } from "./../Utils/Platform";
+import { Platform } from "../Utils/Platform";
+import { DeepLinkingService } from "./Services/DeepLinking";
+import { GradeService } from "./Services/GradeService";
+import { NamesAndRolesService } from "./Services/NamesAndRoles";
 
 export interface ServerAddonFunction {
     (app: Express): void;
 }
 
 export interface DeploymentOptions {
-    port?: number;
-    silent?: boolean;
-    serverless?: boolean;
+    port?: number | undefined;
+    silent?: boolean | undefined;
+    serverless?: boolean | undefined;
 }
 
 export interface ProviderOptions {
-    appUrl?: string;
-    loginUrl?: string;
-    sessionTimeoutUrl?: string;
-    invalidTokenUrl?: string;
-    keysetUrl?: string;
-    https?: boolean;
+    appUrl?: string | undefined;
+    loginUrl?: string | undefined;
+    sessionTimeoutUrl?: string | undefined;
+    invalidTokenUrl?: string | undefined;
+    keysetUrl?: string | undefined;
+    https?: boolean | undefined;
     ssl?: {
         key: string;
         cert: string;
-    };
-    staticPath?: string;
-    logger?: boolean;
-    cors?: boolean;
-    serverAddon?: ServerAddonFunction;
+    } | undefined;
+    staticPath?: string | undefined;
+    logger?: boolean | undefined;
+    cors?: boolean | undefined;
+    serverAddon?: ServerAddonFunction | undefined;
     cookies?: {
-        secure?: boolean;
-        sameSite?: string;
-    };
+        secure?: boolean | undefined;
+        sameSite?: string | undefined;
+    } | undefined;
 }
 
 export interface OnConnectCallback {
@@ -43,16 +43,16 @@ export interface OnConnectCallback {
 }
 
 export interface OnConnectOptions {
-    sessionTimeout?: (request: Request, response: Response) => Response;
-    invalidToken?: (request: Request, response: Response) => Response;
+    sessionTimeout?: ((request: Request, response: Response) => Response) | undefined;
+    invalidToken?: ((request: Request, response: Response) => Response) | undefined;
 }
 
 export interface RedirectOptions {
-    isNewResource?: boolean;
-    ignoreRoot?: boolean;
+    isNewResource?: boolean | undefined;
+    ignoreRoot?: boolean | undefined;
 }
 
-export class Provider {
+declare class Provider {
     app: Express;
 
     Database: Database;
@@ -60,7 +60,7 @@ export class Provider {
     DeepLinking: DeepLinkingService;
     NamesAndRoles: NamesAndRolesService;
 
-    constructor(encryptionKey: string, database: DatabaseOptions, options?: ProviderOptions);
+    setup(encryptionKey: string, database: DatabaseOptions, options?: ProviderOptions): Provider;
 
     deploy(options?: DeploymentOptions): Promise<true | undefined>;
 
@@ -92,3 +92,6 @@ export class Provider {
 
     redirect(response: Response, path: string, options?: RedirectOptions): void;
 }
+
+declare const defaultProvider: Provider;
+export default defaultProvider;

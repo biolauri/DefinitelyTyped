@@ -1,10 +1,3 @@
-// Type definitions for react-timeago 4.1
-// Project: https://github.com/nmn/react-timeago
-// Definitions by: Konstantin Lebedev <https://github.com/koss-lebedev>
-//                 Mike Martin <https://github.com/mcmar>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.9
-
 import * as React from "react";
 
 declare namespace ReactTimeago {
@@ -24,23 +17,23 @@ declare namespace ReactTimeago {
         unit: Unit,
         suffix: Suffix,
         epochMiliseconds: number,
-        nextFormatter?: Formatter
+        nextFormatter?: Formatter,
     ) => React.ReactNode;
 
-    interface ReactTimeagoProps<T extends React.ComponentType | keyof JSX.IntrinsicElements = 'time'> {
-        readonly live?: boolean;
-        readonly minPeriod?: number;
-        readonly maxPeriod?: number;
-        readonly component?: T;
-        readonly title?: string;
-        readonly formatter?: Formatter;
+    interface ReactTimeagoProps<T extends React.ComponentType | keyof JSX.IntrinsicElements = "time"> {
+        readonly live?: boolean | undefined;
+        readonly minPeriod?: number | undefined;
+        readonly maxPeriod?: number | undefined;
+        readonly component?: T | undefined;
+        readonly title?: string | undefined;
+        readonly formatter?: Formatter | undefined;
         readonly date: string | number | Date;
-        readonly now?: () => number;
+        readonly now?: (() => number) | undefined;
     }
 }
 
 declare class ReactTimeago<
-    T extends React.ComponentType | keyof JSX.IntrinsicElements
+    T extends React.ComponentType | keyof JSX.IntrinsicElements,
 > extends React.Component<
     ReactTimeago.ReactTimeagoProps<T> & React.ComponentProps<T>
 > {}

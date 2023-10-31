@@ -1,59 +1,54 @@
-// Type definitions for ya-disk 4.0
-// Project: https://github.com/RomiC/ya-disk#readme
-// Definitions by: Vladislav Veluga <https://github.com/vladislav805>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 export type MediaType =
-    | 'audio'
-    | 'backup'
-    | 'book'
-    | 'compressed'
-    | 'data'
-    | 'development'
-    | 'diskimage'
-    | 'document'
-    | 'encoded'
-    | 'executable'
-    | 'flash'
-    | 'font'
-    | 'image'
-    | 'settings'
-    | 'spreadsheet'
-    | 'text'
-    | 'unknown'
-    | 'video'
-    | 'web';
+    | "audio"
+    | "backup"
+    | "book"
+    | "compressed"
+    | "data"
+    | "development"
+    | "diskimage"
+    | "document"
+    | "encoded"
+    | "executable"
+    | "flash"
+    | "font"
+    | "image"
+    | "settings"
+    | "spreadsheet"
+    | "text"
+    | "unknown"
+    | "video"
+    | "web";
 
 export type PreviewSize =
-    | 'S'
-    | 'M'
-    | 'L'
-    | 'XL'
-    | 'XXL'
-    | 'XXXL'
+    | "S"
+    | "M"
+    | "L"
+    | "XL"
+    | "XXL"
+    | "XXXL"
     | number
     | `${number}`
     | `${number}x`
     | `x${number}`
     | `${number}x${number}`;
 
-export type ResourceType = 'dir' | 'file';
+export type ResourceType = "dir" | "file";
 
 export type Sort =
-    | 'name'
-    | 'path'
-    | 'created'
-    | 'modified'
-    | 'size'
-    | '-name'
-    | '-path'
-    | '-created'
-    | '-modified'
-    | '-size';
+    | "name"
+    | "path"
+    | "created"
+    | "modified"
+    | "size"
+    | "-name"
+    | "-path"
+    | "-created"
+    | "-modified"
+    | "-size";
 
 export interface Link {
     href: string;
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+    method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
     templated: boolean;
 }
 
@@ -70,21 +65,21 @@ interface SystemFolders {
 }
 
 export interface Resource {
-    public_key?: string;
-    public_url?: string;
-    _embedded?: boolean;
-    preview?: string;
+    public_key?: string | undefined;
+    public_url?: string | undefined;
+    _embedded?: boolean | undefined;
+    preview?: string | undefined;
     name: string;
     custom_properties: Record<string, string>;
     created: string;
     modified: string;
     path: string;
-    origin_path?: string;
+    origin_path?: string | undefined;
     md5: string;
     type: ResourceType;
     mime_type: string;
     size: number;
-    file?: string;
+    file?: string | undefined;
 }
 
 interface FilesResourceList {
@@ -94,7 +89,7 @@ interface FilesResourceList {
 }
 
 export interface Operation {
-    status: 'success' | 'failed' | 'in-progress';
+    status: "success" | "failed" | "in-progress";
 }
 
 interface LastUploadedResourceList {
@@ -108,27 +103,27 @@ interface ApiResponse<T> {
 }
 
 interface GetProps {
-    fields?: string;
-    sort?: Sort;
-    limit?: number;
-    offset?: number;
-    preview_size?: PreviewSize;
-    preview_crop?: boolean;
+    fields?: string | undefined;
+    sort?: Sort | undefined;
+    limit?: number | undefined;
+    offset?: number | undefined;
+    preview_size?: PreviewSize | undefined;
+    preview_crop?: boolean | undefined;
 }
 
 interface ListProps {
-    limit?: number;
-    media_type?: MediaType;
-    offset?: number;
-    preview_size?: PreviewSize;
-    preview_crop?: boolean;
+    limit?: number | undefined;
+    media_type?: MediaType | undefined;
+    offset?: number | undefined;
+    preview_size?: PreviewSize | undefined;
+    preview_crop?: boolean | undefined;
 }
 
 interface RecentProps {
-    limit?: number;
-    media_type?: MediaType;
-    preview_size?: PreviewSize;
-    preview_crop?: boolean;
+    limit?: number | undefined;
+    media_type?: MediaType | undefined;
+    preview_size?: PreviewSize | undefined;
+    preview_crop?: boolean | undefined;
 }
 
 export namespace download {
@@ -148,11 +143,23 @@ export namespace upload {
 }
 
 export namespace resources {
-    function copy(token: string, from: string, to: string, overwrite?: boolean, fields?: string): Promise<ApiResponse<Link>>;
+    function copy(
+        token: string,
+        from: string,
+        to: string,
+        overwrite?: boolean,
+        fields?: string,
+    ): Promise<ApiResponse<Link>>;
 
     function create(token: string, path: string): Promise<Link>;
 
-    function move(token: string, from: string, to: string, overwrite?: boolean, fields?: string): Promise<ApiResponse<Link>>;
+    function move(
+        token: string,
+        from: string,
+        to: string,
+        overwrite?: boolean,
+        fields?: string,
+    ): Promise<ApiResponse<Link>>;
 
     function remove(token: string, path: string, permanently?: boolean): Promise<ApiResponse<Link>>;
 }

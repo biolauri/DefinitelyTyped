@@ -1,11 +1,11 @@
-import * as Autocomplete from 'react-autocomplete';
+import * as Autocomplete from "react-autocomplete";
 
-import * as React from 'react';
-import { render } from 'react-dom';
+import * as React from "react";
+import { render } from "react-dom";
 
 declare const container: Element;
 
-const items = ['hello', 'world'];
+const items = ["hello", "world"];
 
 render(
     <Autocomplete
@@ -17,7 +17,5 @@ render(
     container,
 );
 
-// $ExpectError
-const renderMenu: React.ComponentProps<typeof Autocomplete>['renderMenu'] = (
-    (item: string[]) => <div></div>
-);
+// @ts-expect-error
+const renderMenu: React.ComponentProps<typeof Autocomplete>["renderMenu"] = (item: string[]) => <div></div>;

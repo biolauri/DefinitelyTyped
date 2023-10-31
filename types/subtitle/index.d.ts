@@ -1,13 +1,8 @@
-// Type definitions for subtitle 2.0
-// Project: https://github.com/gsantiago/subtitle.js#readme
-// Definitions by: Low Jeng Lam <https://github.com/jenglamlow>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 export interface subTitleType {
     start: number | string;
     end: number | string;
     text: string;
-    setting?: string;
+    setting?: string | undefined;
 }
 
 export function parse(srtOrVtt: string): subTitleType[];

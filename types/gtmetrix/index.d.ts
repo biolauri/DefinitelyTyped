@@ -1,8 +1,3 @@
-// Type definitions for gtmetrix 1.3
-// Project: https://github.com/fvdm/nodejs-gtmetrix#readme
-// Definitions by: Piotr Błażejewicz <https://github.com/peterblazejewicz>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 /**
  * Node.js module for the GTmetrix API to run and access tests.
  *
@@ -30,18 +25,18 @@ declare namespace gtmetrix {
          * API email
          * @default null
          */
-        email?: string;
+        email?: string | undefined;
         /**
          * API key
          * @default null
          */
-        apikey?: string;
+        apikey?: string | undefined;
 
         /**
          * Request timeout in ms
          * @default 5000
          */
-        timeout?: number;
+        timeout?: number | undefined;
     }
 
     interface BrowsersApi {
@@ -66,7 +61,7 @@ declare namespace gtmetrix {
         name: string;
         platform: string;
         id: number;
-        device?: string;
+        device?: string | undefined;
     }
 
     interface TestBasicInfo {
@@ -79,7 +74,7 @@ declare namespace gtmetrix {
         resources: {
             [resource: string]: string;
         };
-        error?: string;
+        error?: string | undefined;
         results: {
             [result: string]: any;
         };
@@ -177,18 +172,18 @@ declare namespace gtmetrix {
     /**
      * https://github.com/fvdm/nodejs-gtmetrix#resources
      */
-    type NonBinaryResourceType = 'har' | 'pagespeed' | 'yslow';
+    type NonBinaryResourceType = "har" | "pagespeed" | "yslow";
 
     /**
      * https://github.com/fvdm/nodejs-gtmetrix#resources
      */
     type BinaryResourceType =
-        | 'filmstrip'
-        | 'pagespeed-files'
-        | 'report-pdf'
-        | 'report-pdf-full'
-        | 'screenshot'
-        | 'video';
+        | "filmstrip"
+        | "pagespeed-files"
+        | "report-pdf"
+        | "report-pdf-full"
+        | "screenshot"
+        | "video";
 }
 
 export = gtmetrix;

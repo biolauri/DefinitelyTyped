@@ -1,14 +1,9 @@
-// Type definitions for docker-modem 3.0
-// Project: https://github.com/apocas/docker-modem
-// Definitions by: Nasreddine Bac Ali <https://github.com/bacali95>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 /// <reference types="node" />
 
-import { ConnectConfig } from 'ssh2';
-import { ClientRequest, IncomingMessage, OutgoingHttpHeaders, RequestOptions, Agent } from 'http';
-import { Socket } from 'net';
-import { Duplex, DuplexOptions, Stream } from 'stream';
+import { Agent, ClientRequest, IncomingMessage, OutgoingHttpHeaders, RequestOptions } from "http";
+import { Socket } from "net";
+import { ConnectConfig } from "ssh2";
+import { Duplex, DuplexOptions } from "stream";
 
 declare namespace DockerModem {
     class HttpDuplex extends Duplex {
@@ -19,52 +14,53 @@ declare namespace DockerModem {
 
     interface KeyObject {
         pem: string | Buffer;
-        passphrase?: string;
+        passphrase?: string | undefined;
     }
 
     interface ConstructorOptions {
-        socketPath?: string;
-        host?: string;
-        port?: number | string;
-        username?: string;
-        ca?: string | string[] | Buffer | Buffer[];
-        cert?: string | string[] | Buffer | Buffer[];
-        key?: string | string[] | Buffer | Buffer[] | KeyObject[];
-        protocol?: 'https' | 'http' | 'ssh';
-        sshOptions?: ConnectConfig;
-        timeout?: number;
-        version?: string;
-        connectionTimeout?: number;
-        checkServerIdentity?: boolean;
-        agent?: Agent;
-        headers?: OutgoingHttpHeaders;
-        Promise?: typeof Promise;
+        socketPath?: string | undefined;
+        host?: string | undefined;
+        port?: number | string | undefined;
+        username?: string | undefined;
+        ca?: string | string[] | Buffer | Buffer[] | undefined;
+        cert?: string | string[] | Buffer | Buffer[] | undefined;
+        key?: string | string[] | Buffer | Buffer[] | KeyObject[] | undefined;
+        protocol?: "https" | "http" | "ssh" | undefined;
+        sshOptions?: ConnectConfig | undefined;
+        timeout?: number | undefined;
+        version?: string | undefined;
+        connectionTimeout?: number | undefined;
+        checkServerIdentity?: boolean | undefined;
+        agent?: Agent | undefined;
+        headers?: OutgoingHttpHeaders | undefined;
+        Promise?: typeof Promise | undefined;
     }
 
     interface DialOptions {
         path: string;
-        method?: string;
-        headers?: OutgoingHttpHeaders;
-        allowEmpty?: boolean;
+        method?: string | undefined;
+        headers?: OutgoingHttpHeaders | undefined;
+        allowEmpty?: boolean | undefined;
         options?: {
-            _query?: object;
+            _query?: object | undefined;
             _body?: any;
             [key: string]: any;
-        };
+        } | undefined;
         authconfig?: {
-            key?: string;
-            base64?: string;
+            key?: string | undefined;
+            base64?: string | undefined;
             [key: string]: any;
-        };
+        } | undefined;
         registryconfig?: {
-            base64?: string;
+            base64?: string | undefined;
             [key: string]: any;
-        };
-        file?: string | Buffer | NodeJS.ReadableStream;
-        hijack?: boolean;
-        openStdin?: boolean;
-        isStream?: boolean;
-        statusCodes?: StatusCodes;
+        } | undefined;
+        file?: string | Buffer | NodeJS.ReadableStream | undefined;
+        hijack?: boolean | undefined;
+        openStdin?: boolean | undefined;
+        isStream?: boolean | undefined;
+        statusCodes?: StatusCodes | undefined;
+        abortSignal?: AbortSignal;
     }
 
     interface StatusCodes {
@@ -86,10 +82,10 @@ declare class DockerModem {
 
     dial(options: DockerModem.DialOptions, callback?: DockerModem.RequestCallback): void;
 
-    demuxStream(stream: Stream, stdout: NodeJS.WritableStream, stderr: NodeJS.WritableStream): void;
+    demuxStream(stream: NodeJS.ReadableStream, stdout: NodeJS.WritableStream, stderr: NodeJS.WritableStream): void;
 
     followProgress(
-        stream: Stream,
+        stream: NodeJS.ReadableStream,
         onFinished: (error: Error | null, result: any[]) => void,
         onProgress?: (obj: any) => void,
     ): void;

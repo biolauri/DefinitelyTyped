@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Track, track, TrackingProp, useTracking } from "react-tracking";
 
-function customEventReporter(data: { page?: string }) {}
+function customEventReporter(data: { page?: string | undefined }) {}
 
 @track(
     { page: "ClassPage" },
@@ -88,7 +88,7 @@ const TestHook = track()((props: { foo: string }) => {
     React.useEffect(() =>
         trackEvent({
             action: "useEffect callback",
-        }),
+        })
     );
     return (
         <Track>
@@ -110,7 +110,7 @@ const TestEmptyHook = track()((props: { foo: string }) => {
         trackEvent({
             page: "Home",
             action: "useEffect callback",
-        }),
+        })
     );
     return (
         <Track>

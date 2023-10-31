@@ -82,17 +82,19 @@ declare namespace GoogleAdsScripts {
 
         /** Fetches ads in an account, except from shared libraries. Supports filtering and sorting. */
         interface AdSelector
-            extends Base.Selector<AdIterator>,
+            extends
+                Base.Selector<AdIterator>,
                 Base.SelectorForDateRange,
                 Base.SelectorOrderBy,
                 Base.SelectorWithCondition,
                 Base.SelectorWithIds,
-                Base.SelectorWithLimit {}
+                Base.SelectorWithLimit
+        {}
 
         /** A Text asset with an optional pinning. */
         interface AdTextAsset {
             /** The (possibly null) pinned location for this asset. */
-            pinning?: string;
+            pinning?: string | undefined;
             /** The text of this asset (e.g. "headline"). */
             text: string;
         }

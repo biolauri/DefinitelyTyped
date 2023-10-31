@@ -1,7 +1,7 @@
-import { Plane } from './../math/Plane';
-import { EventDispatcher } from './../core/EventDispatcher';
-import { WebGLRenderer } from './../renderers/WebGLRenderer';
-import { Shader } from './../renderers/shaders/ShaderLib';
+import { Plane } from '../math/Plane.js';
+import { EventDispatcher } from '../core/EventDispatcher.js';
+import { WebGLRenderer } from '../renderers/WebGLRenderer.js';
+import { Shader } from '../renderers/shaders/ShaderLib.js';
 import {
     BlendingDstFactor,
     BlendingEquation,
@@ -11,57 +11,71 @@ import {
     Side,
     StencilFunc,
     StencilOp,
-} from '../constants';
+    PixelFormat,
+} from '../constants.js';
+import { Color, ColorRepresentation } from '../math/Color.js';
 
 export interface MaterialParameters {
-    alphaTest?: number;
-    alphaToCoverage?: boolean;
-    blendDst?: BlendingDstFactor;
-    blendDstAlpha?: number;
-    blendEquation?: BlendingEquation;
-    blendEquationAlpha?: number;
-    blending?: Blending;
-    blendSrc?: BlendingSrcFactor | BlendingDstFactor;
-    blendSrcAlpha?: number;
-    clipIntersection?: boolean;
-    clippingPlanes?: Plane[];
-    clipShadows?: boolean;
-    colorWrite?: boolean;
+    alphaHash?: boolean | undefined;
+    alphaTest?: number | undefined;
+    alphaToCoverage?: boolean | undefined;
+    blendAlpha?: number | undefined;
+    blendColor?: ColorRepresentation | undefined;
+    blendDst?: BlendingDstFactor | undefined;
+    blendDstAlpha?: number | undefined;
+    blendEquation?: BlendingEquation | undefined;
+    blendEquationAlpha?: number | undefined;
+    blending?: Blending | undefined;
+    blendSrc?: BlendingSrcFactor | BlendingDstFactor | undefined;
+    blendSrcAlpha?: number | undefined;
+    clipIntersection?: boolean | undefined;
+    clippingPlanes?: Plane[] | undefined;
+    clipShadows?: boolean | undefined;
+    colorWrite?: boolean | undefined;
     defines?: any;
-    depthFunc?: DepthModes;
-    depthTest?: boolean;
-    depthWrite?: boolean;
-    fog?: boolean;
-    name?: string;
-    opacity?: number;
-    polygonOffset?: boolean;
-    polygonOffsetFactor?: number;
-    polygonOffsetUnits?: number;
-    precision?: 'highp' | 'mediump' | 'lowp' | null;
-    premultipliedAlpha?: boolean;
-    dithering?: boolean;
-    side?: Side;
-    shadowSide?: Side;
-    toneMapped?: boolean;
-    transparent?: boolean;
-    vertexColors?: boolean;
-    visible?: boolean;
-    stencilWrite?: boolean;
-    stencilFunc?: StencilFunc;
-    stencilRef?: number;
-    stencilWriteMask?: number;
-    stencilFuncMask?: number;
-    stencilFail?: StencilOp;
-    stencilZFail?: StencilOp;
-    stencilZPass?: StencilOp;
+    depthFunc?: DepthModes | undefined;
+    depthTest?: boolean | undefined;
+    depthWrite?: boolean | undefined;
+    name?: string | undefined;
+    opacity?: number | undefined;
+    polygonOffset?: boolean | undefined;
+    polygonOffsetFactor?: number | undefined;
+    polygonOffsetUnits?: number | undefined;
+    precision?: 'highp' | 'mediump' | 'lowp' | null | undefined;
+    premultipliedAlpha?: boolean | undefined;
+    forceSinglePass?: boolean | undefined;
+    dithering?: boolean | undefined;
+    side?: Side | undefined;
+    shadowSide?: Side | undefined;
+    toneMapped?: boolean | undefined;
+    transparent?: boolean | undefined;
+    vertexColors?: boolean | undefined;
+    visible?: boolean | undefined;
+    format?: PixelFormat | undefined;
+    stencilWrite?: boolean | undefined;
+    stencilFunc?: StencilFunc | undefined;
+    stencilRef?: number | undefined;
+    stencilWriteMask?: number | undefined;
+    stencilFuncMask?: number | undefined;
+    stencilFail?: StencilOp | undefined;
+    stencilZFail?: StencilOp | undefined;
+    stencilZPass?: StencilOp | undefined;
     userData?: any;
 }
 
 /**
  * Materials describe the appearance of objects. They are defined in a (mostly) renderer-independent way, so you don't have to rewrite materials if you decide to use a different renderer.
  */
-export class Material extends EventDispatcher {
+export class Material extends EventDispatcher<{ dispose: {} }> {
     constructor();
+
+    /**
+     * Enables alpha hashed transparency, an alternative to {@link .transparent} or {@link .alphaTest}. The material
+     * will not be rendered if opacity is lower than a random threshold. Randomization introduces some grain or noise,
+     * but approximates alpha blending without the associated problems of sorting. Using TAARenderPass can reduce the
+     * resulting noise.
+     */
+    alphaHash: boolean;
 
     /**
      * Sets the alpha value to be used when running an alpha test. Default is 0.
@@ -74,6 +88,20 @@ export class Material extends EventDispatcher {
      * @default false
      */
     alphaToCoverage: boolean;
+
+    /**
+     * Represents the alpha value of the constant blend color. This property has only an effect when using custom
+     * blending with {@link ConstantAlphaFactor} or {@link OneMinusConstantAlphaFactor}.
+     * @default 0
+     */
+    blendAlpha: number;
+
+    /**
+     * Represent the RGB values of the constant blend color. This property has only an effect when using custom
+     * blending with {@link ConstantColorFactor} or {@link OneMinusConstantColorFactor}.
+     * @default 0x000000
+     */
+    blendColor: Color;
 
     /**
      * Blending destination. It's one of the blending mode constants defined in Three.js. Default is {@link OneMinusSrcAlphaFactor}.
@@ -130,7 +158,7 @@ export class Material extends EventDispatcher {
      * See the WebGL / clipping /intersection example. Default is null.
      * @default null
      */
-    clippingPlanes: any;
+    clippingPlanes: Plane[] | null;
 
     /**
      * Defines whether to clip shadows according to the clipping planes specified on this material. Default is false.
@@ -158,7 +186,8 @@ export class Material extends EventDispatcher {
     depthFunc: DepthModes;
 
     /**
-     * Whether to have depth test enabled when rendering this material. Default is true.
+     * Whether to have depth test enabled when rendering this material. When the depth test is disabled, the depth write
+     * will also be implicitly disabled.
      * @default true
      */
     depthTest: boolean;
@@ -169,12 +198,6 @@ export class Material extends EventDispatcher {
      * @default true
      */
     depthWrite: boolean;
-
-    /**
-     * Whether the material is affected by fog. Default is true.
-     * @default fog
-     */
-    fog: boolean;
 
     /**
      * Unique number of this material instance.
@@ -289,6 +312,11 @@ export class Material extends EventDispatcher {
     premultipliedAlpha: boolean;
 
     /**
+     * @default false
+     */
+    forceSinglePass: boolean;
+
+    /**
      * Whether to apply dithering to the color to remove the appearance of banding. Default is false.
      * @default false
      */
@@ -296,8 +324,9 @@ export class Material extends EventDispatcher {
 
     /**
      * Defines which of the face sides will be rendered - front, back or both.
-     * Default is THREE.FrontSide. Other options are THREE.BackSide and THREE.DoubleSide.
-     * @default THREE.FrontSide
+     * Default is {@link THREE.FrontSide}. Other options are {@link THREE.BackSide} and {@link THREE.DoubleSide}.
+     *
+     * @default {@link THREE.FrontSide}
      */
     side: Side;
 
@@ -306,7 +335,7 @@ export class Material extends EventDispatcher {
      * If *null*, the value is opposite that of side, above.
      * @default null
      */
-    shadowSide: Side;
+    shadowSide: Side | null;
 
     /**
      * Defines whether this material is tone mapped according to the renderer's toneMapping setting.

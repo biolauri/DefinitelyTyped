@@ -1,4 +1,4 @@
-import MultivariateNormal from 'multivariate-normal';
+import MultivariateNormal from "multivariate-normal";
 
 // Test constructing using mutable and literal arrays
 const mutArray: number[] = [1, 2, 3];
@@ -15,13 +15,13 @@ const newCov: ReadonlyArray<ReadonlyArray<number>> = newDist.getCov();
 
 // Mean and covariance are immutable
 
-// $ExpectError
+// @ts-expect-error
 newDist.getMean()[0] = 10;
 
-// $ExpectError
+// @ts-expect-error
 newDist.getCov()[0] = [1, 2, 3];
 
-// $ExpectError
+// @ts-expect-error
 newDist.getCov()[0][0] = 10;
 
 // Samples are mutable

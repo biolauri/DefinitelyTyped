@@ -1,26 +1,10 @@
-// Type definitions for SuperAgent 4.1
-// Project: https://github.com/visionmedia/superagent
-// Definitions by: Nico Zelaya <https://github.com/NicoZelaya>
-//                 Michael Ledin <https://github.com/mxl>
-//                 Pap Lőrinc <https://github.com/paplorinc>
-//                 Shrey Jain <https://github.com/shreyjain1994>
-//                 Alec Zopf <https://github.com/zopf>
-//                 Adam Haglund <https://github.com/beeequeue>
-//                 Lukas Elmer <https://github.com/lukaselmer>
-//                 Jesse Rogers <https://github.com/theQuazz>
-//                 Chris Arnesen <https://github.com/carnesen>
-//                 Anders Kindberg <https://github.com/ghostganz>
-//                 LuckyWind_sck <https://github.com/LuckyWindsck>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 3.0
-
 /// <reference types="node" />
-/// <reference lib="dom" />
 
+import { Blob } from "buffer";
+import * as cookiejar from "cookiejar";
 import * as fs from "fs";
 import * as http from "http";
 import * as stream from "stream";
-import * as cookiejar from "cookiejar";
 
 type CallbackHandler = (err: any, res: request.Response) => void;
 
@@ -89,8 +73,9 @@ declare namespace request {
     }
 
     interface ResponseError extends Error {
-        status?: number;
-        response?: Response;
+        status?: number | undefined;
+        response?: Response | undefined;
+        timeout?: boolean | undefined;
     }
 
     interface HTTPError extends Error {
@@ -114,7 +99,7 @@ declare namespace request {
         header: any;
         headers: any;
         info: boolean;
-        links: object;
+        links: Record<string, string>;
         noContent: boolean;
         notAcceptable: boolean;
         notFound: boolean;
@@ -127,7 +112,7 @@ declare namespace request {
         text: string;
         type: string;
         unauthorized: boolean;
-        xhr: XMLHttpRequest;
+        xhr: any;
         redirects: string[];
     }
 
@@ -137,7 +122,7 @@ declare namespace request {
         attach(
             field: string,
             file: MultipartValueSingle,
-            options?: string | { filename?: string; contentType?: string },
+            options?: string | { filename?: string | undefined; contentType?: string | undefined },
         ): this;
         auth(user: string, pass: string, options?: { type: "basic" | "auto" }): this;
         auth(token: string, options: { type: "bearer" }): this;
@@ -145,6 +130,7 @@ declare namespace request {
         ca(cert: string | string[] | Buffer | Buffer[]): this;
         cert(cert: string | string[] | Buffer | Buffer[]): this;
         clearTimeout(): this;
+        connect(override: string | { [hostname: string]: false | string | { host: string; port: number } }): this;
         disableTLSCerts(): this;
         end(callback?: CallbackHandler): void;
         field(name: string, val: MultipartValue): this;
@@ -170,12 +156,12 @@ declare namespace request {
         set(field: object): this;
         set(field: string, val: string): this;
         set(field: "Cookie", val: string[]): this;
-        timeout(ms: number | { deadline?: number; response?: number }): this;
+        timeout(ms: number | { deadline?: number | undefined; response?: number | undefined }): this;
         trustLocalhost(enabled?: boolean): this;
         type(val: string): this;
         unset(field: string): this;
         use(fn: Plugin): this;
-        withCredentials(): this;
+        withCredentials(on?: boolean): this;
         write(data: string | Buffer, encoding?: string): boolean;
         maxResponseSize(size: number): this;
     }
@@ -185,8 +171,8 @@ declare namespace request {
     interface ProgressEvent {
         direction: "download" | "upload";
         loaded: number;
-        percent?: number;
-        total?: number;
+        percent?: number | undefined;
+        total?: number | undefined;
     }
 }
 

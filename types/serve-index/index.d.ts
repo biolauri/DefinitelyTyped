@@ -1,10 +1,5 @@
-// Type definitions for serve-index 1.9
-// Project: https://github.com/expressjs/serve-index
-// Definitions by: Tanguy Krotoff <https://github.com/tkrotoff>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
-import { Handler } from 'express';
-import { Stats } from 'fs';
+import { Handler } from "express";
+import { Stats } from "fs";
 
 /** Serves pages that contain directory listings for a given path. */
 declare function serveIndex(path: string, options?: serveIndex.Options): Handler;
@@ -29,12 +24,12 @@ declare namespace serveIndex {
     type TemplateCallback = (error: Error | null, htmlString?: string) => void;
 
     interface Options {
-        filter?: (filename: string, index: number, files: File[], dir: string) => boolean;
-        hidden?: boolean;
-        icons?: boolean;
-        stylesheet?: string;
-        template?: string | ((locals: Locals, callback: TemplateCallback) => void);
-        view?: string;
+        filter?: ((filename: string, index: number, files: File[], dir: string) => boolean) | undefined;
+        hidden?: boolean | undefined;
+        icons?: boolean | undefined;
+        stylesheet?: string | undefined;
+        template?: string | ((locals: Locals, callback: TemplateCallback) => void) | undefined;
+        view?: string | undefined;
     }
 }
 

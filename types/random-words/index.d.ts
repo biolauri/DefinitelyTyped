@@ -1,8 +1,3 @@
-// Type definitions for random-words 1.1
-// Project: https://github.com/punkave/random-words#readme
-// Definitions by: Piotr Błażejewicz <https://github.com/peterblazejewicz>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 /**
  * generates random words for use as sample text.
  * We use it to generate random blog posts when testing Apostrophe.
@@ -18,14 +13,14 @@ declare namespace words {
     const wordList: string[];
 
     interface Options {
-        exactly?: number;
-        formatter?: WordFormatter;
-        join?: string;
-        max?: number;
-        maxLength?: number;
-        min?: number;
-        separator?: string;
-        wordsPerString?: number;
+        exactly?: number | undefined;
+        formatter?: WordFormatter | undefined;
+        join?: string | undefined;
+        max?: number | undefined;
+        maxLength?: number | undefined;
+        min?: number | undefined;
+        separator?: string | undefined;
+        wordsPerString?: number | undefined;
     }
 
     type WordFormatter = (word: string, relativeIndex?: number) => string;

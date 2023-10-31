@@ -1,15 +1,15 @@
 // flow object
-let flowObject!: flowjs.Flow;
+let flowObject = new flowjs.Flow({});
 let bool: boolean = flowObject.support;
 bool = flowObject.supportDirectory;
 let flowOpts: flowjs.FlowOptions = flowObject.opts;
 let flowFileArray: flowjs.FlowFile[] = flowObject.files;
 let flowChunkParams: flowjs.FlowChunkParams;
 
-flowObject.assignBrowse(<HTMLElement[]> []);
-flowObject.assignBrowse(<HTMLElement[]> [], false, false, {});
-flowObject.assignDrop(<HTMLElement[]> []);
-flowObject.unAssignDrop(<HTMLElement[]> []);
+flowObject.assignBrowse([] as HTMLElement[]);
+flowObject.assignBrowse([] as HTMLElement[], false, false, {});
+flowObject.assignDrop([] as HTMLElement[]);
+flowObject.unAssignDrop([] as HTMLElement[]);
 flowObject.on("fileSuccess", (file: flowjs.FlowFile, serverMessage: string, chunk: flowjs.FlowChunk) => {});
 flowObject.off("fileSuccess", () => {});
 flowObject.upload();

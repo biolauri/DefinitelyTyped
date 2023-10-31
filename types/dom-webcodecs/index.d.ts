@@ -1,9 +1,3 @@
-// Type definitions for non-npm package WebCodecs 0.1
-// Project: https://w3c.github.io/webcodecs/
-// Definitions by: Ben Wagner <https://github.com/dogben>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// Minimum TypeScript Version: 3.9
-
 // Versioning:
 // Until the WebCodecs spec is finalized, the major version number is 0. I have chosen to use minor
 // version 1 to denote the API as defined by the IDL files from the Chromium repo at
@@ -12,13 +6,18 @@
 // the source.
 
 // The declarations in webcodecs.generated.d.ts have been generated using the code in
-// https://github.com/dogben/TypeScript-WebCodecs-generator. See
-// https://github.com/dogben/TypeScript-WebCodecs-generator/blob/master/README.md for more detail.
+// https://github.com/yume-chan/webcodecs-lib-generator. See
+// https://github.com/yume-chan/webcodecs-lib-generator/blob/main/README.md for more detail.
 /// <reference path="./webcodecs.generated.d.ts" />
 
 // The following declarations are copied from
 // https://github.com/microsoft/TypeScript-DOM-lib-generator/blob/a75338e1ea8a958bf08a5745141d2ab8f14ba2ca/baselines/dom.generated.d.ts
 // and modified to expand the types to include VideoFrame.
+
+/** Shim for OffscreenCanvas, which was removed in TS 4.4 */
+// tslint:disable-next-line:no-empty-interface
+interface OffscreenCanvas extends EventTarget {
+}
 
 /**
  * Replaces CanvasImageSource; only applies if WebCodecs is available.

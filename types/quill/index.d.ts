@@ -1,17 +1,5 @@
-// Type definitions for Quill 2.0
-// Project: https://github.com/quilljs/quill/, http://quilljs.com
-// Definitions by: Sumit <https://github.com/sumitkm>
-//                 Guillaume <https://github.com/guillaume-ro-fr>
-//                 James Garbutt <https://github.com/43081j>
-//                 Aniello Falcone <https://github.com/AnielloFalcone>
-//                 Mohammad Hossein Amri <https://github.com/mhamri>
-//                 Marco Mantovani <https://github.com/TheLand>
-//                 Ameer Hamoodi <https://github.com/AmeerHamoodi>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.9
-
 import { Blot } from "parchment/dist/src/blot/abstract/blot";
-import Delta = require("quill-delta");
+import Delta from "quill-delta";
 
 /**
  * A stricter type definition would be:
@@ -20,7 +8,9 @@ import Delta = require("quill-delta");
  *
  *  But this would break a lot of existing code as it would require manual discrimination of the union types.
  */
-export type DeltaOperation = { insert?: any; delete?: number; retain?: number } & OptionalAttributes;
+export type DeltaOperation =
+    & { insert?: any; delete?: number | undefined; retain?: number | undefined }
+    & OptionalAttributes;
 interface SourceMap {
     API: "api";
     SILENT: "silent";
@@ -30,11 +20,11 @@ export type Sources = "api" | "user" | "silent";
 
 export interface Key {
     key: string | number;
-    shortKey?: boolean | null;
-    shiftKey?: boolean | null;
-    altKey?: boolean | null;
-    metaKey?: boolean | null;
-    ctrlKey?: boolean | null;
+    shortKey?: boolean | null | undefined;
+    shiftKey?: boolean | null | undefined;
+    altKey?: boolean | null | undefined;
+    metaKey?: boolean | null | undefined;
+    ctrlKey?: boolean | null | undefined;
 }
 
 export interface StringMap {
@@ -42,7 +32,7 @@ export interface StringMap {
 }
 
 export interface OptionalAttributes {
-    attributes?: StringMap;
+    attributes?: StringMap | undefined;
 }
 
 export type TextChangeHandler = (delta: Delta, oldContents: Delta, source: Sources) => any;
@@ -61,22 +51,22 @@ export type ClipboardMatcherNode = string | number;
 
 export interface ClipboardStatic {
     matchers: Array<[ClipboardMatcherNode, ClipboardMatcherCallback]>;
-    convert(content?: { html?: string; text?: string }, formats?: StringMap): Delta;
+    convert(content?: { html?: string | undefined; text?: string | undefined }, formats?: StringMap): Delta;
     addMatcher(selectorOrNodeType: ClipboardMatcherNode, callback: ClipboardMatcherCallback): void;
     dangerouslyPasteHTML(html: string, source?: Sources): void;
     dangerouslyPasteHTML(index: number, html: string, source?: Sources): void;
 }
 
 export interface QuillOptionsStatic {
-    debug?: string | boolean;
-    modules?: StringMap;
-    placeholder?: string;
-    readOnly?: boolean;
-    theme?: string;
-    formats?: string[];
-    bounds?: HTMLElement | string;
-    scrollingContainer?: HTMLElement | string;
-    strict?: boolean;
+    debug?: string | boolean | undefined;
+    modules?: StringMap | undefined;
+    placeholder?: string | undefined;
+    readOnly?: boolean | undefined;
+    theme?: string | undefined;
+    formats?: string[] | undefined;
+    bounds?: HTMLElement | string | undefined;
+    scrollingContainer?: HTMLElement | string | undefined;
+    strict?: boolean | undefined;
 }
 
 export interface BoundsStatic {
@@ -99,6 +89,13 @@ export class RangeStatic implements RangeStatic {
     length: number;
 }
 
+export interface History {
+    clear(): void;
+    cutoff(): void;
+    undo(): void;
+    redo(): void;
+}
+
 export interface EventEmitter {
     on(eventName: "text-change", handler: TextChangeHandler): EventEmitter;
     on(eventName: "selection-change", handler: SelectionChangeHandler): EventEmitter;
@@ -119,6 +116,7 @@ export class Quill implements EventEmitter {
     clipboard: ClipboardStatic;
     scroll: Blot;
     keyboard: KeyboardStatic;
+    history: History;
     constructor(container: string | Element, options?: QuillOptionsStatic);
     deleteText(index: number, length: number, source?: Sources): Delta;
     disable(): void;

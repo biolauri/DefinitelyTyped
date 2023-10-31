@@ -1,6 +1,11 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import FacebookLogin, { ReactFacebookFailureResponse, ReactFacebookLoginInfo, ReactFacebookLoginProps } from 'react-facebook-login';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import FacebookLogin, {
+    ReactFacebookFailureResponse,
+    ReactFacebookLoginInfo,
+    ReactFacebookLoginProps,
+} from "react-facebook-login";
+import FacebookLoginRender, { RenderProps } from "react-facebook-login/dist/facebook-login-render-props";
 
 const responseFacebook = (response: ReactFacebookLoginInfo) => {
     console.log(response);
@@ -24,8 +29,32 @@ ReactDOM.render(
         autoLoad={true}
         fields="name,email,picture"
         onClick={componentClicked}
-        callback={responseFacebook} />,
-    document.getElementById('demo')
+        callback={responseFacebook}
+    />,
+    document.getElementById("demo"),
+);
+
+ReactDOM.render(
+    <FacebookLoginRender
+        appId="1088597931155576"
+        autoLoad={true}
+        fields="name,email,picture"
+        onClick={componentClicked}
+        callback={responseFacebook}
+    />,
+    document.getElementById("demo"),
+);
+
+ReactDOM.render(
+    <FacebookLoginRender
+        appId="1088597931155576"
+        autoLoad={true}
+        fields="name,email,picture"
+        onClick={componentClicked}
+        callback={responseFacebook}
+        render={(props: RenderProps) => <button onClick={props.onClick}>Facebook</button>}
+    />,
+    document.getElementById("demo"),
 );
 
 ReactDOM.render(
@@ -34,8 +63,9 @@ ReactDOM.render(
         autoLoad={true}
         fields="name,email,picture"
         onClick={componentClicked}
-        callback={loginInfoOrFailureResponse} />,
-    document.getElementById('demo')
+        callback={loginInfoOrFailureResponse}
+    />,
+    document.getElementById("demo"),
 );
 
 ReactDOM.render(
@@ -45,8 +75,9 @@ ReactDOM.render(
         fields="name,email,picture"
         onClick={componentClicked}
         callback={responseFacebook}
-        onFailure={failureResponseFacebook} />,
-    document.getElementById('demo')
+        onFailure={failureResponseFacebook}
+    />,
+    document.getElementById("demo"),
 );
 
 ReactDOM.render(
@@ -57,8 +88,8 @@ ReactDOM.render(
         callback={responseFacebook}
         cssClass="my-facebook-button-class"
         icon="fa-facebook"
-        />,
-    document.getElementById('demo')
+    />,
+    document.getElementById("demo"),
 );
 
 ReactDOM.render(
@@ -69,8 +100,8 @@ ReactDOM.render(
         callback={responseFacebook}
         cssClass="my-facebook-button-class"
         icon={<div className="myIcon" />}
-        />,
-    document.getElementById('demo')
+    />,
+    document.getElementById("demo"),
 );
 
 ReactDOM.render(
@@ -81,8 +112,8 @@ ReactDOM.render(
         callback={responseFacebook}
         cssClass="my-facebook-button-class"
         icon={<div className="myIcon" />}
-        />,
-    document.getElementById('demo')
+    />,
+    document.getElementById("demo"),
 );
 
 class MyComponent extends React.Component {
@@ -98,7 +129,7 @@ class MyComponent extends React.Component {
                 fields="name,email,picture"
                 scope="public_profile,user_friends,user_actions.books"
                 callback={responseFacebook}
-                />
+            />
         );
     }
 }
@@ -115,12 +146,12 @@ class MyComponent2 extends React.Component {
                 autoLoad={true}
                 fields="name,email,picture"
                 callback={responseFacebook}
-                />
+            />
         );
     }
 }
 
-type FacebookLoginWrapperProps = ReactFacebookLoginProps & { className?: string };
+type FacebookLoginWrapperProps = ReactFacebookLoginProps & { className?: string | undefined };
 
 export const FacebookLoginWrapper = ({ className, ...props }: FacebookLoginWrapperProps) => (
     <FacebookLogin {...props} cssClass={className} />

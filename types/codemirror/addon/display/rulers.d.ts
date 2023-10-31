@@ -1,16 +1,16 @@
-import '../../';
+import "../../";
 
 export interface Ruler {
     column: number;
-    className?: string;
-    color?: string;
-    lineStyle?: string;
-    width?: string;
+    className?: string | undefined;
+    color?: string | undefined;
+    lineStyle?: string | undefined;
+    width?: string | undefined;
 }
 
-declare module '../../' {
+declare module "../../" {
     interface EditorConfiguration {
         /** show one or more vertical rulers in the editor. */
-         rulers?: false | ReadonlyArray<number | Ruler>;
+        rulers?: false | ReadonlyArray<number | Ruler> | undefined;
     }
 }

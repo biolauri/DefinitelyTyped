@@ -1,9 +1,3 @@
-// Type definitions for wrap-ansi 8.0
-// Project: https://www.npmjs.com/package/wrap-ansi
-// Definitions by: Klaus Reimer <https://github.com/kayahr>
-//                 Piotr Błażejewicz <https://github.com/peterblazejewicz>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 /**
  * Wrap words to the specified column width.
  *
@@ -17,11 +11,11 @@ declare function wrapAnsi(input: string, columns: number, options?: wrapAnsi.Opt
 declare namespace wrapAnsi {
     interface Options {
         /** @default false */
-        hard?: boolean;
+        hard?: boolean | undefined;
         /** @default true */
-        trim?: boolean;
+        trim?: boolean | undefined;
         /** @default true */
-        wordWrap?: boolean;
+        wordWrap?: boolean | undefined;
     }
 }
 

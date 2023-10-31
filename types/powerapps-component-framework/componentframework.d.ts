@@ -1,6 +1,8 @@
+/// <reference types="react" />
+
 declare namespace ComponentFramework {
     /**
-     * Interface for the PowerApps Controls (Standard)
+     * Interface for the Power Apps Controls (Standard)
      */
     interface StandardControl<TInputs, TOutputs> {
         /**
@@ -13,7 +15,12 @@ declare namespace ComponentFramework {
          * 'setControlState' in the Mode interface.
          * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
          */
-        init(context: Context<TInputs>, notifyOutputChanged?: () => void, state?: Dictionary, container?: HTMLDivElement): void;
+        init(
+            context: Context<TInputs>,
+            notifyOutputChanged?: () => void,
+            state?: Dictionary,
+            container?: HTMLDivElement,
+        ): void;
 
         /**
          * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width,
@@ -34,6 +41,20 @@ declare namespace ComponentFramework {
          * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
          */
         getOutputs?(): TOutputs;
+    }
+
+    /**
+     * Interface for Power Apps React controls
+     */
+    interface ReactControl<TInputs, TOutputs> extends StandardControl<TInputs, TOutputs> {
+        /**
+         * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width,
+         * offline status, control metadata values such as label, visible, etc.
+         * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names
+         * defined in the manifest, as well as utility functions
+         * @returns a React element
+         */
+        updateView(context: Context<TInputs>): React.ReactElement;
     }
 
     /**
@@ -278,7 +299,10 @@ declare namespace ComponentFramework {
          * @param options Dialog options
          * @returns promise defining success or failure of operation
          */
-        openAlertDialog(alertStrings: NavigationApi.AlertDialogStrings, options?: NavigationApi.AlertDialogOptions): Promise<void>;
+        openAlertDialog(
+            alertStrings: NavigationApi.AlertDialogStrings,
+            options?: NavigationApi.AlertDialogOptions,
+        ): Promise<void>;
 
         /**
          * Opens Confirm Dialog
@@ -286,7 +310,10 @@ declare namespace ComponentFramework {
          * @param options Options for the dialog
          * @returns promise defining success or failure of operation. the success case returns a boolean specifying whether yes or no button was pressed
          */
-        openConfirmDialog(confirmStrings: NavigationApi.ConfirmDialogStrings, options?: NavigationApi.ConfirmDialogOptions): Promise<NavigationApi.ConfirmDialogResponse>;
+        openConfirmDialog(
+            confirmStrings: NavigationApi.ConfirmDialogStrings,
+            options?: NavigationApi.ConfirmDialogOptions,
+        ): Promise<NavigationApi.ConfirmDialogResponse>;
 
         /**
          * Opens an Error Dialog.
@@ -309,7 +336,10 @@ declare namespace ComponentFramework {
          * @param parameters entity form parameters.
          * @returns promise defining success or failure of operation
          */
-        openForm(options: NavigationApi.EntityFormOptions, parameters?: {[key: string]: string}): Promise<NavigationApi.OpenFormSuccessResponse>;
+        openForm(
+            options: NavigationApi.EntityFormOptions,
+            parameters?: { [key: string]: string },
+        ): Promise<NavigationApi.OpenFormSuccessResponse>;
 
         /**
          * Open url, including file urls.
@@ -362,7 +392,6 @@ declare namespace ComponentFramework {
 
         /**
          * Current user's language id
-         *
          */
         languageId: number;
 
@@ -410,7 +439,11 @@ declare namespace ComponentFramework {
          * @param privilegeType privilege type i.e. Create, Read, Write etc.
          * @param privilegeDepth privilege depth i.e. basic, Global etc.
          */
-        hasEntityPrivilege(entityTypeName: string, privilegeType: PropertyHelper.Types.PrivilegeType, privilegeDepth: PropertyHelper.Types.PrivilegeDepth): boolean;
+        hasEntityPrivilege(
+            entityTypeName: string,
+            privilegeType: PropertyHelper.Types.PrivilegeType,
+            privilegeDepth: PropertyHelper.Types.PrivilegeDepth,
+        ): boolean;
 
         /**
          * Opens a lookup dialog allowing the user to select one or more entities.
@@ -452,18 +485,22 @@ declare namespace ComponentFramework {
          * Retrieves a collection of entity records.
          * @param entityType logical name of the entity type record to retrieve
          * @param options OData system query options or FetchXML query to retrieve your data.
-         * For support options, please refer to https://docs.microsoft.com/en-us/dynamics365/customer-engagement/developer/clientapi/reference/xrm-webapi/retrievemultiplerecords
+         * For support options, please refer to https://learn.microsoft.com/power-apps/developer/model-driven-apps/clientapi/reference/xrm-webapi/retrievemultiplerecords
          * @param maxPageSize Max number of records to be retrieved per page
          * @returns The deferred object for the result of the operation. An object with interface RetrieveMultipleResponse will be resolved if successful.
          */
-        retrieveMultipleRecords(entityType: string, options?: string, maxPageSize?: number): Promise<WebApi.RetrieveMultipleResponse>;
+        retrieveMultipleRecords(
+            entityType: string,
+            options?: string,
+            maxPageSize?: number,
+        ): Promise<WebApi.RetrieveMultipleResponse>;
 
         /**
          * Retrieves an entity record.
          * @param entityType logical name of the entity type record to retrieve
          * @param id GUID of the entity record you want to retrieve.
          * @param options OData system query options, $select and $expand, to retrieve your data.
-         * For support options, please refer to https://docs.microsoft.com/en-us/dynamics365/customer-engagement/developer/clientapi/reference/xrm-webapi/retrieverecord
+         * For support options, please refer to https://learn.microsoft.com/power-apps/developer/model-driven-apps/clientapi/reference/xrm-webapi/retrieverecord
          * @returns The deferred object for the result of the operation. A JSON object with the retrieved properties and values will be resolved if successful.
          */
         retrieveRecord(entityType: string, id: string, options?: string): Promise<WebApi.Entity>;
@@ -614,7 +651,7 @@ declare namespace ComponentFramework {
             /**
              * The id to be set to the anchor control if any.
              */
-            id?: string;
+            id?: string | undefined;
 
             /**
              * The name of the Popup. Used as the reference to open Popups.
@@ -625,7 +662,7 @@ declare namespace ComponentFramework {
              * Indicates whether popup close on an outside mouse click.
              * When it's false, the popup will not be closed on an outside mouse click.
              */
-            closeOnOutsideClick?: boolean;
+            closeOnOutsideClick?: boolean | undefined;
 
             /**
              * The name of Popup which should be opened.
@@ -634,7 +671,7 @@ declare namespace ComponentFramework {
              * To close Popups, should be provided empty string.
              * This prop will be automatically propagated to children.
              */
-            popupToOpen?: string;
+            popupToOpen?: string | undefined;
 
             /**
              * The type of Popup, which is described in PopupType enum. Should be only one "root" Popup for each set of Popups.
@@ -672,12 +709,12 @@ declare namespace ComponentFramework {
             /**
              * Height of the alert dialog in pixels.
              */
-            height?: number;
+            height?: number | undefined;
 
             /**
              * Width of the alert dialog pixels.
              */
-            width?: number;
+            width?: number | undefined;
         }
 
         /**
@@ -692,7 +729,7 @@ declare namespace ComponentFramework {
             /**
              * The confirm button label. If you do not specify the button label, OK (in user's preferred language) is used as the button label.
              */
-            confirmButtonLabel?: string;
+            confirmButtonLabel?: string | undefined;
         }
 
         /**
@@ -702,12 +739,12 @@ declare namespace ComponentFramework {
             /**
              * Height of the confirmation dialog in pixels.
              */
-            height?: number;
+            height?: number | undefined;
 
             /**
              *  Width of the confirmation dialog pixels.
              */
-            width?: number;
+            width?: number | undefined;
         }
 
         /**
@@ -717,12 +754,12 @@ declare namespace ComponentFramework {
             /**
              * Confirm Dialog Title.
              */
-            title?: string;
+            title?: string | undefined;
 
             /**
              * Confirm Dialog Subtitle
              */
-            subtitle?: string;
+            subtitle?: string | undefined;
 
             /**
              * Confirm Dialog Text\Message.
@@ -732,12 +769,12 @@ declare namespace ComponentFramework {
             /**
              * The confirm button label. If you do not specify the button label, OK (in user's preferred language) is used as the button label.
              */
-            confirmButtonLabel?: string;
+            confirmButtonLabel?: string | undefined;
 
             /**
              * Cancel Button label.
              */
-            cancelButtonLabel?: string;
+            cancelButtonLabel?: string | undefined;
         }
 
         /**
@@ -757,12 +794,12 @@ declare namespace ComponentFramework {
             /**
              * Designates a record that will provide default values based on mapped attribute values. The lookup object has the following String properties: entityType, id, and name
              */
-            createFromEntity?: EntityReference;
+            createFromEntity?: EntityReference | undefined;
 
             /**
              * ID of the entity record to display the form for.
              */
-            entityId?: string;
+            entityId?: string | undefined;
 
             /**
              * Logical name of the entity to display the form for.
@@ -772,34 +809,34 @@ declare namespace ComponentFramework {
             /**
              * ID of the form instance to be displayed.
              */
-            formId?: string;
+            formId?: string | undefined;
 
             /**
              * Height of the form window to be displayed in pixels.
              */
-            height?: number;
+            height?: number | undefined;
 
             /**
              * Indicates whether to display form in a new window.
              */
-            openInNewWindow?: boolean;
+            openInNewWindow?: boolean | undefined;
 
             /**
              * Indicates whether to open a quick create form. If you do not specify this, by default false is passed.
              */
-            useQuickCreateForm?: boolean;
+            useQuickCreateForm?: boolean | undefined;
 
             /**
              * Width of the form window to be displayed in pixels.
              */
-            width?: number;
+            width?: number | undefined;
 
             /**
              * Specify one of the following values for the window position of the form on the screen:
              *   1:center
              *   2:side
              */
-            windowPosition?: number;
+            windowPosition?: number | undefined;
         }
 
         /**
@@ -811,18 +848,18 @@ declare namespace ComponentFramework {
              * Details about the error. When you specify this, the Download Log File button is available in the error message, and clicking it will let users download a text file with
              * the content specified in this attribute.
              */
-            details?: string;
+            details?: string | undefined;
 
             /**
              * If you just set errorCode, the message for the error code is automatically retrieved from the server and displayed in the error dialog. If you specify an errorCode value,
              * an error dialog with a default error message is displyed.
              */
-            errorCode?: number;
+            errorCode?: number | undefined;
 
             /**
              * The message to be displayed in the error dialog.
              */
-            message?: string;
+            message?: string | undefined;
         }
 
         namespace Types {
@@ -861,12 +898,12 @@ declare namespace ComponentFramework {
             /**
              * Height of the window to display the resultant page in pixels.
              */
-            height?: number;
+            height?: number | undefined;
 
             /**
              * Width of the window to display the resultant page in pixels.
              */
-            width?: number;
+            width?: number | undefined;
         }
 
         /**
@@ -876,7 +913,7 @@ declare namespace ComponentFramework {
             /**
              * Height of the window to display the resultant page in pixels.
              */
-            height?: number;
+            height?: number | undefined;
 
             /**
              * Indicates whether to open the web resource in a new window.
@@ -886,7 +923,7 @@ declare namespace ComponentFramework {
             /**
              * Width of the window to display the resultant page in pixels.
              */
-            width?: number;
+            width?: number | undefined;
         }
     }
 
@@ -1262,12 +1299,12 @@ declare namespace ComponentFramework {
         /**
          * The record id. Read-only.
          */
-        id: { guid: string; };
+        id: { guid: string };
 
         /**
          * The entity logical name. Read-only.
          */
-        etn?: string;
+        etn?: string | undefined;
 
         /**
          * The name of the entity reference. Read-only.
@@ -1288,7 +1325,7 @@ declare namespace ComponentFramework {
         /**
          * The name of the record the lookup selection references.
          */
-        name?: string;
+        name?: string | undefined;
 
         /**
          * The entity logical name of the record the lookup selection references.
@@ -1321,7 +1358,7 @@ declare namespace ComponentFramework {
         mimeType: string;
     }
 
-///////////////////// Parameter ////////////////////////
+    ///////////////////// Parameter ////////////////////////
 
     namespace PropertyTypes {
         /**
@@ -1330,11 +1367,11 @@ declare namespace ComponentFramework {
         interface Property {
             error: boolean;
             errorMessage: string;
-            formatted?: string;
-            security?: PropertyHelper.SecurityValues;
+            formatted?: string | undefined;
+            security?: PropertyHelper.SecurityValues | undefined;
             raw: any;
             type: string;
-            attributes?: PropertyHelper.FieldPropertyMetadata.Metadata;
+            attributes?: PropertyHelper.FieldPropertyMetadata.Metadata | undefined;
         }
 
         /**
@@ -1342,28 +1379,28 @@ declare namespace ComponentFramework {
          */
         interface NumberProperty extends Property {
             raw: number | null;
-            attributes?: PropertyHelper.FieldPropertyMetadata.NumberMetadata;
+            attributes?: PropertyHelper.FieldPropertyMetadata.NumberMetadata | undefined;
         }
 
         /**
          * Property Interface for context.parameters.[property_key], when property manifest type is Decimal
          */
         interface DecimalNumberProperty extends NumberProperty {
-            attributes?: PropertyHelper.FieldPropertyMetadata.DecimalNumberMetadata;
+            attributes?: PropertyHelper.FieldPropertyMetadata.DecimalNumberMetadata | undefined;
         }
 
         /**
          * Property Interface for context.parameters.[property_key], when property manifest type is FP
          */
         interface FloatingNumberProperty extends NumberProperty {
-            attributes?: PropertyHelper.FieldPropertyMetadata.FloatingNumberMetadata;
+            attributes?: PropertyHelper.FieldPropertyMetadata.FloatingNumberMetadata | undefined;
         }
 
         /**
          * Property Interface for context.parameters.[property_key], when property manifest type is Whole.None
          */
         interface WholeNumberProperty extends NumberProperty {
-            attributes?: PropertyHelper.FieldPropertyMetadata.WholeNumberMetadata;
+            attributes?: PropertyHelper.FieldPropertyMetadata.WholeNumberMetadata | undefined;
         }
 
         /**
@@ -1371,7 +1408,7 @@ declare namespace ComponentFramework {
          */
         interface DateTimeProperty extends Property {
             raw: Date | null;
-            attributes?: PropertyHelper.FieldPropertyMetadata.DateTimeMetadata;
+            attributes?: PropertyHelper.FieldPropertyMetadata.DateTimeMetadata | undefined;
         }
 
         /**
@@ -1379,7 +1416,7 @@ declare namespace ComponentFramework {
          */
         interface StringProperty extends Property {
             raw: string | null;
-            attributes?: PropertyHelper.FieldPropertyMetadata.StringMetadata;
+            attributes?: PropertyHelper.FieldPropertyMetadata.StringMetadata | undefined;
         }
 
         /**
@@ -1395,7 +1432,7 @@ declare namespace ComponentFramework {
          */
         interface OptionSetProperty extends Property {
             raw: number | null;
-            attributes?: PropertyHelper.FieldPropertyMetadata.OptionSetMetadata;
+            attributes?: PropertyHelper.FieldPropertyMetadata.OptionSetMetadata | undefined;
         }
 
         /**
@@ -1403,7 +1440,7 @@ declare namespace ComponentFramework {
          */
         interface MultiSelectOptionSetProperty extends Property {
             raw: number[] | null;
-            attributes?: PropertyHelper.FieldPropertyMetadata.OptionSetMetadata;
+            attributes?: PropertyHelper.FieldPropertyMetadata.OptionSetMetadata | undefined;
         }
 
         /**
@@ -1411,7 +1448,7 @@ declare namespace ComponentFramework {
          */
         interface TwoOptionsProperty extends Property {
             raw: boolean;
-            attributes?: PropertyHelper.FieldPropertyMetadata.TwoOptionMetadata;
+            attributes?: PropertyHelper.FieldPropertyMetadata.TwoOptionMetadata | undefined;
         }
 
         /**
@@ -1456,7 +1493,7 @@ declare namespace ComponentFramework {
              * @param name column name to be added to the columnset
              * @param entityAlias entity alias for which the column name needs to be added
              */
-            addColumn?: (name: string, entityAlias?: string) => void;
+            addColumn?: ((name: string, entityAlias?: string) => void) | undefined;
 
             /**
              * Set of columns available in this dataset.
@@ -1603,7 +1640,7 @@ declare namespace ComponentFramework {
 
         /**
          * Entity metadata refer to online documentation
-         * https://docs.microsoft.com/en-us/dynamics365/customer-engagement/developer/clientapi/reference/xrm-utility/getentitymetadata
+         * https://learn.microsoft.com/power-apps/developer/model-driven-apps/clientapi/reference/xrm-utility/getentitymetadata
          */
         interface EntityMetadata {
             [key: string]: any;
@@ -1673,8 +1710,8 @@ declare namespace ComponentFramework {
 
             interface WholeNumberMetadata extends NumberMetadata {
                 Format: string;
-                LanguageByCode?: Dictionary;
-                TimeZoneByCode?: Dictionary;
+                LanguageByCode?: Dictionary | undefined;
+                TimeZoneByCode?: Dictionary | undefined;
             }
 
             interface DateTimeMetadata extends Metadata {
@@ -1708,8 +1745,43 @@ declare namespace ComponentFramework {
                  * Supported Condition Operator for filtering expression condition
                  * This is subset of full condition operators list defined in https://docs.microsoft.com/en-us/dotnet/api/microsoft.xrm.sdk.query.conditionoperator
                  */
-                type ConditionOperator = -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 12 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 22 | 23
-                                            | 25 | 26 | 27 | 28 | 29 | 33 | 34 | 37 | 38 | 49 | 70 | 75 | 76 | 77 | 78 | 79 | 87;
+                type ConditionOperator =
+                    | -1
+                    | 0
+                    | 1
+                    | 2
+                    | 3
+                    | 4
+                    | 5
+                    | 6
+                    | 8
+                    | 12
+                    | 14
+                    | 15
+                    | 16
+                    | 17
+                    | 18
+                    | 19
+                    | 20
+                    | 22
+                    | 23
+                    | 25
+                    | 26
+                    | 27
+                    | 28
+                    | 29
+                    | 33
+                    | 34
+                    | 37
+                    | 38
+                    | 49
+                    | 70
+                    | 75
+                    | 76
+                    | 77
+                    | 78
+                    | 79
+                    | 87;
 
                 /**
                  * Supported Filter Operator for filtering expression linkage
@@ -1749,7 +1821,7 @@ declare namespace ComponentFramework {
                 /**
                  * Entity alias name so filtering can be used on linked entities.
                  */
-                entityAliasName?: string;
+                entityAliasName?: string | undefined;
             }
 
             /**
@@ -1769,7 +1841,7 @@ declare namespace ComponentFramework {
                 /**
                  * Any child filters that should be evaluated after evaluating this filter.
                  */
-                filters?: FilterExpression[];
+                filters?: FilterExpression[] | undefined;
             }
 
             /**
@@ -1830,17 +1902,17 @@ declare namespace ComponentFramework {
                 /**
                  * The column visibility state.
                  */
-                isHidden?: boolean;
+                isHidden?: boolean | undefined;
 
                 /**
                  * Is specific column the primary attrribute of the view's entity
                  */
-                isPrimary?: boolean;
+                isPrimary?: boolean | undefined;
 
                 /**
                  * Prevents the UI from making the column sortable.
                  */
-                disableSorting?: boolean;
+                disableSorting?: boolean | undefined;
             }
 
             /**
@@ -1862,7 +1934,18 @@ declare namespace ComponentFramework {
                  * Get the raw value of the record's column
                  * @param columnName Column name of the record
                  */
-                getValue(columnName: string): string | Date | number | number[] | boolean | EntityReference | EntityReference[] | LookupValue | LookupValue[];
+                getValue(
+                    columnName: string,
+                ):
+                    | string
+                    | Date
+                    | number
+                    | number[]
+                    | boolean
+                    | EntityReference
+                    | EntityReference[]
+                    | LookupValue
+                    | LookupValue[];
 
                 /**
                  * Get the object that encapsulates an Entity Reference as a plain object
@@ -1890,9 +1973,24 @@ declare namespace ComponentFramework {
              */
             interface Paging {
                 /**
-                 * Total number of results on the server for the current query.
+                 * Total number of results on the server for the currently applied query.
                  */
                 totalResultCount: number;
+
+                /**
+                 * The number of the first page to retrieve
+                 */
+                firstPageNumber: number;
+
+                /**
+                 * The number of the last page to retrieve
+                 */
+                lastPageNumber: number;
+
+                /**
+                 * The pagesize for each page retrieved
+                 */
+                pageSize: number;
 
                 /**
                  * Whether the result set can be paged forwards.
@@ -1905,20 +2003,18 @@ declare namespace ComponentFramework {
                 hasPreviousPage: boolean;
 
                 /**
-                 * Request the next page of results to be loaded. New data will be pushed to control in another 'updateView' cycle.
+                 * Request the next page of results to be loaded. Returns results for the whole page range.
+                 * New data will be pushed to control in another 'updateView' cycle.
+                 * @param loadOnlyNewPage Limits return value to only newly loaded page.
                  */
-                loadNextPage(): void;
+                loadNextPage(loadOnlyNewPage?: boolean): void;
 
                 /**
-                 * Request the previous page of results to be loaded. New data will be pushed to control in another 'updateView' cycle.
+                 * Request the previous page of results to be loaded. Returns results for the whole page range.
+                 * New data will be pushed to control in another 'updateView' cycle.
+                 * @param loadOnlyNewPage Limits return value to only newly loaded page.
                  */
-                loadPreviousPage(): void;
-
-                /**
-                 * Request the exact page
-                 * @param pageNumber The page number to go to in the dat.
-                 */
-                loadExactPage(pageNumber?: number): void;
+                loadPreviousPage(loadOnlyNewPage?: boolean): void;
 
                 /**
                  * Reload the results from the server, and reset to page 1.
@@ -1927,9 +2023,15 @@ declare namespace ComponentFramework {
 
                 /**
                  * Sets the number of results to return per page on the next data refresh.
-                 * @param pageSize pageSize to be set
+                 * @param pageSize pageSize to be set.
                  */
                 setPageSize(pageSize: number): void;
+
+                /**
+                 * Request the exact page of results to be loaded.
+                 * @param pageNumber exact page to be loaded.
+                 */
+                loadExactPage(pageNumber: number): void;
             }
 
             /**

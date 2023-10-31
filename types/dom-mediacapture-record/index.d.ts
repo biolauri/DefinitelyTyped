@@ -1,10 +1,3 @@
-// Type definitions for non-npm package w3c MediaStream Recording 1.0
-// Project: https://w3c.github.io/mediacapture-record
-// Definitions by: Elias Meire <https://github.com/elsmr>
-//                 AppLover69 <https://github.com/AppLover69>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// Minimum TypeScript Version: 4.4
-
 interface MediaRecorderErrorEventInit extends EventInit {
     error: DOMException;
 }
@@ -20,7 +13,7 @@ declare var MediaRecorderErrorEvent: {
 
 interface BlobEventInit extends EventInit {
     data: Blob;
-    timecode?: number;
+    timecode?: number | undefined;
 }
 
 interface BlobEvent extends Event {
@@ -33,29 +26,29 @@ declare var BlobEvent: {
     new(type: string, eventInitDict: BlobEventInit): BlobEvent;
 };
 
-type BitrateMode = 'vbr' | 'cbr';
+type BitrateMode = VideoEncoderBitrateMode;
 
 interface MediaRecorderOptions {
-    mimeType?: string;
-    audioBitsPerSecond?: number;
-    videoBitsPerSecond?: number;
-    bitsPerSecond?: number;
-    audioBitrateMode?: BitrateMode;
+    mimeType?: string | undefined;
+    audioBitsPerSecond?: number | undefined;
+    videoBitsPerSecond?: number | undefined;
+    bitsPerSecond?: number | undefined;
+    audioBitrateMode?: BitrateMode | undefined;
 }
 
 interface MediaRecorderEventMap {
-    "dataavailable": BlobEvent;
-    "error": Event;
-    "pause": Event;
-    "resume": Event;
-    "start": Event;
-    "stop": Event;
+    dataavailable: BlobEvent;
+    error: Event;
+    pause: Event;
+    resume: Event;
+    start: Event;
+    stop: Event;
 }
 
 interface MediaRecorder extends EventTarget {
     readonly stream: MediaStream;
     readonly mimeType: string;
-    readonly state: 'inactive' | 'recording' | 'paused';
+    readonly state: "inactive" | "recording" | "paused";
     readonly videoBitsPerSecond: number;
     readonly audioBitsPerSecond: number;
     readonly audioBitrateMode: BitrateMode;
@@ -67,10 +60,26 @@ interface MediaRecorder extends EventTarget {
     onstart: ((this: MediaRecorder, event: Event) => any) | null;
     onstop: ((this: MediaRecorder, event: Event) => any) | null;
 
-    addEventListener<K extends keyof MediaRecorderEventMap>(type: K, listener: (this: MediaRecorder, ev: MediaRecorderEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof MediaRecorderEventMap>(type: K, listener: (this: MediaRecorder, ev: MediaRecorderEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    addEventListener<K extends keyof MediaRecorderEventMap>(
+        type: K,
+        listener: (this: MediaRecorder, ev: MediaRecorderEventMap[K]) => any,
+        options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener(
+        type: string,
+        listener: EventListenerOrEventListenerObject,
+        options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof MediaRecorderEventMap>(
+        type: K,
+        listener: (this: MediaRecorder, ev: MediaRecorderEventMap[K]) => any,
+        options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener(
+        type: string,
+        listener: EventListenerOrEventListenerObject,
+        options?: boolean | EventListenerOptions,
+    ): void;
 
     start(timeslice?: number): void;
     stop(): void;

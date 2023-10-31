@@ -1,4 +1,4 @@
-import { Disposable } from '../index';
+import { Disposable } from "../index";
 
 /** Provides a registry for menu items that you'd like to appear in the application menu. */
 export interface MenuManager {
@@ -14,8 +14,8 @@ export interface MenuOptions {
     label: string;
 
     /** An array of sub menus. */
-    submenu?: ReadonlyArray<MenuOptions>;
+    submenu?: ReadonlyArray<MenuOptions> | undefined;
 
     /** The command to trigger when the item is clicked. */
-    command?: string;
+    command?: string | undefined;
 }

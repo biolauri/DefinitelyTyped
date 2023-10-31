@@ -10,6 +10,7 @@ import Observer from "./observer";
 import withOrientation from "./orientation";
 import preventClick from "./prevent-click";
 import requestAnimationFrame from "./request-animation-frame";
+import ignoreSilenceMode from "./silence-mode";
 import style from "./style";
 
 export {
@@ -19,6 +20,7 @@ export {
     fetchFile,
     frame,
     getId,
+    ignoreSilenceMode,
     max,
     min,
     Observer,

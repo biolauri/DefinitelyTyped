@@ -1,35 +1,37 @@
-// Type definitions for @salesforce/canvas-js-sdk 1.41
-// Project: https://github.com/forcedotcom/SalesforceCanvasJavascriptSDK#readme
-// Definitions by: Zach Szafran <https://github.com/zms-dev>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 declare namespace Sfdc {
     function canvas(callback: () => void): void;
 
     namespace canvas {
         // see https://developer.salesforce.com/docs/atlas.en-us.platform_connect.meta/platform_connect/client_object.htm
         interface Client {
-            readonly oauthToken?: string | null;
-            readonly instanceId?: string | null;
-            readonly instanceUrl?: string | null;
-            readonly targetOrigin?: string | null;
-            readonly refreshToken?: string | null;
+            readonly oauthToken?: string | null | undefined;
+            readonly instanceId?: string | null | undefined;
+            readonly instanceUrl?: string | null | undefined;
+            readonly targetOrigin?: string | null | undefined;
+            readonly refreshToken?: string | null | undefined;
         }
 
         interface Response<T> {
+            readonly seq: number;
+            readonly parentVersion: string;
+            readonly clientVersion: string;
+            readonly payload: T;
             readonly status: number;
-            readonly payload?: T;
+            readonly statusText: string;
+            readonly responseHeaders: string;
+            readonly type: string;
+            readonly targetModule: string;
         }
 
         enum ApplicationOptions {
-            HIDE_HEADER = 'HideHeader',
-            HIDE_SHARE = 'HideShare',
-            PERSONAL_ENABLED = 'PersonalEnabled',
+            HIDE_HEADER = "HideHeader",
+            HIDE_SHARE = "HideShare",
+            PERSONAL_ENABLED = "PersonalEnabled",
         }
 
         enum ApplicationAuthType {
-            SIGNED_REQUEST = 'SIGNED_REQUEST',
-            OAUTH = 'OAUTH',
+            SIGNED_REQUEST = "SIGNED_REQUEST",
+            OAUTH = "OAUTH",
         }
 
         // see https://developer.salesforce.com/docs/atlas.en-us.platform_connect.meta/platform_connect/application_object.htm;
@@ -48,7 +50,7 @@ declare namespace Sfdc {
         }
 
         enum UserType {
-            STANDARD = 'STANDARD',
+            STANDARD = "STANDARD",
         }
 
         // see https://developer.salesforce.com/docs/atlas.en-us.platform_connect.meta/platform_connect/user_object.htm
@@ -92,22 +94,22 @@ declare namespace Sfdc {
         }
 
         enum EnvironmentDisplayLocation {
-            CHATTER = 'Chatter',
-            CHATTER_FEED = 'ChatterFeed',
-            MOBILE_NAV = 'MobileNav',
-            OPEN_CTI = 'OpenCTI',
-            PAGE_LAYOUT = 'PageLayout',
-            PUBLISHER = 'Publisher',
-            SERVICE_DESK = 'ServiceDesk',
-            VISUAL_FORCE = 'Visualforce',
-            NONE = 'None',
+            CHATTER = "Chatter",
+            CHATTER_FEED = "ChatterFeed",
+            MOBILE_NAV = "MobileNav",
+            OPEN_CTI = "OpenCTI",
+            PAGE_LAYOUT = "PageLayout",
+            PUBLISHER = "Publisher",
+            SERVICE_DESK = "ServiceDesk",
+            VISUAL_FORCE = "Visualforce",
+            NONE = "None",
         }
 
         enum EnvironmentDisplaySubLocation {
-            MOBILE_CARD_FULLVIEW = 'S1MobileCardFullview',
-            MOBILE_CARD_PREVIEW = 'S1MobileCardPreview',
-            RECORD_HOME_PREVIEW = 'S1RecordHomePreview',
-            RECORD_HOME_FULLVIEW = 'S1RecordHomeFullview',
+            MOBILE_CARD_FULLVIEW = "S1MobileCardFullview",
+            MOBILE_CARD_PREVIEW = "S1MobileCardPreview",
+            RECORD_HOME_PREVIEW = "S1RecordHomePreview",
+            RECORD_HOME_FULLVIEW = "S1RecordHomeFullview",
         }
 
         // see https://developer.salesforce.com/docs/atlas.en-us.platform_connect.meta/platform_connect/attributes_object.htm
@@ -127,7 +129,7 @@ declare namespace Sfdc {
         interface Environment {
             readonly parameters: Record<string, unknown>;
             readonly dimensions: EnvironmentDimensions;
-            readonly record?: EnvironmentRecord;
+            readonly record?: EnvironmentRecord | undefined;
             readonly displayLocation: EnvironmentDisplayLocation;
             readonly locationUrl: string;
             readonly subLocation: EnvironmentDisplaySubLocation | null;
@@ -164,10 +166,10 @@ declare namespace Sfdc {
 
         // see https://developer.salesforce.com/docs/atlas.en-us.platform_connect.meta/platform_connect/context_object.htm
         interface Context {
-            readonly application?: Application;
-            readonly user?: User;
+            readonly application?: Application | undefined;
+            readonly user?: User | undefined;
             readonly environment: Environment;
-            readonly organization?: Organization;
+            readonly organization?: Organization | undefined;
             readonly links: Links;
         }
 
@@ -184,7 +186,7 @@ declare namespace Sfdc {
 
         function isUndefined(value: unknown): value is undefined;
 
-        function isNil(value: unknown): value is undefined | null | '';
+        function isNil(value: unknown): value is undefined | null | "";
 
         function isNumber(value: unknown): value is number;
 
@@ -295,11 +297,11 @@ declare namespace Sfdc {
             interface AjaxSettings {
                 readonly client: Client;
                 readonly success: (data: Response<unknown>) => void;
-                readonly method?: string;
-                readonly async?: boolean;
-                readonly contentType?: string;
-                readonly headers?: Record<string, string>;
-                readonly data?: string | null;
+                readonly method?: string | undefined;
+                readonly async?: boolean | undefined;
+                readonly contentType?: string | undefined;
+                readonly headers?: Record<string, string> | undefined;
+                readonly data?: string | null | undefined;
             }
 
             interface Version {
@@ -337,7 +339,7 @@ declare namespace Sfdc {
             }
 
             interface StreamSubscriptionRef {
-                readonly name: 'sfdc.streamingapi';
+                readonly name: "sfdc.streamingapi";
                 readonly params: StreamSubscriptionParams;
             }
 
@@ -355,7 +357,7 @@ declare namespace Sfdc {
                 readonly payload: unknown;
             }
 
-            function ctx(callback: (msg: Response<Context>) => void, client: Client): void;
+            function ctx(callback: (msg: Response<Context | string>) => void, client: Client): void;
 
             function ajax(url: string, settings: AjaxSettings): void;
 
@@ -377,7 +379,7 @@ declare namespace Sfdc {
 
             function signedrequest(req?: SignedRequest): SignedRequest;
 
-            function refreshSignedRequest(cb: (data: Response<string>) => void): void;
+            function refreshSignedRequest(cb: (data: Response<{ response: string }>) => void): void;
 
             function repost(refresh?: boolean): void;
         }
@@ -405,14 +407,15 @@ declare namespace Sfdc {
                 readonly response_type: string;
                 readonly client_id: string;
                 readonly redirect_uri: string;
-                readonly state?: string;
-                readonly display?: string;
+                readonly state?: string | undefined;
+                readonly display?: string | undefined;
+                readonly scope?: string | undefined;
             }
 
             interface LoginContext {
                 readonly uri: string;
                 readonly params: LoginParams;
-                readonly callback?: string;
+                readonly callback?: string | undefined;
             }
 
             function init(): void;

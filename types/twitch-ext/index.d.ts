@@ -1,11 +1,3 @@
-// Type definitions for non-npm package twitch-ext 1.24
-// Project: https://dev.twitch.tv/docs/extensions/reference/#javascript-helper
-// Definitions by: Benedict Etzel <https://github.com/beheh>
-//                 Federico Della Rovere <https://github.com/FedeDR>
-//                 Dmitry Demensky <https://github.com/demensky>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.4
-
 /**
  * The Twitch extensions JavaScript Helper.
  *
@@ -20,7 +12,7 @@ declare namespace Twitch.ext {
     /**
      * This encodes the environment. For external users, this is always production.
      */
-    const environment: 'production';
+    const environment: "production";
 
     /**
      * @see https://dev.twitch.tv/docs/extensions/reference/#helper-actions
@@ -89,14 +81,14 @@ declare namespace Twitch.ext {
          * @param version The version of configuration with which the segment is stored.
          * @param content The string-encoded configuration.
          */
-        function set(segment: 'broadcaster', version: string, content: string): void;
+        function set(segment: "broadcaster", version: string, content: string): void;
     }
 
     /**
      * @see https://dev.twitch.tv/docs/extensions/reference/#twitch-extension-feature-flags
      */
     namespace features {
-        type ChangedKey = 'isBitsEnabled' | 'isChatEnabled' | 'isSubscriptionStatusAvailable';
+        type ChangedKey = "isBitsEnabled" | "isChatEnabled" | "isSubscriptionStatusAvailable";
 
         /**
          * If this flag is true, Bits in Extensions features will work in your extension on the current channel.
@@ -299,7 +291,7 @@ declare namespace Twitch.ext {
         /**
          * Always the string "bits". Reserved for future use.
          */
-        type: 'bits';
+        type: "bits";
     }
 
     interface BitsProduct {
@@ -316,7 +308,7 @@ declare namespace Twitch.ext {
         /**
          * This field is returned only for extension versions that are not in the Released state.
          */
-        inDevelopment?: boolean;
+        inDevelopment?: boolean | undefined;
 
         /**
          * Unique ID for the product.
@@ -330,7 +322,7 @@ declare namespace Twitch.ext {
          */
         displayName: string;
 
-        initiator: 'CURRENT_USER' | 'OTHER';
+        initiator: "CURRENT_USER" | "OTHER";
 
         /**
          * Full product object from getProducts call
@@ -398,6 +390,12 @@ declare namespace Twitch.ext {
         sessionToken: string;
 
         /**
+         * A token to use with the Twitch API. This is the same as the helixToken property of the authData parameter
+         * that currently gets passed to the onAuthorized callback.
+         */
+        helixToken: string;
+
+        /**
          * An object containing information about the viewer’s subscription. The value of subscriptionStatus will be null if
          * the user is either not a subscriber, or opting not to share their identity. The value will also be null if the
          * extension otherwise doesn't have subscription capabilities.
@@ -449,6 +447,11 @@ declare namespace Twitch.ext {
         token: string;
 
         /**
+         * JWT that can be used for front end API requests.
+         */
+        helixToken: string;
+
+        /**
          * Opaque user ID.
          */
         userId: string;
@@ -494,17 +497,19 @@ declare namespace Twitch.ext {
         /**
          * Information about the current channel’s hosting status, or undefined if the channel is not currently hosting.
          */
-        hostingInfo?: {
-            /**
-             * Numeric ID of the channel being hosted by the currently visible channel
-             */
-            hostedChannelId: string;
+        hostingInfo?:
+            | {
+                /**
+                 * Numeric ID of the channel being hosted by the currently visible channel
+                 */
+                hostedChannelId: string;
 
-            /**
-             * Numeric ID of the host channel
-             */
-            hostingChannelId: string;
-        };
+                /**
+                 * Numeric ID of the host channel
+                 */
+                hostingChannelId: string;
+            }
+            | undefined;
 
         /**
          * If true, the viewer is watching in fullscreen mode.
@@ -536,17 +541,17 @@ declare namespace Twitch.ext {
         /**
          * The mode the extension is currently run in.
          */
-        mode: 'viewer' | 'dashboard' | 'config';
+        mode: "viewer" | "dashboard" | "config";
 
         /**
          * Indicates how the stream is being played.
          */
-        playbackMode: 'video' | 'audio' | 'remote' | 'chat-only';
+        playbackMode: "video" | "audio" | "remote" | "chat-only";
 
         /**
          * The user’s theme setting on the Twitch website.
          */
-        theme: 'light' | 'dark';
+        theme: "light" | "dark";
 
         /**
          * Resolution of the broadcast.
@@ -571,7 +576,7 @@ declare namespace Twitch.ext {
         /**
          * The type of the anchor in which the extension is activated.
          */
-        anchor: 'component' | 'panel' | 'video_overlay';
+        anchor: "component" | "panel" | "video_overlay";
 
         /**
          * The user’s language setting.
@@ -590,29 +595,29 @@ declare namespace Twitch.ext {
         /**
          * The extension’s mode.
          */
-        mode: 'config' | 'dashboard' | 'viewer';
+        mode: "config" | "dashboard" | "viewer";
 
         /**
          * The platform on which the Twitch client is running.
          */
-        platform: 'mobile' | 'web';
+        platform: "mobile" | "web";
 
         /**
          * Indicates whether the extension is popped out.
          */
-        popout: 'true' | 'false';
+        popout: "true" | "false";
 
         /**
          * The release state of the extension.
          */
         state:
-            | 'testing'
-            | 'hosted_test'
-            | 'approved'
-            | 'released'
-            | 'ready_for_review'
-            | 'in_review'
-            | 'pending_action'
-            | 'uploading';
+            | "testing"
+            | "hosted_test"
+            | "approved"
+            | "released"
+            | "ready_for_review"
+            | "in_review"
+            | "pending_action"
+            | "uploading";
     }
 }

@@ -1,8 +1,8 @@
 import express = require("express");
 import formidable = require("formidable");
 
-import { Options } from "./options";
 import { Reply } from "../reply";
+import { Options } from "./options";
 
 export type BasicType = string | any[] | object | number;
 
@@ -28,7 +28,7 @@ export interface Context {
     cookie: { [key: string]: string };
     files: formidable.Files;
     ip: string;
-    ips?: string[];
+    ips?: string[] | undefined;
     url: string;
     method: string;
     path: string;

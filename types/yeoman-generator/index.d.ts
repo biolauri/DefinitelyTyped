@@ -1,26 +1,13 @@
-// Type definitions for yeoman-generator 5.2
-// Project: https://github.com/yeoman/generator, http://yeoman.io
-// Definitions by: Kentaro Okuno <https://github.com/armorik83>
-//                 Jay Anslow <https://github.com/janslow>
-//                 Ika <https://github.com/ikatyang>
-//                 Joshua Cherry <https://github.com/tasadar2>
-//                 Arthur Corenzan <https://github.com/haggen>
-//                 Richard Lea <https://github.com/chigix>
-//                 Devid Farinelli <https://github.com/misterdev>
-//                 Manuel Thalmann <https://github.com/manuth>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 3.3
-
-import { SpawnOptions, SpawnSyncOptions } from 'child_process';
-import { Debugger } from 'debug';
-import { Data as TemplateData, Options as TemplateOptions } from 'ejs';
-import { EventEmitter } from 'events';
-import { Answers as InquirerAnswers, DistinctQuestion } from 'inquirer';
-import { Editor, CopyOptions } from 'mem-fs-editor';
-import { Observable } from 'rxjs';
-import { Transform } from 'stream';
-import Environment = require('yeoman-environment');
-import Storage = require('./lib/util/storage');
+import { spawn, SpawnOptions, SpawnSyncOptions } from "child_process";
+import { Debugger } from "debug";
+import { Data as TemplateData, Options as TemplateOptions } from "ejs";
+import { EventEmitter } from "events";
+import { Answers as InquirerAnswers, DistinctQuestion } from "inquirer";
+import { CopyOptions, Editor } from "mem-fs-editor";
+import { Observable } from "rxjs";
+import { Transform } from "stream";
+import Environment = require("yeoman-environment");
+import Storage = require("./lib/util/storage");
 import Logger = Environment.Logger;
 
 declare namespace Generator {
@@ -31,7 +18,7 @@ declare namespace Generator {
         /**
          * The name for identifying the queue.
          */
-        queueName?: string;
+        queueName?: string | undefined;
 
         /**
          * The name of the method to execute.
@@ -54,19 +41,24 @@ declare namespace Generator {
         [name: string]: any;
 
         /**
+         * The path to the generator.
+         */
+        resolved?: string;
+
+        /**
          * Gets or sets a collection of custom priorities.
          */
-        customPriorities?: Priority[];
+        customPriorities?: Priority[] | undefined;
 
         /**
          * The environment to use for creating the generator.
          */
-        env?: Environment;
+        env?: Environment | undefined;
 
         /**
          * The destination-root to write the files to.
          */
-        destinationRoot?: string;
+        destinationRoot?: string | undefined;
     }
 
     /**
@@ -87,7 +79,7 @@ declare namespace Generator {
         /**
          * A value indicating whether to store the user's previous answer.
          */
-        store?: boolean;
+        store?: boolean | undefined;
     };
 
     /**
@@ -97,12 +89,12 @@ declare namespace Generator {
         /**
          * The storage to store the answers.
          */
-        storage?: Storage;
+        storage?: Storage | undefined;
 
         /**
          * A value indicating whether an option should be exported for this question.
          */
-        exportOption?: boolean | object;
+        exportOption?: boolean | object | undefined;
     };
 
     /**
@@ -122,22 +114,22 @@ declare namespace Generator {
         /**
          * A value indicating whether to run `npm install` or options to pass to `dargs` as arguments.
          */
-        npm?: boolean | object;
+        npm?: boolean | object | undefined;
 
         /**
          * A value indicating whether to run `bower install` or options to pass to `dargs` as arguments.
          */
-        bower?: boolean | object;
+        bower?: boolean | object | undefined;
 
         /**
          * A value indicating whether to run `yarn install` or options to pass to `dargs` as arguments.
          */
-        yarn?: boolean | object;
+        yarn?: boolean | object | undefined;
 
         /**
          * A value indicating whether messages should be logged.
          */
-        skipMessage?: boolean;
+        skipMessage?: boolean | undefined;
     }
 
     /**
@@ -147,22 +139,22 @@ declare namespace Generator {
         /**
          * Description for the argument.
          */
-        description?: string;
+        description?: string | undefined;
 
         /**
          * A value indicating whether the argument is required.
          */
-        required?: boolean;
+        required?: boolean | undefined;
 
         /**
          * A value indicating whether the argument is optional.
          */
-        optional?: boolean;
+        optional?: boolean | undefined;
 
         /**
          * The type of the argument.
          */
-        type?: typeof String | typeof Number | typeof Array | typeof Object;
+        type?: typeof String | typeof Number | typeof Array | typeof Object | undefined;
 
         /**
          * The default value of the argument.
@@ -177,12 +169,12 @@ declare namespace Generator {
         /**
          * The type of the option.
          */
-        type: typeof Boolean | typeof String | typeof Number;
+        type: typeof Boolean | typeof String | typeof Number | ((opt: string) => any);
 
         /**
          * The option name alias (example `-h` and --help`).
          */
-        alias?: string;
+        alias?: string | undefined;
 
         /**
          * The default value.
@@ -192,17 +184,17 @@ declare namespace Generator {
         /**
          * The description for the option.
          */
-        description?: string;
+        description?: string | undefined;
 
         /**
          * A value indicating whether the option should be hidden from the help output.
          */
-        hide?: boolean;
+        hide?: boolean | undefined;
 
         /**
          * The storage to persist the option
          */
-        storage?: Storage;
+        storage?: Storage | undefined;
     }
 
     /**
@@ -227,7 +219,7 @@ declare namespace Generator {
         path: string;
     }
 
-    type GeneratorFeaturesUniqueBy = 'argument' | 'namespacep';
+    type GeneratorFeaturesUniqueBy = "argument" | "namespacep";
 
     /**
      * Represents generators feature
@@ -236,33 +228,33 @@ declare namespace Generator {
         /**
          * uniqueBy calculation method (undefined/argument/namespace)
          */
-        uniqueBy?: GeneratorFeaturesUniqueBy;
+        uniqueBy?: GeneratorFeaturesUniqueBy | undefined;
 
         /**
          * The Generator instance unique identifier.
          * The Environment will ignore duplicated identifiers.
          */
-        unique?: string;
+        unique?: string | undefined;
 
         /**
          * Only queue methods that matches a priority
          */
-        tasksMatchingPriority?: boolean;
+        tasksMatchingPriority?: boolean | undefined;
 
         /**
          * Tasks methods starts with prefix. Allows api methods (non tasks) without prefix.
          */
-         taskPrefix?: string;
+        taskPrefix?: string | undefined;
 
         /**
          * Enable customCommitTask()
          */
-         customCommitTask?: boolean;
+        customCommitTask?: boolean | undefined;
 
-         /**
-          * Enable customInstallTask()
-          */
-         customInstallTask?: boolean;
+        /**
+         * Enable customInstallTask()
+         */
+        customInstallTask?: boolean | undefined;
     }
 
     /**
@@ -272,17 +264,17 @@ declare namespace Generator {
         /**
          * The name of the queue.
          */
-        queueName?: string;
+        queueName?: string | undefined;
 
         /**
          * A value indicating whether the queue should be executed only once per namespace and task-name.
          */
-        once?: boolean;
+        once?: boolean | undefined;
 
         /**
          * A value indicating whether the queue should be executed if not running yet.
          */
-        run?: boolean;
+        run?: boolean | undefined;
     }
 
     /**
@@ -292,7 +284,7 @@ declare namespace Generator {
         /**
          * A method for handling errors.
          */
-        reject?: Callback;
+        reject?: Callback | undefined;
     }
 
     /**
@@ -317,32 +309,32 @@ declare namespace Generator {
         /**
          * A method for determining whether the template should be rendered.
          */
-        when?: (templateData: TemplateData, generator: T) => boolean;
+        when?: ((templateData: TemplateData, generator: T) => boolean) | undefined;
 
         /**
-         * The template file, absolute or relative to `templatePath()`.
+         * The template file, absolute or relative to {@link Generator.templatePath `templatePath()`}.
          */
         source: string | string[];
 
         /**
-         * The destination, absolute or relative to `destinationPath()`.
+         * The destination, absolute or relative to {@link Generator.destinationPath `destinationPath()`}.
          */
-        destination?: string | string[];
+        destination?: string | string[] | undefined;
 
         /**
          * The `ejs` options.
          */
-        templateOptions?: TemplateOptions;
+        templateOptions?: TemplateOptions | undefined;
 
         /**
          * The `mem-fs-editor` copy-options.
          */
-        copyOptions?: CopyOptions;
+        copyOptions?: CopyOptions | undefined;
     }
 }
 
 /**
- * The `Generator` class provides the common API shared by all generators.
+ * The {@link Generator `Generator`} class provides the common API shared by all generators.
  * It define options, arguments, file, prompt, log, API, etc.
  *
  * Every generator should extend this base class.
@@ -358,7 +350,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
     /**
      * Provides arguments at initialization.
      */
-    args: {};
+    args: string[];
 
     /**
      * The path to the current generator.
@@ -401,7 +393,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
     log: Logger;
 
     /**
-     * The path from where the user is running `yo`
+     * The path from where the user is running `yo`.
      */
     contextRoot: string;
 
@@ -419,9 +411,8 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * is how they are parsed from the command line, arguments are retrieved
      * based on their position.
      *
-     * Besides, arguments are used inside your code as a property (`this.argument`),
-     * while options are all kept in a hash (`this.options`).
-     *
+     * Besides, arguments are used inside your code as a property ({@link Generator.args `this.args`}),
+     * while options are all kept in a hash ({@link Generator.options `this.options`}).
      *
      * @param name Argument name.
      * @param config Argument options.
@@ -440,7 +431,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * @param generator The path to the generator module or an object (see examples).
      * @param options The options passed to the Generator.
      * @param returnNewGenerator Returns the created generator instead of returning this.
-     * @return This generator or the composed generator when `returnNewGenerator` is `true`.
+     * @return This generator or the composed generator when {@link returnNewGenerator `returnNewGenerator`} is `true`.
      *
      * @example
      * this.composeWith('bootstrap', { sass: true });
@@ -517,7 +508,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      *
      * @param storagePath The path to the `json`-file of the storage.
      * @param key The key in which the options are stored inside the `json`.
-     * @param lodashPath A value indicating whether the `key` argument should be treated as a lodash path.
+     * @param lodashPath A value indicating whether the {@link key `key`} argument should be treated as a lodash path.
      */
     createStorage(storagePath: string, key?: string, lodashPath?: boolean): Storage;
 
@@ -536,10 +527,11 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
     /**
      * Changes the generator destination root directory.
      *
-     * This path is used to find storage, when using file system helper methods (such as `this.writeDestination` and `this.copyDestination`).
+     * This path is used to find storage, when using file system helper methods
+     * (such as {@link Generator.writeDestination `this.writeDestination`} and {@link Generator.copyDestination `this.copyDestination`}).
      *
      * @param rootPath The new destination root path.
-     * @param skipEnvironment A value indicating whether `this.env.cwd` and the current working directory shouldn't be changed.
+     * @param skipEnvironment A value indicating whether {@link Environment.cwd `this.env.cwd`} and the current working directory shouldn't be changed.
      */
     destinationRoot(rootPath?: string, skipEnvironment?: boolean): string;
 
@@ -555,18 +547,18 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
 
     /**
      * Adds an option to the set of generator expected options, only used to generate generator usage.
-     * By default, generators get all the cli options parsed by nopt as a `this.options` hash object.
+     * By default, generators get all the cli options parsed by nopt as a {@link Generator.options `this.options`} hash object.
      *
      * @param name The name of the option.
      * @param config The configuration of the option.
      * @returns This generator
      */
-    option(name: string, config: Generator.OptionConfig): this;
+    option(name: string, config?: Generator.OptionConfig): this;
 
     /**
      * Prompt user to answer questions.
      */
-    prompt<T>(questions: Generator.Questions<T>): Promise<T>;
+    prompt<T extends InquirerAnswers>(questions: Generator.Questions<T>): Promise<T>;
 
     /**
      * Queues the basic tasks of the generator.
@@ -604,23 +596,31 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
     queueTaskGroup(taskGroup: Record<string, (...args: any[]) => any>, taskOptions?: Generator.TaskOptions): void;
 
     /**
+     * Adds a transform stream to the commit stream.
+     *
+     * @param stream An array of transform streams or a single one.
+     */
+    queueTransformStream(stream: Transform | Transform[]): this;
+
+    /**
+     * Registers the specified {@link priorities `priorities`}.
+     *
+     * @param priorities
+     * The priorities to register.
+     */
+    registerPriorities(priorities: Generator.Priority[]): void;
+
+    /**
      * Registers stored config prompts and optional option alternatives.
      *
      * @param questions
      * The questions to register.
      */
-    registerConfigPrompts<TAnswers>(
+    registerConfigPrompts<TAnswers extends InquirerAnswers>(
         questions:
             | Generator.QuestionRegistrationOptions<TAnswers>
             | Array<Generator.QuestionRegistrationOptions<TAnswers>>,
     ): void;
-
-    /**
-     * Adds a transform stream to the commit stream.
-     *
-     * @param stream An array of transform streams or a single one.
-     */
-    registerTransformStream(stream: Transform | Transform[]): this;
 
     /**
      * Determines the root generator name (the one who's extending this generator).
@@ -685,7 +685,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * this.fs.copy(this.destinationPath(from), this.destinationPath(to))
      * ```
      */
-    copyDestination: Editor['copy'];
+    copyDestination: Editor["copy"];
 
     /**
      * Copy file from templates folder to destination folder.
@@ -695,7 +695,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * this.fs.copy(this.templatePath(from), this.destinationPath(to))
      * ```
      */
-    copyTemplate: Editor['copy'];
+    copyTemplate: Editor["copy"];
 
     /**
      * Deletes file from destination folder.
@@ -705,7 +705,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * this.fs.delete(this.destinationPath(filepath))
      * ```
      */
-    deleteDestination: Editor['delete'];
+    deleteDestination: Editor["delete"];
 
     /**
      * Checks whether a file exists in the destination folder.
@@ -715,7 +715,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * this.fs.exists(this.destinationPath(filepath))
      * ```
      */
-    existsDestination: Editor['exists'];
+    existsDestination: Editor["exists"];
 
     /**
      * Move file from destination folder to another destination folder.
@@ -725,7 +725,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * this.fs.move(this.destinationPath(from), this.destinationPath(to))
      * ```
      */
-    moveDestination: Editor['move'];
+    moveDestination: Editor["move"];
 
     /**
      * Read file from destination folder.
@@ -735,7 +735,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * this.fs.read(this.destinationPath(filepath))
      * ```
      */
-    readDestination: Editor['read'];
+    readDestination: Editor["read"];
 
     /**
      * Read JSON file from destination folder.
@@ -745,7 +745,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * this.fs.readJSON(this.destinationPath(filepath))
      * ```
      */
-    readDestinationJSON: Editor['readJSON'];
+    readDestinationJSON: Editor["readJSON"];
 
     /**
      * Read file from templates folder.
@@ -755,13 +755,13 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * this.fs.read(this.templatePath(filepath))
      * ```
      */
-    readTemplate: Editor['read'];
+    readTemplate: Editor["read"];
 
     /**
      * Copies a template from templates folder to the destination.
      *
-     * @param source The template file, absolute or relative to `templatePath()`.
-     * @param destination The destination, absolute or relative to `destinationPath()`.
+     * @param source The template file, absolute or relative to {@link Generator.templatePath `templatePath()`}.
+     * @param destination The destination, absolute or relative to {@link Generator.destinationPath `destinationPath()`}.
      * @param templateData The `ejs`-data or the name of the storage-key to get the data from.
      * @param templateOptions The `ejs`-options.
      * @param copyOptions The `mem-fs-editor` copy options.
@@ -793,7 +793,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * this.fs.write(this.destinationPath(filepath))
      * ```
      */
-    writeDestination: Editor['write'];
+    writeDestination: Editor["write"];
 
     /**
      * Write json file to destination folder
@@ -803,7 +803,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * this.fs.writeJSON(this.destinationPath(filepath))
      * ```
      */
-    writeDestinationJSON: Editor['writeJSON'];
+    writeDestinationJSON: Editor["writeJSON"];
 
     // actions/help mixin
     /**
@@ -814,7 +814,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
     argumentsHelp(): string;
 
     /**
-     * Sets a custom `description` for the help output.
+     * Sets a custom {@link description `description`} for the help output.
      *
      * @param description The new description.
      */
@@ -857,15 +857,15 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
     // actions/install mixin
     /**
      * @deprecated
-     * Receives a list of `components` and an `options` object to install through bower.
+     * Receives a list of {@link components `components`} and an {@link options `options`} object to install through bower.
      *
      * The installation will automatically run during the run loop `install` phase.
      *
-     * @param component Components to install
+     * @param components Components to install
      * @param options Options to pass to `dargs` as arguments
-     * @param spawnOptions Options to pass `child_process.spawn`.
+     * @param spawnOptions Options to pass {@link spawn `child_process.spawn`}.
      */
-    bowerInstall(component?: string | string[], options?: object, spawnOptions?: SpawnOptions): void;
+    bowerInstall(components?: string | string[], options?: object, spawnOptions?: SpawnOptions): void;
 
     /**
      * @deprecated
@@ -883,21 +883,20 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      *   yarn: {force: true},
      *   npm: false
      * }).then(() => console.log('Everything is ready!'));
-     *
      */
     installDependencies(options?: Generator.InstallOptions): void;
 
     /**
      * @deprecated
-     * Receives a list of `packages` and an `options` object to install through npm.
+     * Receives a list of {@link packages `packages`} and an {@link options `options`} object to install through npm.
      *
      * The installation will automatically run during the run loop `install` phase.
      *
-     * @param pkgs Packages to install
+     * @param packages Packages to install
      * @param options Options to pass to `dargs` as arguments
-     * @param spawnOptions Options to pass `child_process.spawn`.
+     * @param spawnOptions Options to pass {@link spawn `child_process.spawn`}.
      */
-    npmInstall(pkgs?: string | string[], options?: object, spawnOptions?: SpawnOptions): void;
+    npmInstall(packages?: string | string[], options?: object, spawnOptions?: SpawnOptions): void;
 
     /**
      * @deprecated
@@ -909,7 +908,7 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
      * @param installer Which package manager to use
      * @param paths Packages to install. Use an empty string for `npm install`
      * @param options Options to pass to `dargs` as arguments
-     * @param spawnOptions Options to pass `child_process.spawn`.
+     * @param spawnOptions Options to pass {@link spawn `child_process.spawn`}.
      */
     scheduleInstallTask(
         installer: string,
@@ -920,15 +919,15 @@ declare class Generator<T extends Generator.GeneratorOptions = Generator.Generat
 
     /**
      * @deprecated
-     * Receives a list of `packages` and an `options` object to install through npm.
+     * Receives a list of {@link packages `packages`} and an {@link options `options`} object to install through npm.
      *
      * The installation will automatically run during the run loop `install` phase.
      *
-     * @param pkgs Packages to install
+     * @param packages Packages to install
      * @param options Options to pass to `dargs` as arguments
-     * @param spawnOptions Options to pass `child_process.spawn`.
+     * @param spawnOptions Options to pass {@link spawn `child_process.spawn`}.
      */
-    yarnInstall(pkgs?: string | string[], options?: object, spawnOptions?: SpawnOptions): void;
+    yarnInstall(packages?: string | string[], options?: object, spawnOptions?: SpawnOptions): void;
 
     // actions/package.json
     /**

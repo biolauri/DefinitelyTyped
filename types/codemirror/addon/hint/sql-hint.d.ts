@@ -1,6 +1,6 @@
-import './show-hint';
+import "./show-hint";
 
-declare module '../../' {
+declare module "../../" {
     interface HintHelpers {
         sql: HintFunction;
     }
@@ -10,8 +10,11 @@ declare module '../../' {
     }
 
     interface ShowHintOptions {
-        tables?: ReadonlyArray<string | { text: string, columns: string[] }> | Record<string, string[] | { columns: string[] }>;
-        defaultTable?: string;
-        disableKeywords?: boolean;
+        tables?:
+            | ReadonlyArray<string | { text: string; columns: string[] }>
+            | Record<string, string[] | { columns: string[] }>
+            | undefined;
+        defaultTable?: string | undefined;
+        disableKeywords?: boolean | undefined;
     }
 }

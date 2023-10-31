@@ -1,23 +1,16 @@
-// Type definitions for angular-localForage 1.2.2
-// Project: https://github.com/ocombe/angular-localForage
-// Definitions by: Stefan Steinhart <https://github.com/reppners>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.3
-
 /// <reference types="localforage" />
 /// <reference types="angular" />
 
-import * as angular from 'angular';
+import * as angular from "angular";
 
-declare module 'angular' {
+declare module "angular" {
     export namespace localForage {
-
         interface LocalForageConfig {
-            driver?: string;
-            name?: string | number;
-            version?: number;
-            storeName?: string;
-            description?: string;
+            driver?: string | undefined;
+            name?: string | number | undefined;
+            version?: number | undefined;
+            storeName?: string | undefined;
+            description?: string | undefined;
         }
 
         interface ILocalForageProvider {
@@ -55,8 +48,8 @@ declare module 'angular' {
             bind($scope: angular.IScope, config: {
                 key: string;
                 defaultValue?: any;
-                scopeKey?: string;
-                name?: string;
+                scopeKey?: string | undefined;
+                name?: string | undefined;
             }): angular.IPromise<any>;
 
             unbind($scope: angular.IScope, key: string, scopeKey?: string): void;

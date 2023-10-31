@@ -1,5 +1,5 @@
-import { DisposeFn, GraphQLTaggedNode, OperationType, VariablesOf, IEnvironment } from 'relay-runtime';
-import { LoadQueryOptions, PreloadableConcreteRequest, PreloadedQuery } from './EntryPointTypes';
+import { DisposeFn, GraphQLTaggedNode, IEnvironment, OperationType, VariablesOf } from "relay-runtime";
+import { LoadQueryOptions, PreloadableConcreteRequest, PreloadedQuery } from "./EntryPointTypes";
 
 export type useQueryLoaderHookType<TQuery extends OperationType> = [
     PreloadedQuery<TQuery> | null | undefined,
@@ -7,9 +7,11 @@ export type useQueryLoaderHookType<TQuery extends OperationType> = [
     DisposeFn,
 ];
 
-export type UseQueryLoaderLoadQueryOptions = LoadQueryOptions & Readonly<{
-    __environment?: IEnvironment | null,
-}>;
+export type UseQueryLoaderLoadQueryOptions =
+    & LoadQueryOptions
+    & Readonly<{
+        __environment?: IEnvironment | null | undefined;
+    }>;
 
 export function useQueryLoader<TQuery extends OperationType>(
     preloadableRequest: GraphQLTaggedNode | PreloadableConcreteRequest<TQuery>,

@@ -1,27 +1,23 @@
-// Type definitions for react-tagcloud v1.1.0
-// Project: https://github.com/madox2/react-tagcloud
-// Definitions by: wassname <https://github.com/wassname>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.8
-
-///<reference types="react"/>
+/// <reference types="react"/>
 
 declare namespace ReactTagCloud {
-    interface TagCloudProps extends React.Props<void> {
+    interface TagCloudProps {
+        children?: React.ReactNode;
+        ref?: React.LegacyRef<void> | undefined;
         tags: any[];
         maxSize: number;
         minSize: number;
-        shuffle?: boolean;
-        colorOptions?: object;
-        renderer?: Function;
-        className?: string;
-        onClick?: Function;
-        disableRandomColor?: boolean;
+        shuffle?: boolean | undefined;
+        colorOptions?: object | undefined;
+        renderer?: Function | undefined;
+        className?: string | undefined;
+        onClick?: Function | undefined;
+        disableRandomColor?: boolean | undefined;
     }
-    interface TagCloudClass extends React.ComponentClass<TagCloudProps> { }
+    interface TagCloudClass extends React.ComponentClass<TagCloudProps> {}
 
     interface DefaultRendererFactoryOptions {
-        tagRenderer?: Function;
+        tagRenderer?: Function | undefined;
         colorOptions?: any;
         props?: any;
     }
@@ -29,18 +25,17 @@ declare namespace ReactTagCloud {
         (tag: any, size: number, key: string | number, handlers: any): any;
     }
     interface DefaultRendererFactory {
-        new (_ref?: DefaultRendererFactoryOptions): RendererFunction;
+        new(_ref?: DefaultRendererFactoryOptions): RendererFunction;
         (_ref?: DefaultRendererFactoryOptions): RendererFunction;
     }
 }
 
-
 // export = TagCloud
-declare module reactTagCloud {
+declare namespace reactTagCloud {
     const TagCloud: ReactTagCloud.TagCloudClass;
     const DefaultRenderer: ReactTagCloud.DefaultRendererFactory;
 }
 
 declare module "react-tagcloud" {
-    export = reactTagCloud
+    export = reactTagCloud;
 }

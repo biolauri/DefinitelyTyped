@@ -1,10 +1,4 @@
-// Type definitions for airbnb-prop-types 2.13
-// Project: https://github.com/airbnb/prop-types
-// Definitions by: Miles Johnson <https://github.com/milesj>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 3.0
-
-import * as PropTypes from 'prop-types';
+import * as PropTypes from "prop-types";
 
 export interface ReactComponentLike {
     setState(...args: any[]): any;
@@ -17,7 +11,7 @@ export interface ReactComponentLike {
 }
 
 export interface ReactClassComponentLike {
-    new (...args: any[]): ReactComponentLike;
+    new(...args: any[]): ReactComponentLike;
 }
 
 export type ReactFunctionComponentLike = (...args: any[]) => PropTypes.ReactNodeLike;
@@ -31,8 +25,8 @@ export interface ReactRefLike<T> {
 export type ReactLegacyRefLike<T> = ((instance: T | null) => void) | ReactRefLike<T>;
 
 export interface Specifier<T = any> {
-    max?: number;
-    min?: number;
+    max?: number | undefined;
+    min?: number | undefined;
     validator: PropTypes.Validator<T>;
 }
 
@@ -57,10 +51,10 @@ export function and<T>(
 ): PropTypes.Requireable<T>;
 
 export function between(options: {
-    lt?: number;
-    lte?: number;
-    gt?: number;
-    gte?: number;
+    lt?: number | undefined;
+    lte?: number | undefined;
+    gt?: number | undefined;
+    gte?: number | undefined;
 }): PropTypes.Requireable<number>;
 
 export function booleanSome(...props: string[]): PropTypes.Requireable<boolean>;

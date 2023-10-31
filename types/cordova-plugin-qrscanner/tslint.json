@@ -1,16 +1,10 @@
 {
-    "extends": "dtslint/dt.json",
+    "extends": "@definitelytyped/dtslint/dt.json",
     "rules": {
-        "dt-header": false,
         "jsdoc-format": false,
-        "max-line-length": false,
-        "no-consecutive-blank-lines": false,
         "no-duplicate-variable": false,
-        "no-padding": false,
         "no-redundant-jsdoc-2": false,
         "no-var-keyword": false,
-        "prefer-const": false,
-        "semicolon": false,
-        "trim-file": false
+        "prefer-const": false
     }
 }

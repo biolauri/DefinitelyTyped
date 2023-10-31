@@ -1,9 +1,3 @@
-// Type definitions for set-value 4.0
-// Project: https://github.com/jonschlinkert/set-value
-// Definitions by: Daniel Rosenwasser <https://github.com/DanielRosenwasser>
-//                 Piotr Błażejewicz <https://github.com/DanielRosenwasser>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 export = set;
 
 // Technically, everything will fall to the last overload,
@@ -28,21 +22,21 @@ declare namespace set {
          * Note that this option cannot be used if `options.separator` is set to `/`.
          * @default true
          */
-        preservePaths?: boolean;
+        preservePaths?: boolean | undefined;
         /**
          * Custom separator to use for splitting object paths.
          * @default `.`
          */
-        separator?: string;
+        separator?: string | undefined;
         /**
          * Custom `.split()` function to use.
          */
-        split?: SplitFunc;
+        split?: SplitFunc | undefined;
         /**
          * Allows you to update plain object values, instead of overwriting them.
          * @default  `undefined`
          */
-        merge?: boolean | MergeFunc;
+        merge?: boolean | MergeFunc | undefined;
     }
 
     type InputType = string | symbol | ReadonlyArray<string | symbol>;

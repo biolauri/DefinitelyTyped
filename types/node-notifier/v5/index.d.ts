@@ -1,13 +1,8 @@
-// Type definitions for node-notifier 5.4.0
-// Project: https://github.com/mikaelbr/node-notifier
-// Definitions by: Qubo <https://github.com/tkQubo>
-//                 Lorenzo Rapetti <https://github.com/loryman>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 /// <reference types="node" />
 
+// eslint-disable-next-line @definitelytyped/no-declare-current-package
 declare module "node-notifier" {
-    import NotificationCenter = require('node-notifier/notifiers/notificationcenter');
+    import NotificationCenter = require("node-notifier/notifiers/notificationcenter");
     import NotifySend = require("node-notifier/notifiers/notifysend");
     import WindowsToaster = require("node-notifier/notifiers/toaster");
     import WindowsBalloon = require("node-notifier/notifiers/balloon");
@@ -17,19 +12,19 @@ declare module "node-notifier" {
         interface NodeNotifier extends NodeJS.EventEmitter {
             notify(
                 notification?: NotificationCenter.Notification,
-                callback?: NotificationCallback
+                callback?: NotificationCallback,
             ): NotificationCenter;
             notify(
                 notification?: WindowsToaster.Notification,
-                callback?: NotificationCallback
+                callback?: NotificationCallback,
             ): WindowsToaster;
             notify(
                 notification?: WindowsBalloon.Notification,
-                callback?: NotificationCallback
+                callback?: NotificationCallback,
             ): WindowsBalloon;
             notify(
                 notification?: NotifySend.Notification,
-                callback?: NotificationCallback
+                callback?: NotificationCallback,
             ): NotifySend;
             notify(notification?: Growl.Notification, callback?: NotificationCallback): Growl;
             notify(notification?: Notification, callback?: NotificationCallback): NodeNotifier;
@@ -42,33 +37,33 @@ declare module "node-notifier" {
         }
 
         interface Notification {
-            title?: string;
-            message?: string;
+            title?: string | undefined;
+            message?: string | undefined;
             /** Absolute path (not balloons) */
-            icon?: string;
+            icon?: string | undefined;
             /** Wait with callback until user action is taken on notification */
-            wait?: boolean;
+            wait?: boolean | undefined;
         }
 
         interface NotificationMetadata {
-            activationType?: string;
-            activationAt?: string;
-            deliveredAt?: string;
-            activationValue?: string;
-            activationValueIndex?: string;
-          }
+            activationType?: string | undefined;
+            activationAt?: string | undefined;
+            deliveredAt?: string | undefined;
+            activationValue?: string | undefined;
+            activationValueIndex?: string | undefined;
+        }
 
-          interface NotificationCallback {
+        interface NotificationCallback {
             (
-              err: Error | null,
-              response: string,
-              metadata?: NotificationMetadata,
+                err: Error | null,
+                response: string,
+                metadata?: NotificationMetadata,
             ): void;
-          }
+        }
 
         interface Option {
-            withFallback?: boolean;
-            customPath?: string;
+            withFallback?: boolean | undefined;
+            customPath?: string | undefined;
         }
     }
 
@@ -77,12 +72,16 @@ declare module "node-notifier" {
     export = nodeNotifier;
 }
 
+// eslint-disable-next-line @definitelytyped/no-declare-current-package
 declare module "node-notifier/notifiers/notificationcenter" {
-    import notifier = require('node-notifier');
+    import notifier = require("node-notifier");
 
     class NotificationCenter {
         constructor(option?: notifier.Option);
-        notify(notification?: NotificationCenter.Notification, callback?: notifier.NotificationCallback): NotificationCenter;
+        notify(
+            notification?: NotificationCenter.Notification,
+            callback?: notifier.NotificationCallback,
+        ): NotificationCenter;
     }
 
     namespace NotificationCenter {
@@ -90,36 +89,37 @@ declare module "node-notifier/notifiers/notificationcenter" {
             /**
              * Case Sensitive string for location of sound file, or use one of macOS' native sounds.
              */
-            sound?: boolean | string;
-            subtitle?: string;
+            sound?: boolean | string | undefined;
+            subtitle?: string | undefined;
             /** Attach image? (Absolute path) */
-            contentImage?: string;
+            contentImage?: string | undefined;
             /** URL to open on click */
-            open?: string;
+            open?: string | undefined;
             /**
              * The amount of seconds before the notification closes.
              * Takes precedence over wait if both are defined.
              */
-            timeout?: number;
+            timeout?: number | undefined;
             /** Label for cancel button */
-            closeLabel?: string;
+            closeLabel?: string | undefined;
             /** Action label or list of labels in case of dropdown. */
-            actions?: string | string[];
+            actions?: string | string[] | undefined;
             /** Label to be used if there are multiple actions */
-            dropdownLabel?: string;
+            dropdownLabel?: string | undefined;
             /**
              * If notification should take input.
              * Value passed as third argument in callback and event emitter.
              */
-            reply?: boolean;
+            reply?: boolean | undefined;
         }
     }
 
     export = NotificationCenter;
 }
 
+// eslint-disable-next-line @definitelytyped/no-declare-current-package
 declare module "node-notifier/notifiers/notifysend" {
-    import notifier = require('node-notifier');
+    import notifier = require("node-notifier");
 
     class NotifySend {
         constructor(option?: notifier.Option);
@@ -128,25 +128,26 @@ declare module "node-notifier/notifiers/notifysend" {
 
     namespace NotifySend {
         interface Notification {
-            title?: string;
-            message?: string;
-            icon?: string;
+            title?: string | undefined;
+            message?: string | undefined;
+            icon?: string | undefined;
             /** Specifies the urgency level  (low,  normal,  critical). */
-            urgency?: string;
+            urgency?: string | undefined;
             /** Specifies  the  timeout  in  milliseconds at which to expire the notification */
-            time?: number;
+            time?: number | undefined;
             /** Specifies the notification category */
-            category?: string;
+            category?: string | undefined;
             /** Specifies basic extra data to pass. Valid types are int, double, string and byte. */
-            hint?: string;
+            hint?: string | undefined;
         }
     }
 
     export = NotifySend;
 }
 
+// eslint-disable-next-line @definitelytyped/no-declare-current-package
 declare module "node-notifier/notifiers/toaster" {
-    import notifier = require('node-notifier');
+    import notifier = require("node-notifier");
 
     class WindowsToaster {
         constructor(option?: notifier.Option);
@@ -158,26 +159,27 @@ declare module "node-notifier/notifiers/toaster" {
             /**
              * Defined by http://msdn.microsoft.com/en-us/library/windows/apps/hh761492.aspx
              */
-            sound?: boolean | string;
+            sound?: boolean | string | undefined;
             /** ID to use for closing notification. */
-            id?: number;
+            id?: number | undefined;
             /** App.ID and app Name. Defaults to no value, causing SnoreToast text to be visible. */
-            appID?: string;
+            appID?: string | undefined;
             /** Refer to previously created notification to close. */
-            remove?: number;
+            remove?: number | undefined;
             /**
              * Creates a shortcut <path> in the start menu which point to the
              * executable <application>, appID used for the notifications.
-            */
-            install?: string;
+             */
+            install?: string | undefined;
         }
     }
 
     export = WindowsToaster;
 }
 
+// eslint-disable-next-line @definitelytyped/no-declare-current-package
 declare module "node-notifier/notifiers/growl" {
-    import notifier = require('node-notifier');
+    import notifier = require("node-notifier");
 
     class Growl {
         constructor(option?: Growl.Option);
@@ -186,26 +188,27 @@ declare module "node-notifier/notifiers/growl" {
 
     namespace Growl {
         interface Option {
-            name?: string;
-            host?: string;
-            port?: number;
+            name?: string | undefined;
+            host?: string | undefined;
+            port?: number | undefined;
         }
 
         interface Notification extends notifier.Notification {
             /** whether or not to sticky the notification (defaults to false) */
-            sticky?: boolean;
+            sticky?: boolean | undefined;
             /** type of notification to use (defaults to the first registered type) */
-            label?: string;
+            label?: string | undefined;
             /** the priority of the notification from lowest (-2) to highest (2) */
-            priority?: number;
+            priority?: number | undefined;
         }
     }
 
     export = Growl;
 }
 
+// eslint-disable-next-line @definitelytyped/no-declare-current-package
 declare module "node-notifier/notifiers/balloon" {
-    import notifier = require('node-notifier');
+    import notifier = require("node-notifier");
 
     class WindowsBalloon {
         constructor(option?: notifier.Option);
@@ -214,14 +217,14 @@ declare module "node-notifier/notifiers/balloon" {
 
     namespace WindowsBalloon {
         interface Notification {
-            title?: string;
-            message?: string;
+            title?: string | undefined;
+            message?: string | undefined;
             /** How long to show balloons in ms */
-            time?: number;
+            time?: number | undefined;
             /** Wait with callback until user action is taken on notification */
-            wait?: boolean;
+            wait?: boolean | undefined;
             /** The notification type */
-            type?: 'info' | 'warn' | 'error';
+            type?: "info" | "warn" | "error" | undefined;
         }
     }
 

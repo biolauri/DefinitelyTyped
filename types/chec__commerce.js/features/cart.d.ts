@@ -1,9 +1,10 @@
-import Commerce = require('@chec/commerce.js');
-import { LineItem } from '../types/line-item';
-import { Cart as CartType } from '../types/cart';
-import { Price } from '../types/price';
+import Commerce = require("@chec/commerce.js");
+import { Asset } from "../types/asset";
+import { Cart as CartType } from "../types/cart";
+import { LineItem } from "../types/line-item";
+import { Price } from "../types/price";
 
-export type RequestMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
+export type RequestMethod = "get" | "post" | "put" | "patch" | "delete";
 
 export interface AddUpdateResponse {
     success: boolean;
@@ -14,6 +15,7 @@ export interface AddUpdateResponse {
     quantity: number;
     line_total: Price;
     cart: CartType;
+    image: Asset | null;
 }
 
 export interface RemoveResponse {

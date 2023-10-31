@@ -1,12 +1,12 @@
-import './show-hint';
+import "./show-hint";
 
-declare module '../../' {
+declare module "../../" {
     interface HintHelpers {
         anyword: HintFunction;
     }
 
     interface ShowHintOptions {
-        word?: RegExp;
-        range?: number;
+        word?: RegExp | undefined;
+        range?: number | undefined;
     }
 }

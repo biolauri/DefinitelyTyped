@@ -1,8 +1,8 @@
 {
-    "extends": "dtslint/dt.json",
+    "extends": "@definitelytyped/dtslint/dt.json",
     "rules": {
         "no-void-expression": false,
         "only-arrow-functions": false,
-        "npm-naming": [true,{"mode":"code","errors":[["NeedsExportEquals",false]]}]
+        "npm-naming": [true, { "mode": "code", "errors": [["NeedsExportEquals", false]] }]
     }
 }

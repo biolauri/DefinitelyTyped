@@ -1,16 +1,39 @@
-interface TInputs { inputString?: string; }
-interface TOutputs { testString: string; }
+import * as React from "react";
+
+interface TInputs {
+    inputString?: string | undefined;
+}
+interface TOutputs {
+    testString: string;
+}
 
 class TestControl implements ComponentFramework.StandardControl<TInputs, TOutputs> {
-    init(context: ComponentFramework.Context<TInputs>, notifyOutputChanged?: () => void, state?: ComponentFramework.Dictionary, container?: HTMLDivElement) {
+    init(
+        context: ComponentFramework.Context<TInputs>,
+        notifyOutputChanged?: () => void,
+        state?: ComponentFramework.Dictionary,
+        container?: HTMLDivElement,
+    ) {}
+    updateView(context: ComponentFramework.Context<TInputs>) {}
+    destroy() {}
+    getOutputs() {
+        return {
+            testString: "",
+        };
+    }
+}
+
+class TestReactControl implements ComponentFramework.ReactControl<TInputs, TOutputs> {
+    init(context: ComponentFramework.Context<TInputs>, notifyOutputChanged?: () => void) {
     }
     updateView(context: ComponentFramework.Context<TInputs>) {
+        return React.createElement("div", { id: "test-id" });
     }
     destroy() {
     }
     getOutputs() {
         return {
-            testString: '',
+            testString: "",
         };
     }
 }
@@ -18,16 +41,16 @@ class TestControl implements ComponentFramework.StandardControl<TInputs, TOutput
 const clientTest: ComponentFramework.Client = {
     disableScroll: false,
     getFormFactor: () => 1,
-    getClient: () => '',
-    isOffline: () => false
+    getClient: () => "",
+    isOffline: () => false,
 };
 
-const tmpFile: ComponentFramework.FileObject = { fileContent: '', fileName: '', fileSize: 0, mimeType: '' };
+const tmpFile: ComponentFramework.FileObject = { fileContent: "", fileName: "", fileSize: 0, mimeType: "" };
 const deviceTest: ComponentFramework.Device = {
     captureAudio: () => Promise.resolve(tmpFile),
     captureImage: () => Promise.resolve(tmpFile),
     captureVideo: () => Promise.resolve(tmpFile),
-    getBarcodeValue: () => Promise.resolve(''),
+    getBarcodeValue: () => Promise.resolve(""),
 
     getCurrentPosition: () =>
         Promise.resolve({
@@ -56,7 +79,8 @@ const formattingTest: ComponentFramework.Formatting = {
     formatDateYearMonth: (value: Date) => value.toString(),
     formatInteger: (value: number) => value.toString(),
     formatLanguage: (value: number) => value.toString(),
-    formatTime: (value: Date, behavior: ComponentFramework.FormattingApi.Types.DateTimeFieldBehavior) => value.toString(),
+    formatTime: (value: Date, behavior: ComponentFramework.FormattingApi.Types.DateTimeFieldBehavior) =>
+        value.toString(),
     getWeekOfYear: (value: Date) => 0,
 };
 
@@ -65,37 +89,37 @@ const modeTest: ComponentFramework.Mode = {
     allocatedWidth: -1,
     isControlDisabled: false,
     isVisible: true,
-    label: '',
+    label: "",
     setControlState: (state: ComponentFramework.Dictionary) => false,
     setFullScreen: (value: boolean) => null,
-    trackContainerResize: (value: boolean) => null
+    trackContainerResize: (value: boolean) => null,
 };
 
 const resourcesTest: ComponentFramework.Resources = {
     getResource: (id: string, success: (data: string) => void, failure: () => void) => {},
-    getString: (id: string) => ''
+    getString: (id: string) => "",
 };
 
-const dictionary: ComponentFramework.Dictionary = { testKey: '' };
+const dictionary: ComponentFramework.Dictionary = { testKey: "" };
 
 const dataSetApiColumn: ComponentFramework.PropertyHelper.DataSetApi.Column = {
-    name: '',
-    displayName: '',
-    dataType: '',
-    alias: '',
+    name: "",
+    displayName: "",
+    dataType: "",
+    alias: "",
     order: 1,
     visualSizeFactor: 1,
     isHidden: false,
     isPrimary: true,
-    disableSorting: false
+    disableSorting: false,
 };
 
 const linkEntityExposeExpression: ComponentFramework.PropertyHelper.DataSetApi.LinkEntityExposedExpression = {
-    name: '',
-    from: '',
-    to: '',
-    linkType: '',
-    alias: ''
+    name: "",
+    from: "",
+    to: "",
+    linkType: "",
+    alias: "",
 };
 
 enum ImeMode {
@@ -112,60 +136,74 @@ enum DateTimeFieldBehavior {
 }
 
 const stringMetadataTest: ComponentFramework.PropertyHelper.FieldPropertyMetadata.DateTimeMetadata = {
-    DisplayName: '',
-    LogicalName: '',
+    DisplayName: "",
+    LogicalName: "",
     RequiredLevel: 0,
     IsSecured: false,
     SourceType: 0,
-    Description: '',
+    Description: "",
     ImeMode: ImeMode.Inactive,
-    Format: '',
+    Format: "",
     Behavior: DateTimeFieldBehavior.TimeZoneIndependent,
 };
 
 const EntityReferenceTest: ComponentFramework.EntityReference = {
-    id: { guid: '' },
-    etn: '',
-    name: '',
+    id: { guid: "" },
+    etn: "",
+    name: "",
 };
 
 const metadataTest: ComponentFramework.PropertyHelper.FieldPropertyMetadata.Metadata = {
-    DisplayName: '',
-    LogicalName: '',
+    DisplayName: "",
+    LogicalName: "",
     RequiredLevel: -1,
     IsSecured: false,
     SourceType: 0,
-    Description: '',
+    Description: "",
 };
 
 const propertyTest: ComponentFramework.PropertyTypes.Property = {
     error: false,
-    errorMessage: '',
-    formatted: '',
-    raw: '',
-    type: '',
+    errorMessage: "",
+    formatted: "",
+    raw: "",
+    type: "",
     attributes: metadataTest,
 };
 
 const lookupValueTest: ComponentFramework.LookupValue = {
-    id: '',
-    name: '',
-    entityType: '',
+    id: "",
+    name: "",
+    entityType: "",
 };
 
 const lookupPropertyTest: ComponentFramework.PropertyTypes.LookupProperty = {
     error: false,
-    errorMessage: '',
-    type: '',
+    errorMessage: "",
+    type: "",
     raw: [lookupValueTest],
-    getTargetEntityType: () => '',
-    getViewId: () => '',
+    getTargetEntityType: () => "",
+    getViewId: () => "",
 };
 
 const webApiTest: ComponentFramework.WebApi = {
     createRecord: () => Promise.resolve(lookupValueTest),
     updateRecord: () => Promise.resolve(lookupValueTest),
     deleteRecord: () => Promise.resolve(lookupValueTest),
-    retrieveMultipleRecords: () => Promise.resolve({ entities: [], nextLink: '' }),
+    retrieveMultipleRecords: () => Promise.resolve({ entities: [], nextLink: "" }),
     retrieveRecord: () => Promise.resolve({}),
+};
+
+const pagingTest: ComponentFramework.PropertyHelper.DataSetApi.Paging = {
+    totalResultCount: 1000,
+    firstPageNumber: 4,
+    lastPageNumber: 4,
+    pageSize: 20,
+    hasNextPage: true,
+    hasPreviousPage: true,
+    loadNextPage: (loadOnlyNewPage?: boolean) => {},
+    loadPreviousPage: (loadOnlyNewPage?: boolean) => {},
+    reset: () => {},
+    setPageSize: (pageSize: number) => {},
+    loadExactPage: (pageNumber: number) => {},
 };

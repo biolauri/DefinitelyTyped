@@ -1,9 +1,10 @@
-import { Merchant } from './merchant';
-import { Extrafield } from './extrafield';
-import { ShippingMethod } from './shipping-method';
-import { Live } from './live';
-import { Price } from './price';
-import { SelectedVariant } from './selected-variant';
+import { Extrafields } from "./extrafields";
+import { Gateway } from "./gateway";
+import { Live } from "./live";
+import { Merchant } from "./merchant";
+import { Price } from "./price";
+import { SelectedVariant } from "./selected-variant";
+import { ShippingMethod } from "./shipping-method";
 
 export interface CheckoutToken {
     id: string;
@@ -39,62 +40,8 @@ export interface CheckoutToken {
     };
     line_items: CheckoutTokenLineItem[];
     merchant: Merchant;
-    extra_fields: Extrafield[];
-    gateways: {
-        available: {
-            test_gateway: boolean;
-            stripe: boolean;
-            square: boolean;
-            paypal: boolean;
-            paymill: boolean;
-            razorpay: boolean;
-            manual: boolean;
-        };
-        available_count: number;
-        test_gateway?: {
-            type: string;
-            settings: any;
-        };
-        stripe?: {
-            type: string;
-            settings: {
-                publishable_key: string;
-            };
-            cards_accepted: string[];
-        };
-        square?: {
-            type: string;
-            settings: {
-                application_id: string;
-                square_merchant_id: string;
-            };
-            cards_accepted: string[];
-        };
-        paypal?: {
-            type: string;
-            settings: {
-                email: string;
-            };
-        };
-        paymill?: {
-            type: string;
-            settings: {
-                public_key: string;
-            };
-            cards_accepted: string[];
-        };
-        razorpay?: {
-            type: string;
-            settings: {
-                key_id: string;
-            };
-        };
-        manual?: Array<{
-            id: string;
-            name: string;
-            details: any;
-        }>;
-    };
+    extra_fields: Extrafields;
+    gateways: Gateway[];
     shipping_methods: ShippingMethod[];
     live: Live;
 }

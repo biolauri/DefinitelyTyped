@@ -1,9 +1,3 @@
-// Type definitions for non-npm package chayns 3.1
-// Project: https://github.com/TobitSoftware/chayns-js
-// Definitions by: Henning Kuehl <https://github.com/HenningKuehl>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.4
-
 /**
  * Definition file for chayns v3.1
  */
@@ -11,7 +5,6 @@ declare namespace chayns {
     /**
      * Getting Started
      * chayns
-     *
      */
     let ready: Promise<any>;
 
@@ -47,7 +40,11 @@ declare namespace chayns {
 
     function removeNfcCallback(): Promise<any>;
 
-    function startNfcDetection(callback: (result: NfcDetectionResult) => any, interval: number, vibrate: boolean): Promise<any>;
+    function startNfcDetection(
+        callback: (result: NfcDetectionResult) => any,
+        interval: number,
+        vibrate: boolean,
+    ): Promise<any>;
 
     function stopNfcDetection(): Promise<any>;
 
@@ -73,7 +70,7 @@ declare namespace chayns {
 
     function getBaseColor(color?: string, colorMode?: number): string;
 
-    function share(config: ShareConfig): Promise<any>;        // TODO interface for promise result
+    function share(config: ShareConfig): Promise<any>; // TODO interface for promise result
 
     function getAvailableSharingServices(): Promise<number[]>;
 
@@ -99,9 +96,9 @@ declare namespace chayns {
 
     function scrollToY(position: number): Promise<any>;
 
-    function addToWallet(passbook: string): Promise<any>;        // TODO check passbock parameter
+    function addToWallet(passbook: string): Promise<any>; // TODO check passbock parameter
 
-    function addScrollListener(callback: (data: any) => any, throttle?: number): Promise<any>;        // TODO interface for callback data
+    function addScrollListener(callback: (data: any) => any, throttle?: number): Promise<any>; // TODO interface for callback data
 
     function setScreenOrientation(orientation: number): Promise<any>;
 
@@ -161,11 +158,11 @@ declare namespace chayns {
      * chayns.intercom
      */
     namespace intercom {
-        function sendMessageToUser(userId: number, config: IntercomConfig): Promise<any>;        // TODO set interface for promise result
+        function sendMessageToUser(userId: number, config: IntercomConfig): Promise<any>; // TODO set interface for promise result
 
-        function sendMessageToGroup(groupId: number, config: IntercomConfig): Promise<any>;    // TODO set interface for promise result
+        function sendMessageToGroup(groupId: number, config: IntercomConfig): Promise<any>; // TODO set interface for promise result
 
-        function sendMessageToPage(config: IntercomConfig): Promise<any>;                        // TODO set interface for promise result
+        function sendMessageToPage(config: IntercomConfig): Promise<any>; // TODO set interface for promise result
     }
 
     /**
@@ -173,9 +170,9 @@ declare namespace chayns {
      * chayns.passKit
      */
     namespace passKit {
-        function getInstalled(): Promise<any>;                        // TODO interface for promise result
+        function getInstalled(): Promise<any>; // TODO interface for promise result
 
-        function isInstalled(identifier: string): Promise<any>;        // TODO interface for promise result
+        function isInstalled(identifier: string): Promise<any>; // TODO interface for promise result
     }
 
     /**
@@ -374,25 +371,25 @@ declare namespace chayns {
         enum buttonType {
             CANCEL = -1,
             NEGATIVE = 0,
-            POSITIVE = 1
+            POSITIVE = 1,
         }
 
         enum buttonText {
-            CANCEL = 'Abbrechen',
-            NO = 'Nein',
-            OK = 'OK',
-            YES = 'Ja'
+            CANCEL = "Abbrechen",
+            NO = "Nein",
+            OK = "OK",
+            YES = "Ja",
         }
 
         enum dateType {
             DATE,
             TIME,
-            DATE_TIME
+            DATE_TIME,
         }
 
         enum inputType {
             DEFAULT = 0,
-            PASSWORD = 1
+            PASSWORD = 1,
         }
 
         function alert(title: string, message?: string): Promise<buttonType>;
@@ -576,7 +573,7 @@ declare namespace chayns {
         enum accessMode {
             PUBLIC,
             PROTECTED,
-            PRIVATE
+            PRIVATE,
         }
 
         function set(key: string, value: any, accessMode?: accessMode, tappIds?: number[]): Promise<any>;
@@ -594,12 +591,12 @@ declare namespace chayns {
  */
 // chayns.register()
 interface RegisterConfig {
-    strictMode?: boolean;
-    appName?: string;
-    cssPrefix?: string;
-    callbackPrefix?: string;
-    initialHeight?: number;
-    autoResize?: boolean;
+    strictMode?: boolean | undefined;
+    appName?: string | undefined;
+    cssPrefix?: string | undefined;
+    callbackPrefix?: string | undefined;
+    initialHeight?: number | undefined;
+    autoResize?: boolean | undefined;
 }
 
 /**
@@ -609,10 +606,10 @@ interface RegisterConfig {
  */
 // chayns.getUser()
 interface GetUserConfig {
-    accessToken?: string;
-    userId?: number;
-    fbId?: string;
-    personId?: string;
+    accessToken?: string | undefined;
+    userId?: number | undefined;
+    fbId?: string | undefined;
+    personId?: string | undefined;
 }
 
 interface User {
@@ -634,11 +631,11 @@ interface UacGroup {
 // chayns.startInteractionIdentification()
 interface InteractionIdentificationConfig {
     duration: number;
-    delay?: number;
+    delay?: number | undefined;
     callback: any;
-    resetOnInteraction?: boolean;
+    resetOnInteraction?: boolean | undefined;
     foregroundColor: string;
-    backgroundColor?: string;
+    backgroundColor?: string | undefined;
 }
 
 // chayns.setNetworkChangeCallback()
@@ -655,20 +652,20 @@ interface NfcDetectionResult {
 
 // chayns.selectTapp()
 interface SelectTappConfig {
-    id?: number;
-    internalName?: string;
-    showName?: string;
-    position?: number;
+    id?: number | undefined;
+    internalName?: string | undefined;
+    showName?: string | undefined;
+    position?: number | undefined;
 }
 
 // chayns.openUrl()
 interface OpenUrlConfig {
     url: string;
-    title?: string;
-    exclusiveView?: boolean;
-    darkenBackground?: boolean;
-    fullSize?: boolean;
-    width?: number;
+    title?: string | undefined;
+    exclusiveView?: boolean | undefined;
+    darkenBackground?: boolean | undefined;
+    fullSize?: boolean | undefined;
+    width?: number | undefined;
 }
 
 // chayns.getGeoLocation()
@@ -693,17 +690,17 @@ interface BeaconHistory {
 
 // chayns.share()
 interface ShareConfig {
-    title?: string;
+    title?: string | undefined;
     text: string;
-    imageUrl?: string;
+    imageUrl?: string | undefined;
     sharingApp: number;
-    sharingAndroidApp?: string;
+    sharingAndroidApp?: string | undefined;
 }
 
 // chayns.updateNavigation()
 interface UpdateNavigationConfig {
-    stateOnly?: boolean;
-    updateTapp?: boolean;
+    stateOnly?: boolean | undefined;
+    updateTapp?: boolean | undefined;
 }
 
 // chayns.setSpeecToText()
@@ -717,15 +714,15 @@ interface SubTappConfig {
     tappID: number;
     name: string;
     color: string;
-    colorText?: string;
+    colorText?: string | undefined;
     sortID: number;
     icon: string;
     callbackURL?(result: any): any;
     url: string;
     buttonName: string;
-    isExclusiveView?: boolean;
-    replaceParent?: boolean;
-    boldText?: boolean;
+    isExclusiveView?: boolean | undefined;
+    replaceParent?: boolean | undefined;
+    boldText?: boolean | undefined;
 }
 
 // chayns.removeSubTapp()
@@ -738,9 +735,9 @@ interface RemoveSubTappConfig {
 // chayns.setHeight()
 interface SetHeightConfig {
     height: number;
-    growOnly?: boolean;
-    full?: boolean;
-    fullViewport?: boolean;
+    growOnly?: boolean | undefined;
+    full?: boolean | undefined;
+    fullViewport?: boolean | undefined;
 }
 
 // chayns.findSite()
@@ -774,9 +771,9 @@ interface DialogButton {
 // chayns.dialog.date()
 interface DialogDateConfig {
     dateType: chayns.dialog.dateType;
-    preSelect?: Date;
-    minDate?: Date;
-    maxDate?: Date;
+    preSelect?: Date | undefined;
+    minDate?: Date | undefined;
+    maxDate?: Date | undefined;
 }
 
 interface DialogDateResult {
@@ -787,18 +784,18 @@ interface DialogDateResult {
 // chayns.dialog.select()
 interface DialogSelectConfig {
     title: string;
-    message?: string;
-    quickfind?: boolean;
-    multiselect?: boolean;
-    buttons?: any[];        // TODO interface for buttons
+    message?: string | undefined;
+    quickfind?: boolean | undefined;
+    multiselect?: boolean | undefined;
+    buttons?: any[] | undefined; // TODO interface for buttons
     list: DialogSelectConfigItem[];
 }
 
 interface DialogSelectConfigItem {
     name: string;
-    value?: string;
-    image?: string;
-    isSelected?: boolean;
+    value?: string | undefined;
+    image?: string | undefined;
+    isSelected?: boolean | undefined;
 }
 
 interface DialogSelectResult {
@@ -808,16 +805,16 @@ interface DialogSelectResult {
 
 interface DialogSelectResultItem {
     name: string;
-    value?: string;
+    value?: string | undefined;
 }
 
 // chayns.dialog.input()
 interface DialogInputConfig {
     title: string;
-    message?: string;
-    placeholderText?: string;
-    text?: string;
-    buttons?: DialogButton[];
+    message?: string | undefined;
+    placeholderText?: string | undefined;
+    text?: string | undefined;
+    buttons?: DialogButton[] | undefined;
 }
 
 interface DialogInputResult {
@@ -834,14 +831,14 @@ interface DialogInputResult {
 interface ModeSwitchConfig {
     items: ModeSwitchItem[];
     callback(result: ModeSwitchItem): void;
-    headline?: string;
-    preventclose?: boolean;
+    headline?: string | undefined;
+    preventclose?: boolean | undefined;
 }
 
 interface ModeSwitchItem {
     name: string;
     value: number;
-    default?: boolean;
+    default?: boolean | undefined;
 }
 
 /**
@@ -852,10 +849,10 @@ interface ModeSwitchItem {
  */
 // chayns.showFloatingButton()
 interface FloatingConfig {
-    text?: string;
-    color?: string;
-    colorText?: string;
-    icon?: string;
+    text?: string | undefined;
+    color?: string | undefined;
+    colorText?: string | undefined;
+    icon?: string | undefined;
 }
 
 /**
@@ -899,10 +896,10 @@ interface JwtPaylod {
 // chayns.env.user.groups
 interface UserGroup {
     id: number;
-    isActive?: boolean;
-    isSystemGroup?: boolean;
+    isActive?: boolean | undefined;
+    isSystemGroup?: boolean | undefined;
     name: string;
-    showName?: string;
+    showName?: string | undefined;
 }
 
 /**
@@ -928,10 +925,10 @@ interface GlobalData {
 
 interface DialogFacebookOptions {
     title: string;
-    message?: string;
-    quickfind?: number;
-    multiselect?: number;
-    button?: DialogFacebookButton[];
+    message?: string | undefined;
+    quickfind?: number | undefined;
+    multiselect?: number | undefined;
+    button?: DialogFacebookButton[] | undefined;
     preSelected: number[]; // TODO:  Verify type
 }
 
@@ -976,98 +973,98 @@ interface AdvancedDateDialogConfig {
     /**
      * The headline of the dialog
      */
-    title?: string;
+    title?: string | undefined;
 
     /**
      * The description below the headline
      */
-    message?: string;
+    message?: string | undefined;
 
     /**
      * The buttons the user could interact with
      */
-    buttons?: any[];
+    buttons?: any[] | undefined;
 
     /**
      * The smallest possible value which the user could select
      */
-    minDate?: Date | number;
+    minDate?: Date | number | undefined;
 
     /**
      * The biggest possible value which the user could select
      */
-    maxDate?: Date | number;
+    maxDate?: Date | number | undefined;
 
     /**
      * The user can only dial e.g. every 10th minute instead of every minute.
      */
-    minuteInterval?: number;
+    minuteInterval?: number | undefined;
 
     /**
      * The date(s) which should be preselected
      */
-    preSelect?: Date | Date[] | number | number[];
+    preSelect?: Date | Date[] | number | number[] | undefined;
 
     /**
      * The user could select different dates.
      * Multiple Times are not supported
      */
-    multiselect?: boolean;
+    multiselect?: boolean | undefined;
 
     /**
      * This array defines dates which the user could not select
      */
-    disabledDates?: Date[] | number[];
+    disabledDates?: Date[] | number[] | undefined;
 
     /**
      * This Blocks could be used in DATE_TIME Dialog to be displayed between the calendar and the time select
      */
-    textBlocks?: TextBlock[];
+    textBlocks?: TextBlock[] | undefined;
 
     /**
      * Allows to select a year with an extra menu
      */
-    yearSelect?: boolean;
+    yearSelect?: boolean | undefined;
 
     /**
      * Allows to select a month with an extra menu
      */
-    monthSelect?: boolean;
+    monthSelect?: boolean | undefined;
 
     /**
      * Allows to select an interval. Can't be used with multiselect
      */
-    interval?: boolean;
+    interval?: boolean | undefined;
 
     /**
      * The min-interval the user has to select in minutes
      */
-    minInterval?: number;
+    minInterval?: number | undefined;
 
     /**
      * The max-interval the user has to select in minutes
      */
-    maxInterval?: number;
+    maxInterval?: number | undefined;
 
     /**
      * Allows to disable intervals
      */
-    disabledIntervals?: IntervalObject[];
+    disabledIntervals?: IntervalObject[] | undefined;
 
     /**
      * Allows to disable intervals for every weekday, e.g. tuesdays, 7:00-9:30
      */
-    disabledWeeDayIntervals?: any[];
+    disabledWeeDayIntervals?: any[] | undefined;
 
     /**
      * The dialog will return the timestamp in the local timezone with the date from preSelect
      */
-    getLocalTime?: boolean;
+    getLocalTime?: boolean | undefined;
 
     /**
      * The type of the dateDialog
      */
-    dateType?: chayns.dialog.dateType;
+    dateType?: chayns.dialog.dateType | undefined;
 }
 
 interface IntervalObject {
@@ -1088,12 +1085,12 @@ interface TextBlock {
     /**
      * A h2 Element
      */
-    headline?: string;
+    headline?: string | undefined;
 
     /**
      * A text which could contain html
      */
-    text?: string;
+    text?: string | undefined;
 
     /**
      * The position of the Element.

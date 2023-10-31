@@ -1,13 +1,13 @@
-import './show-hint';
+import "./show-hint";
 
-declare module '../../' {
+declare module "../../" {
     interface HintHelpers {
         xml: HintFunction;
     }
 
     interface ShowHintOptions {
         schemaInfo?: any;
-        quoteChar?: string;
-        matchInMiddle?: boolean;
+        quoteChar?: string | undefined;
+        matchInMiddle?: boolean | undefined;
     }
 }

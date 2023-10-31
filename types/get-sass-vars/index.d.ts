@@ -1,8 +1,6 @@
-// Type definitions for get-sass-vars 3.0
-// Project: https://github.com/niksy/get-sass-vars#readme
-// Definitions by: Manuel Thalmann <https://github.com/manuth>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-import { Options } from "sass";
+/// <reference types="node" />
+
+import { LegacyOptions as Options } from "sass";
 
 declare namespace sassVars {
     /**
@@ -14,12 +12,12 @@ declare namespace sassVars {
          *
          * If enabled, the leading `$` will be removed and variable-names will be camelized (e.g. $foo-bar will become fooBar).
          */
-        camelize?: boolean;
+        camelize?: boolean | undefined;
 
         /**
          * The options to pass to `sass`.
          */
-        sassOptions?: Options;
+        sassOptions?: Options<"sync"> | undefined;
     }
 }
 

@@ -1,27 +1,27 @@
-import {
-    FixedSizeList,
-    VariableSizeList,
-    FixedSizeGrid,
-    VariableSizeGrid,
-    ListChildComponentProps,
-    areEqual,
-    shouldComponentUpdate
-} from "react-window";
 import * as React from "react";
+import {
+    areEqual,
+    FixedSizeGrid,
+    FixedSizeList,
+    ListChildComponentProps,
+    shouldComponentUpdate,
+    VariableSizeGrid,
+    VariableSizeList,
+} from "react-window";
 
-const FixedSizeListTestRequiredProps: React.SFC = () => (
+const FixedSizeListTestRequiredProps: React.FC = () => (
     <FixedSizeList itemSize={0} height={0} itemCount={0} width={0}>
         {({ style, index }) => <div style={style}>Test {index}</div>}
     </FixedSizeList>
 );
 
-const VariableSizeListTestRequiredProps: React.SFC = () => (
+const VariableSizeListTestRequiredProps: React.FC = () => (
     <VariableSizeList itemSize={index => 0} height={0} itemCount={0} width={0}>
         {({ style, index }) => <div style={style}>Test {index}</div>}
     </VariableSizeList>
 );
 
-const FixedSizeGridTestRequiredProps: React.SFC = () => (
+const FixedSizeGridTestRequiredProps: React.FC = () => (
     <FixedSizeGrid
         columnCount={0}
         columnWidth={0}
@@ -38,7 +38,7 @@ const FixedSizeGridTestRequiredProps: React.SFC = () => (
     </FixedSizeGrid>
 );
 
-const VariableSizeGridTestRequiredProps: React.SFC = () => (
+const VariableSizeGridTestRequiredProps: React.FC = () => (
     <VariableSizeGrid
         columnCount={0}
         columnWidth={index => 0}
@@ -57,8 +57,8 @@ const VariableSizeGridTestRequiredProps: React.SFC = () => (
 
 const anyRef: React.Ref<any> = React.createRef();
 
-const FixedSizeListTestOptionalProps: React.SFC<{ testBool: boolean }> = ({
-    testBool
+const FixedSizeListTestOptionalProps: React.FC<{ testBool: boolean }> = ({
+    testBool,
 }) => (
     <FixedSizeList
         itemSize={0}
@@ -77,13 +77,12 @@ const FixedSizeListTestOptionalProps: React.SFC<{ testBool: boolean }> = ({
             overscanStartIndex,
             overscanStopIndex,
             visibleStartIndex,
-            visibleStopIndex
+            visibleStopIndex,
         }) =>
-            overscanStartIndex +
-            overscanStopIndex +
-            visibleStartIndex +
-            visibleStopIndex
-        }
+            overscanStartIndex
+            + overscanStopIndex
+            + visibleStartIndex
+            + visibleStopIndex}
         useIsScrolling={true}
         outerElementType="div"
         style={{ color: "cyan" }}
@@ -93,19 +92,18 @@ const FixedSizeListTestOptionalProps: React.SFC<{ testBool: boolean }> = ({
         onScroll={({
             scrollDirection,
             scrollOffset,
-            scrollUpdateWasRequested
+            scrollUpdateWasRequested,
         }) =>
             scrollDirection === "forward"
                 ? scrollUpdateWasRequested
-                : scrollOffset
-        }
+                : scrollOffset}
     >
         {({ style, index }) => <div style={style}>Test {index}</div>}
     </FixedSizeList>
 );
 
-const VariableSizeListTestOptionalProps: React.SFC<{ testBool: boolean }> = ({
-    testBool
+const VariableSizeListTestOptionalProps: React.FC<{ testBool: boolean }> = ({
+    testBool,
 }) => (
     <VariableSizeList
         itemSize={() => 0}
@@ -124,13 +122,12 @@ const VariableSizeListTestOptionalProps: React.SFC<{ testBool: boolean }> = ({
             overscanStartIndex,
             overscanStopIndex,
             visibleStartIndex,
-            visibleStopIndex
+            visibleStopIndex,
         }) =>
-            overscanStartIndex +
-            overscanStopIndex +
-            visibleStartIndex +
-            visibleStopIndex
-        }
+            overscanStartIndex
+            + overscanStopIndex
+            + visibleStartIndex
+            + visibleStopIndex}
         useIsScrolling={true}
         outerElementType="div"
         style={{ color: "cyan" }}
@@ -140,20 +137,19 @@ const VariableSizeListTestOptionalProps: React.SFC<{ testBool: boolean }> = ({
         onScroll={({
             scrollDirection,
             scrollOffset,
-            scrollUpdateWasRequested
+            scrollUpdateWasRequested,
         }) =>
             scrollDirection === "forward"
                 ? scrollUpdateWasRequested
-                : scrollOffset
-        }
+                : scrollOffset}
         estimatedItemSize={0}
     >
         {({ style, index }) => <div style={style}>Test {index}</div>}
     </VariableSizeList>
 );
 
-const VariableSizeGridTestOptionalProps: React.SFC<{ testBool: boolean }> = ({
-    testBool
+const VariableSizeGridTestOptionalProps: React.FC<{ testBool: boolean }> = ({
+    testBool,
 }) => (
     <VariableSizeGrid
         columnCount={0}
@@ -171,9 +167,7 @@ const VariableSizeGridTestOptionalProps: React.SFC<{ testBool: boolean }> = ({
         innerRef={anyRef}
         innerElementType="div"
         itemData={{ foo: "bar" }}
-        itemKey={({ columnIndex, rowIndex }) =>
-            columnIndex.toString() + rowIndex.toString()
-        }
+        itemKey={({ columnIndex, rowIndex }) => columnIndex.toString() + rowIndex.toString()}
         onItemsRendered={({
             overscanColumnStartIndex,
             overscanColumnStopIndex,
@@ -182,14 +176,14 @@ const VariableSizeGridTestOptionalProps: React.SFC<{ testBool: boolean }> = ({
             visibleColumnStartIndex,
             visibleColumnStopIndex,
             visibleRowStartIndex,
-            visibleRowStopIndex
+            visibleRowStopIndex,
         }) => undefined}
         onScroll={({
             horizontalScrollDirection,
             scrollLeft,
             scrollTop,
             scrollUpdateWasRequested,
-            verticalScrollDirection
+            verticalScrollDirection,
         }) => undefined}
         outerRef={anyRef}
         outerElementType="div"
@@ -225,7 +219,7 @@ class RowWithShouldComponentUpdate extends React.Component<
 }
 
 const fixedRef = React.createRef<FixedSizeGrid>();
-const FixedSizeGridTestRefs: React.SFC = () => (
+const FixedSizeGridTestRefs: React.FC = () => (
     <FixedSizeGrid
         columnCount={0}
         columnWidth={0}
@@ -244,7 +238,10 @@ const FixedSizeGridTestRefs: React.SFC = () => (
 );
 
 if (fixedRef.current) {
-    fixedRef.current.scrollTo({ scrollLeft: 0, scrollTop: 0});
+    fixedRef.current.scrollTo({ scrollLeft: 0, scrollTop: 0 });
+    fixedRef.current.scrollTo({ scrollLeft: 0 });
+    fixedRef.current.scrollTo({ scrollTop: 0 });
+    fixedRef.current.scrollTo({});
     fixedRef.current.scrollToItem({});
     fixedRef.current.scrollToItem({ align: "auto" });
     fixedRef.current.scrollToItem({ rowIndex: 0 });
@@ -254,7 +251,7 @@ if (fixedRef.current) {
 }
 
 const variableRef = React.createRef<VariableSizeGrid>();
-const VariableSizeGridTestRefs: React.SFC = () => (
+const VariableSizeGridTestRefs: React.FC = () => (
     <VariableSizeGrid
         columnCount={0}
         columnWidth={index => 0}
@@ -273,7 +270,10 @@ const VariableSizeGridTestRefs: React.SFC = () => (
 );
 
 if (variableRef.current) {
-    variableRef.current.scrollTo({ scrollLeft: 0, scrollTop: 0});
+    variableRef.current.scrollTo({ scrollLeft: 0, scrollTop: 0 });
+    variableRef.current.scrollTo({ scrollLeft: 0 });
+    variableRef.current.scrollTo({ scrollTop: 0 });
+    variableRef.current.scrollTo({});
     variableRef.current.scrollToItem({});
     variableRef.current.scrollToItem({ align: "auto" });
     variableRef.current.scrollToItem({ rowIndex: 0 });
@@ -292,23 +292,23 @@ if (variableRef.current) {
  * TODO: when v2 of `react-window` cuts, remove <T as any> typing in index.d.ts and cutover to these tests
  * which use a typed `itemData`.
  */
- interface ExampleItemData {
+interface ExampleItemData {
     foo: "string";
 }
 
-const FixedSizeListTestRequiredPropsV2: React.SFC = () => (
+const FixedSizeListTestRequiredPropsV2: React.FC = () => (
     <FixedSizeList itemSize={0} height={0} itemCount={0} width={0}>
         {({ style, index }) => <div style={style}>Test {index}</div>}
     </FixedSizeList>
 );
 
-const VariableSizeListTestRequiredPropsV2: React.SFC = () => (
+const VariableSizeListTestRequiredPropsV2: React.FC = () => (
     <VariableSizeList itemSize={index => 0} height={0} itemCount={0} width={0}>
         {({ style, index }) => <div style={style}>Test {index}</div>}
     </VariableSizeList>
 );
 
-const FixedSizeGridTestRequiredPropsV2: React.SFC = () => (
+const FixedSizeGridTestRequiredPropsV2: React.FC = () => (
     <FixedSizeGrid
         columnCount={0}
         columnWidth={0}
@@ -325,7 +325,7 @@ const FixedSizeGridTestRequiredPropsV2: React.SFC = () => (
     </FixedSizeGrid>
 );
 
-const VariableSizeGridTestRequiredPropsV2: React.SFC = () => (
+const VariableSizeGridTestRequiredPropsV2: React.FC = () => (
     <VariableSizeGrid
         columnCount={0}
         columnWidth={index => 0}
@@ -344,8 +344,8 @@ const VariableSizeGridTestRequiredPropsV2: React.SFC = () => (
 
 const anyRefV2: React.Ref<any> = React.createRef();
 
-const FixedSizeListTestOptionalPropsV2: React.SFC<{ testBool: boolean }> = ({
-    testBool
+const FixedSizeListTestOptionalPropsV2: React.FC<{ testBool: boolean }> = ({
+    testBool,
 }) => (
     <FixedSizeList
         itemSize={0}
@@ -364,13 +364,12 @@ const FixedSizeListTestOptionalPropsV2: React.SFC<{ testBool: boolean }> = ({
             overscanStartIndex,
             overscanStopIndex,
             visibleStartIndex,
-            visibleStopIndex
+            visibleStopIndex,
         }) =>
-            overscanStartIndex +
-            overscanStopIndex +
-            visibleStartIndex +
-            visibleStopIndex
-        }
+            overscanStartIndex
+            + overscanStopIndex
+            + visibleStartIndex
+            + visibleStopIndex}
         useIsScrolling={true}
         outerElementType="div"
         style={{ color: "cyan" }}
@@ -380,19 +379,18 @@ const FixedSizeListTestOptionalPropsV2: React.SFC<{ testBool: boolean }> = ({
         onScroll={({
             scrollDirection,
             scrollOffset,
-            scrollUpdateWasRequested
+            scrollUpdateWasRequested,
         }) =>
             scrollDirection === "forward"
                 ? scrollUpdateWasRequested
-                : scrollOffset
-        }
+                : scrollOffset}
     >
         {({ style, index, data }) => <div style={style}>Test {index} {data.foo}</div>}
     </FixedSizeList>
 );
 
-const VariableSizeListTestOptionalPropsV2: React.SFC<{ testBool: boolean }> = ({
-    testBool
+const VariableSizeListTestOptionalPropsV2: React.FC<{ testBool: boolean }> = ({
+    testBool,
 }) => (
     <VariableSizeList
         itemSize={() => 0}
@@ -411,13 +409,12 @@ const VariableSizeListTestOptionalPropsV2: React.SFC<{ testBool: boolean }> = ({
             overscanStartIndex,
             overscanStopIndex,
             visibleStartIndex,
-            visibleStopIndex
+            visibleStopIndex,
         }) =>
-            overscanStartIndex +
-            overscanStopIndex +
-            visibleStartIndex +
-            visibleStopIndex
-        }
+            overscanStartIndex
+            + overscanStopIndex
+            + visibleStartIndex
+            + visibleStopIndex}
         useIsScrolling={true}
         outerElementType="div"
         style={{ color: "cyan" }}
@@ -427,20 +424,19 @@ const VariableSizeListTestOptionalPropsV2: React.SFC<{ testBool: boolean }> = ({
         onScroll={({
             scrollDirection,
             scrollOffset,
-            scrollUpdateWasRequested
+            scrollUpdateWasRequested,
         }) =>
             scrollDirection === "forward"
                 ? scrollUpdateWasRequested
-                : scrollOffset
-        }
+                : scrollOffset}
         estimatedItemSize={0}
     >
         {({ style, index, data }) => <div style={style}>Test {index} {data.foo}</div>}
     </VariableSizeList>
 );
 
-const VariableSizeGridTestOptionalPropsV2: React.SFC<{ testBool: boolean }> = ({
-    testBool
+const VariableSizeGridTestOptionalPropsV2: React.FC<{ testBool: boolean }> = ({
+    testBool,
 }) => (
     <VariableSizeGrid
         columnCount={0}
@@ -458,9 +454,7 @@ const VariableSizeGridTestOptionalPropsV2: React.SFC<{ testBool: boolean }> = ({
         innerRef={anyRef}
         innerElementType="div"
         itemData={{ foo: "bar" }}
-        itemKey={({ columnIndex, rowIndex }) =>
-            columnIndex.toString() + rowIndex.toString()
-        }
+        itemKey={({ columnIndex, rowIndex }) => columnIndex.toString() + rowIndex.toString()}
         onItemsRendered={({
             overscanColumnStartIndex,
             overscanColumnStopIndex,
@@ -469,14 +463,14 @@ const VariableSizeGridTestOptionalPropsV2: React.SFC<{ testBool: boolean }> = ({
             visibleColumnStartIndex,
             visibleColumnStopIndex,
             visibleRowStartIndex,
-            visibleRowStopIndex
+            visibleRowStopIndex,
         }) => undefined}
         onScroll={({
             horizontalScrollDirection,
             scrollLeft,
             scrollTop,
             scrollUpdateWasRequested,
-            verticalScrollDirection
+            verticalScrollDirection,
         }) => undefined}
         outerRef={anyRef}
         outerElementType="div"
@@ -512,7 +506,7 @@ class RowWithShouldComponentUpdateV2 extends React.Component<
 }
 
 const fixedRefV2 = React.createRef<FixedSizeGrid<ExampleItemData>>();
-const FixedSizeGridTestRefsV2: React.SFC = () => (
+const FixedSizeGridTestRefsV2: React.FC = () => (
     <FixedSizeGrid
         columnCount={0}
         columnWidth={0}
@@ -531,7 +525,10 @@ const FixedSizeGridTestRefsV2: React.SFC = () => (
 );
 
 if (fixedRef.current) {
-    fixedRef.current.scrollTo({ scrollLeft: 0, scrollTop: 0});
+    fixedRef.current.scrollTo({ scrollLeft: 0, scrollTop: 0 });
+    fixedRef.current.scrollTo({ scrollLeft: 0 });
+    fixedRef.current.scrollTo({ scrollTop: 0 });
+    fixedRef.current.scrollTo({});
     fixedRef.current.scrollToItem({});
     fixedRef.current.scrollToItem({ align: "auto" });
     fixedRef.current.scrollToItem({ rowIndex: 0 });
@@ -541,7 +538,7 @@ if (fixedRef.current) {
 }
 
 const variableRefV2 = React.createRef<VariableSizeGrid<ExampleItemData>>();
-const VariableSizeGridTestRefsV2: React.SFC = () => (
+const VariableSizeGridTestRefsV2: React.FC = () => (
     <VariableSizeGrid
         columnCount={0}
         columnWidth={index => 0}
@@ -560,7 +557,10 @@ const VariableSizeGridTestRefsV2: React.SFC = () => (
 );
 
 if (variableRef.current) {
-    variableRef.current.scrollTo({ scrollLeft: 0, scrollTop: 0});
+    variableRef.current.scrollTo({ scrollLeft: 0, scrollTop: 0 });
+    variableRef.current.scrollTo({ scrollLeft: 0 });
+    variableRef.current.scrollTo({ scrollTop: 0 });
+    variableRef.current.scrollTo({});
     variableRef.current.scrollToItem({});
     variableRef.current.scrollToItem({ align: "auto" });
     variableRef.current.scrollToItem({ rowIndex: 0 });

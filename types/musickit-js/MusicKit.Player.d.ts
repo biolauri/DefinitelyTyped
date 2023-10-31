@@ -2,17 +2,17 @@ declare namespace MusicKit {
     /**
      * The playback states of the music player.
      */
-    enum PlaybackState {
-        NONE,
-        LOADING,
-        PLAYING,
-        PAUSED,
-        STOPPED,
-        ENDED,
-        SEEKING,
-        waiting,
-        stalled,
+    enum PlaybackStates {
         completed,
+        ended,
+        loading,
+        none,
+        paused,
+        playing,
+        seeking,
+        stalled,
+        stopped,
+        waiting,
     }
 
     /**
@@ -71,7 +71,7 @@ declare namespace MusicKit {
         /**
          * The index of the now playing item in the current playback queue.
          */
-        readonly nowPlayingItemIndex?: number;
+        readonly nowPlayingItemIndex?: number | undefined;
         /**
          * The current playback rate for the player.
          */
@@ -79,11 +79,11 @@ declare namespace MusicKit {
         /**
          * The current playback state of the music player.
          */
-        readonly playbackState: PlaybackState;
+        readonly playbackState: PlaybackStates;
         /**
          * A Boolean value that indicates whether a playback target is available.
          */
-        readonly playbackTargetAvailable?: boolean;
+        readonly playbackTargetAvailable?: boolean | undefined;
         /**
          * The current playback queue of the music player.
          */

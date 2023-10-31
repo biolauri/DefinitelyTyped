@@ -1,8 +1,3 @@
-// Type definitions for non-npm package cloudinary-uploadwidget-browser 2.3
-// Project: https://cloudinary.com/documentation/upload_widget_reference
-// Definitions by: Jeremy Liberman <https://github.com/mrleebo>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 declare var cloudinary: CloudinaryBase;
 
 interface CloudinaryBase {
@@ -38,114 +33,118 @@ interface CloudinaryUploadWidget {
     isDestroyed(): boolean;
 }
 
-type NotSupportedForUpdates = 'secure' | 'uploadSignature' | 'getTags' | 'preBatch' | 'inlineContainer' | 'fieldName';
+type NotSupportedForUpdates = "secure" | "uploadSignature" | "getTags" | "preBatch" | "inlineContainer" | "fieldName";
 
-type CloudinaryUploadWidgetOptions = RequiredParameters &
-    WidgetParameters &
-    CroppingParameters &
-    SourcesParameters &
-    UploadParameters &
-    ClientParameters &
-    PageParameters &
-    CustomizationParameters &
-    AdvancedParameters;
+type CloudinaryUploadWidgetOptions =
+    & RequiredParameters
+    & WidgetParameters
+    & CroppingParameters
+    & SourcesParameters
+    & UploadParameters
+    & ClientParameters
+    & PageParameters
+    & CustomizationParameters
+    & AdvancedParameters;
 
 interface RequiredParameters {
     cloudName: string;
-    uploadPreset?: string;
+    uploadPreset?: string | undefined;
 }
 
 interface WidgetParameters {
-    sources?: Source[];
-    secure?: boolean;
-    encryption?: { key: string; iv: string };
-    defaultSource?: Source;
-    multiple?: boolean;
-    maxFiles?: number;
+    sources?: Source[] | undefined;
+    secure?: boolean | undefined;
+    encryption?: { key: string; iv: string } | undefined;
+    defaultSource?: Source | undefined;
+    multiple?: boolean | undefined;
+    maxFiles?: number | undefined;
 }
 
 interface CroppingParameters {
-    cropping?: boolean;
-    showSkipCropButton?: boolean;
-    croppingAspectRatio?: number | null;
-    croppingDefaultSelectionRatio?: number;
-    croppingShowDimensions?: boolean;
-    croppingCoordinatesMode?: 'custom' | 'face';
-    croppingShowBackButton?: boolean;
+    cropping?: boolean | undefined;
+    showSkipCropButton?: boolean | undefined;
+    croppingAspectRatio?: number | null | undefined;
+    croppingDefaultSelectionRatio?: number | undefined;
+    croppingShowDimensions?: boolean | undefined;
+    croppingCoordinatesMode?: "custom" | "face" | undefined;
+    croppingShowBackButton?: boolean | undefined;
 }
 
 interface SourcesParameters {
-    dropboxAppKey?: string;
-    facebookAppId?: string;
-    googleApiKey?: string;
-    searchBySites?: string[];
-    searchByRights?: boolean;
-    instagramClientId?: string;
-    googleDriveClientId?: string;
+    dropboxAppKey?: string | undefined;
+    facebookAppId?: string | undefined;
+    googleApiKey?: string | undefined;
+    searchBySites?: string[] | undefined;
+    searchByRights?: boolean | undefined;
+    instagramClientId?: string | undefined;
+    googleDriveClientId?: string | undefined;
 }
 
 interface UploadParameters {
-    publicId?: string | null;
-    folder?: string | null;
-    tags?: string[] | null;
-    resourceType?: 'auto' | 'image' | 'video' | 'raw';
-    context?: Record<string, any>;
-    uploadSignature?: string | ((callback: (result: string) => void, params: CloudinaryUploadWidgetOptions) => void);
-    uploadSignatureTimestamp?: number;
+    publicId?: string | null | undefined;
+    folder?: string | null | undefined;
+    tags?: string[] | null | undefined;
+    resourceType?: "auto" | "image" | "video" | "raw" | undefined;
+    context?: Record<string, any> | undefined;
+    uploadSignature?:
+        | string
+        | ((callback: (result: string) => void, params: CloudinaryUploadWidgetOptions) => void)
+        | undefined;
+    uploadSignatureTimestamp?: number | undefined;
 }
 
 interface ClientParameters {
-    clientAllowedFormats?: string[] | null;
-    maxFileSize?: number;
-    maxImageFileSize?: number;
-    maxVideoFileSize?: number;
-    maxRawFileSize?: number;
-    maxImageWidth?: number | null;
-    maxImageHeight?: number | null;
-    validateMaxWidthHeight?: boolean;
-    minImageWidth?: number | null;
-    minImageHeight?: number | null;
-    croppingValidateDimensions?: boolean;
-    maxChunkSize?: number;
+    clientAllowedFormats?: string[] | null | undefined;
+    maxFileSize?: number | undefined;
+    maxImageFileSize?: number | undefined;
+    maxVideoFileSize?: number | undefined;
+    maxRawFileSize?: number | undefined;
+    maxImageWidth?: number | null | undefined;
+    maxImageHeight?: number | null | undefined;
+    validateMaxWidthHeight?: boolean | undefined;
+    minImageWidth?: number | null | undefined;
+    minImageHeight?: number | null | undefined;
+    croppingValidateDimensions?: boolean | undefined;
+    maxChunkSize?: number | undefined;
 }
 
 interface PageParameters {
-    form?: string;
-    fieldName?: string;
-    thumbnails?: string | null;
-    thumbnailTransformation?: string | ThumbnailTransformation[];
+    form?: string | undefined;
+    fieldName?: string | undefined;
+    thumbnails?: string | null | undefined;
+    thumbnailTransformation?: string | ThumbnailTransformation[] | undefined;
 }
 
 interface CustomizationParameters {
-    buttonClass?: string;
-    buttonCaption?: string;
-    theme?: 'default' | 'white' | 'minimal' | 'purple';
-    styles?: CustomizedStyles;
-    text?: CustomizedText;
+    buttonClass?: string | undefined;
+    buttonCaption?: string | undefined;
+    theme?: "default" | "white" | "minimal" | "purple" | undefined;
+    styles?: CustomizedStyles | undefined;
+    text?: CustomizedText | undefined;
 }
 
 interface AdvancedParameters {
-    showPoweredBy?: boolean;
-    autoMinimize?: boolean;
-    getTags?: (cb: (tags: ReadonlyArray<string>) => void, prefix: string) => void;
-    getUploadPresets?: (cb: (presets: ReadonlyArray<string>) => void) => void;
-    preBatch?: (cb: (options?: { cancel: boolean }) => void, data: { [key: string]: any }) => void;
-    prepareUploadParams?: (cb: (results: any) => void, params: any) => void;
-    language?: string;
-    showAdvancedOptions?: boolean;
-    showCompletedButton?: boolean;
-    showUploadMoreButton?: boolean;
-    singleUploadAutoClose?: boolean;
-    queueViewPosition?: string;
-    showInsecurePreview?: boolean;
-    inlineContainer?: string | HTMLElement | null;
+    showPoweredBy?: boolean | undefined;
+    autoMinimize?: boolean | undefined;
+    getTags?: ((cb: (tags: ReadonlyArray<string>) => void, prefix: string) => void) | undefined;
+    getUploadPresets?: ((cb: (presets: ReadonlyArray<string>) => void) => void) | undefined;
+    preBatch?: ((cb: (options?: { cancel: boolean }) => void, data: { [key: string]: any }) => void) | undefined;
+    prepareUploadParams?: ((cb: (results: any) => void, params: any) => void) | undefined;
+    language?: string | undefined;
+    showAdvancedOptions?: boolean | undefined;
+    showCompletedButton?: boolean | undefined;
+    showUploadMoreButton?: boolean | undefined;
+    singleUploadAutoClose?: boolean | undefined;
+    queueViewPosition?: string | undefined;
+    showInsecurePreview?: boolean | undefined;
+    inlineContainer?: string | HTMLElement | null | undefined;
 }
 
 type ThumbnailTransformation = { [key: string]: any } & {
-    width?: number;
-    height?: number;
-    crop?: string;
-    effect?: string;
+    width?: number | undefined;
+    height?: number | undefined;
+    crop?: string | undefined;
+    effect?: string | undefined;
 };
 
 interface CustomizedStyles {
@@ -157,15 +156,15 @@ interface CustomizedText {
 }
 
 type Source =
-    | 'local'
-    | 'url'
-    | 'camera'
-    | 'dropbox'
-    | 'image_search'
-    | 'facebook'
-    | 'instagram'
-    | 'shutterstock'
-    | 'google_drive';
+    | "local"
+    | "url"
+    | "camera"
+    | "dropbox"
+    | "image_search"
+    | "facebook"
+    | "instagram"
+    | "shutterstock"
+    | "google_drive";
 
 type CloudinaryEvent =
     | AbortEvent
@@ -183,7 +182,7 @@ type CloudinaryEvent =
     | UploadAddedEvent;
 
 interface AbortEvent {
-    event: 'abort';
+    event: "abort";
     info: {
         ids: string[];
         all: boolean;
@@ -191,35 +190,35 @@ interface AbortEvent {
 }
 
 interface BatchCancelledEvent {
-    event: 'batch-cancelled';
-    info: { reason: 'MAX_EXCEEDED' | 'INVALID_PUBLIC_ID' };
+    event: "batch-cancelled";
+    info: { reason: "MAX_EXCEEDED" | "INVALID_PUBLIC_ID" };
 }
 
 interface CloseEvent {
-    event: 'close';
+    event: "close";
 }
 
 interface DisplayChangedEvent {
-    event: 'display-changed';
-    info: 'shown' | 'hidden' | 'minimized' | 'expanded';
+    event: "display-changed";
+    info: "shown" | "hidden" | "minimized" | "expanded";
 }
 
 interface PublicIdEvent {
-    event: 'publicid';
+    event: "publicid";
     info: { id: string | null };
 }
 
 interface QueuesEndEvent {
-    event: 'queues-end';
+    event: "queues-end";
     info: any;
 }
 
 interface QueuesStartEvent {
-    event: 'queues-start';
+    event: "queues-start";
 }
 
 interface RetryEvent {
-    event: 'retry';
+    event: "retry";
     info: {
         ids: string[];
         all: boolean;
@@ -227,31 +226,31 @@ interface RetryEvent {
 }
 
 interface ShowCompletedEvent {
-    event: 'show-completed';
+    event: "show-completed";
     info: {
         items: any[];
     };
 }
 
 interface SourceChangedEvent {
-    event: 'source-changed';
+    event: "source-changed";
     info: { source: string };
 }
 
 interface SuccessEvent {
-    event: 'success';
+    event: "success";
     info: any;
 }
 
 interface TagsEvent {
-    event: 'tags';
+    event: "tags";
     info: {
         tags: string[];
     };
 }
 
 interface UploadAddedEvent {
-    event: 'upload-added';
+    event: "upload-added";
     info: {
         file: any;
         publicId: string | null;

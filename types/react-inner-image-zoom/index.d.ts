@@ -1,32 +1,25 @@
-// Type definitions for react-inner-image-zoom 2.0
-// Project: https://github.com/laurenashpole/react-inner-image-zoom#readme
-// Definitions by: Lauren Ashpole <https://github.com/laurenashpole>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
-import * as React from 'react';
+import * as React from "react";
 
 export interface InnerImageZoomProps {
-    moveType?: 'pan' | 'drag';
-    zoomType?: 'click' | 'hover';
+    moveType?: "pan" | "drag" | undefined;
+    zoomType?: "click" | "hover" | undefined;
     src: string;
-    srcSet?: string;
-    sizes?: string;
-    sources?: Array<{ srcSet?: string, media?: string }>;
-    width?: number;
-    height?: number;
-    hasSpacer?: boolean;
-    zoomSrc?: string;
-    zoomScale?: number;
-    zoomPreload?: boolean;
-    alt?: string;
-    fadeDuration?: number;
-    fullscreenOnMobile?: boolean;
-    mobileBreakpoint?: number;
-    hideCloseButton?: boolean;
-    hideHint?: boolean;
-    className?: string;
-    afterZoomIn?: () => void;
-    afterZoomOut?: () => void;
+    sources?: Array<{ srcSet?: string | undefined; media?: string | undefined }> | undefined;
+    width?: number | undefined;
+    height?: number | undefined;
+    hasSpacer?: boolean | undefined;
+    imgAttributes?: React.ImgHTMLAttributes<HTMLImageElement> | undefined;
+    zoomSrc?: string | undefined;
+    zoomScale?: number | undefined;
+    zoomPreload?: boolean | undefined;
+    fadeDuration?: number | undefined;
+    fullscreenOnMobile?: boolean | undefined;
+    mobileBreakpoint?: number | undefined;
+    hideCloseButton?: boolean | undefined;
+    hideHint?: boolean | undefined;
+    className?: string | undefined;
+    afterZoomIn?: (() => void) | undefined;
+    afterZoomOut?: (() => void) | undefined;
 }
 
 export class InnerImageZoom extends React.Component<InnerImageZoomProps> {}

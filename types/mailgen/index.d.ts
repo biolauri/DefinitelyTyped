@@ -1,7 +1,3 @@
-// Type definitions for mailgen 2.0
-// Project: https://github.com/eladnava/mailgen#readme
-// Definitions by: Kiet Thanh Vo <https://github.com/vothanhkiet>, Jordan Farrer <https://github.com/jordanfarrer>, Grzegorz Kawka-Osik <https://github.com/grzegorzkawkaosik>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 import Option = Mailgen.Option;
 import Content = Mailgen.Content;
 /**
@@ -27,15 +23,15 @@ declare namespace Mailgen {
 
     interface CustomTheme {
         path: string;
-        plaintextPath?: string;
+        plaintextPath?: string | undefined;
     }
 
     interface Product {
         name: string;
         link: string;
-        logo?: string;
-        logoHeight?: string;
-        copyright?: string;
+        logo?: string | undefined;
+        logoHeight?: string | undefined;
+        copyright?: string | undefined;
     }
 
     interface Content {
@@ -43,21 +39,21 @@ declare namespace Mailgen {
     }
 
     interface ContentBody {
-        name?: string;
-        greeting?: string;
-        signature?: string;
-        title?: string;
-        intro?: string | string[];
-        action?: Action | Action[];
-        table?: Table | Table[];
+        name?: string | undefined;
+        greeting?: string | undefined;
+        signature?: string | undefined;
+        title?: string | undefined;
+        intro?: string | string[] | undefined;
+        action?: Action | Action[] | undefined;
+        table?: Table | Table[] | undefined;
         dictionary?: any;
-        goToAction?: GoToAction;
-        outro?: string | string[];
+        goToAction?: GoToAction | undefined;
+        outro?: string | string[] | undefined;
     }
 
     interface Table {
         data: any[];
-        columns?: ColumnOptions[];
+        columns?: ColumnOptions[] | undefined;
     }
 
     interface ColumnOptions {

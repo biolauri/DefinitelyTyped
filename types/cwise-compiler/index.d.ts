@@ -1,9 +1,3 @@
-// Type definitions for cwise-compiler 1.1
-// Project: https://github.com/scijs/cwise-compiler
-// Definitions by: taoqf <https://github.com/taoqf>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.3
-
 import { CompiledRoutine } from "cwise-parser";
 import { NdArray } from "ndarray";
 
@@ -24,7 +18,7 @@ declare namespace cwise_compiler {
         debug: boolean;
         funcName: string;
         blockSize: number;
-        printCode?: boolean;
+        printCode?: boolean | undefined;
     }
     interface Procedure {
         argTypes: ArgType[];
@@ -41,7 +35,7 @@ declare namespace cwise_compiler {
         body: CompiledRoutine;
         post: CompiledRoutine;
         debug: boolean;
-        blockSize?: number;
+        blockSize?: number | undefined;
     }
 }
 

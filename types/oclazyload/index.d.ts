@@ -1,16 +1,10 @@
-// Type definitions for oc.LazyLoad 1.0.2
-// Project: https://github.com/ocombe/ocLazyLoad
-// Definitions by: Roland Zwaga <https://github.com/rolandzwaga>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.3
-
 /// <reference types="angular" />
 /// <reference path="./oclazyload.d.ts" />
 
 declare var _: string;
 export = _;
 
-declare module 'angular' {
+declare module "angular" {
     interface IAngularStatic {
         /**
          * The angular.module is a global place for creating, registering and retrieving Angular modules. All modules (angular core or 3rd party) that should be available to an application must be registered using this mechanism.

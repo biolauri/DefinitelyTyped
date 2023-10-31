@@ -1,20 +1,20 @@
 import * as React from "react";
 import {
+    Decorator,
+    Options,
+    ReactTrackingContext,
     Track,
     track as _track,
-    TrackingProp,
-    Options,
-    Decorator,
     TrackingContext,
-    ReactTrackingContext,
+    TrackingProp,
     useTracking,
 } from "react-tracking";
 
-function customEventReporter(data: { page?: string }) {}
+function customEventReporter(data: { page?: string | undefined }) {}
 
 interface Props {
     someProp: string;
-    tracking?: TrackingProp;
+    tracking?: TrackingProp | undefined;
 }
 
 interface State {
@@ -130,7 +130,31 @@ const TestHook = track()((props: { foo: string }) => {
     React.useEffect(() =>
         trackEvent({
             action: "useEffect callback",
-        }),
+        })
+    );
+    return (
+        <Track>
+            <div
+                onClick={() => {
+                    trackEvent({
+                        action: "Click",
+                    });
+                }}
+            />
+        </Track>
+    );
+});
+
+const TestHookWithDataFunction = track()((props: { foo: string }) => {
+    const { Track, trackEvent } = useTracking<Trackables>(() => ({ page: "Page" }), {
+        dispatchOnMount: false,
+        dispatch: ({ page }) => {},
+    });
+
+    React.useEffect(() =>
+        trackEvent({
+            action: "useEffect callback",
+        })
     );
     return (
         <Track>
@@ -152,7 +176,7 @@ const TestEmptyHook = track()((props: { foo: string }) => {
         trackEvent({
             page: "Home",
             action: "useEffect callback",
-        }),
+        })
     );
     return (
         <Track>

@@ -1,10 +1,3 @@
-// Type definitions for readable-stream 2.3
-// Project: https://github.com/nodejs/readable-stream
-// Definitions by: TeamworkGuy2 <https://github.com/TeamworkGuy2>
-//                   markdreyer <https://github.com/markdreyer>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.3
-
 /// <reference types="node" />
 
 import * as SafeBuffer from "safe-buffer";
@@ -15,11 +8,37 @@ declare class StringDecoder {
     end(buffer?: Buffer): string;
 }
 
-declare class _Readable {
-    readable: boolean;
-    readonly readableFlowing: boolean | null;
-    readonly readableHighWaterMark: number;
-    readonly readableLength: number;
+type ComposeFnParam = (source: any) => void;
+
+interface _IEventEmitter {
+    addListener(event: string | symbol, listener: (...args: any[]) => void): this;
+    emit(event: string | symbol, ...args: any[]): boolean;
+    on(event: string | symbol, listener: (...args: any[]) => void): this;
+    once(event: string | symbol, listener: (...args: any[]) => void): this;
+    prependListener(event: string | symbol, listener: (...args: any[]) => void): this;
+    prependOnceListener(event: string | symbol, listener: (...args: any[]) => void): this;
+    removeListener(event: string | symbol, listener: (...args: any[]) => void): this;
+
+    removeAllListeners(event?: string | symbol): this;
+    off(eventName: string | symbol, listener: (...args: any[]) => void): this;
+    setMaxListeners(n: number): this;
+    getMaxListeners(): number;
+    // tslint:disable-next-line:ban-types
+    listeners(eventName: string | symbol): Function[];
+    // tslint:disable-next-line:ban-types
+    rawListeners(eventName: string | symbol): Function[];
+    listenerCount(eventName: string | symbol): number;
+    eventNames(): Array<string | symbol>;
+}
+
+interface SignalOption {
+    signal?: AbortSignal;
+}
+interface ArrayOptions extends SignalOption {
+    concurrency?: number;
+}
+
+interface _IReadable extends _IEventEmitter {
     _read(size: number): void;
     read(size?: number): any;
     setEncoding(encoding: string): this;
@@ -30,8 +49,92 @@ declare class _Readable {
     unshift(chunk: any): void;
     wrap(oldStream: _Readable.Readable): this;
     push(chunk: any, encoding?: string): boolean;
-    _destroy(error: Error | null, callback: (error: Error | null) => void): void;
-    destroy(error?: Error): void;
+    iterator(options?: { destroyOnReturn?: boolean }): AsyncIterableIterator<any>;
+    map(fn: (data: any, options?: SignalOption) => any, options?: ArrayOptions): _Readable.Readable;
+    filter(
+        fn: (data: any, options?: SignalOption) => boolean | Promise<boolean>,
+        options?: ArrayOptions,
+    ): _Readable.Readable;
+    forEach(fn: (data: any, options?: SignalOption) => void | Promise<void>, options?: ArrayOptions): Promise<void>;
+    toArray(options?: SignalOption): Promise<any[]>;
+    some(
+        fn: (data: any, options?: SignalOption) => boolean | Promise<boolean>,
+        options?: ArrayOptions,
+    ): Promise<boolean>;
+    find<T>(fn: (data: any, options?: SignalOption) => data is T, options?: ArrayOptions): Promise<T | undefined>;
+    find(fn: (data: any, options?: SignalOption) => boolean | Promise<boolean>, options?: ArrayOptions): Promise<any>;
+    every(
+        fn: (data: any, options?: SignalOption) => boolean | Promise<boolean>,
+        options?: ArrayOptions,
+    ): Promise<boolean>;
+    flatMap(fn: (data: any, options?: SignalOption) => any, options?: ArrayOptions): _Readable.Readable;
+    drop(limit: number, options?: SignalOption): _Readable.Readable;
+    take(limit: number, options?: SignalOption): _Readable.Readable;
+    asIndexedPairs(options?: SignalOption): _Readable.Readable;
+    reduce<T = any>(
+        fn: (previous: any, data: any, options?: Pick<ArrayOptions, "signal">) => T,
+        initial?: undefined,
+        options?: Pick<ArrayOptions, "signal">,
+    ): Promise<T>;
+    reduce<T = any>(
+        fn: (previous: T, data: any, options?: Pick<ArrayOptions, "signal">) => T,
+        initial: T,
+        options?: Pick<ArrayOptions, "signal">,
+    ): Promise<T>;
+    _destroy(error: Error | null, callback: (error?: Error | null) => void): void;
+    destroy(error?: Error): this;
+}
+
+declare class _Readable implements _IReadable {
+    readable: boolean;
+    readonly readableFlowing: boolean | null;
+    readonly readableHighWaterMark: number;
+    readonly readableLength: number;
+    readonly closed: boolean;
+    readonly errored: Error | null;
+    _read(size: number): void;
+    read(size?: number): any;
+    setEncoding(encoding: string): this;
+    pause(): this;
+    resume(): this;
+    isPaused(): boolean;
+    unpipe(destination?: _Readable.Writable): this;
+    unshift(chunk: any): void;
+    wrap(oldStream: _Readable.Readable): this;
+    push(chunk: any, encoding?: string): boolean;
+    map(fn: (data: any, options?: SignalOption) => any, options?: ArrayOptions): _Readable.Readable;
+    filter(
+        fn: (data: any, options?: SignalOption) => boolean | Promise<boolean>,
+        options?: ArrayOptions,
+    ): _Readable.Readable;
+    forEach(fn: (data: any, options?: SignalOption) => void | Promise<void>, options?: ArrayOptions): Promise<void>;
+    toArray(options?: SignalOption): Promise<any[]>;
+    some(
+        fn: (data: any, options?: SignalOption) => boolean | Promise<boolean>,
+        options?: ArrayOptions,
+    ): Promise<boolean>;
+    find<T>(fn: (data: any, options?: SignalOption) => data is T, options?: ArrayOptions): Promise<T | undefined>;
+    find(fn: (data: any, options?: SignalOption) => boolean | Promise<boolean>, options?: ArrayOptions): Promise<any>;
+    every(
+        fn: (data: any, options?: SignalOption) => boolean | Promise<boolean>,
+        options?: ArrayOptions,
+    ): Promise<boolean>;
+    flatMap(fn: (data: any, options?: SignalOption) => any, options?: ArrayOptions): _Readable.Readable;
+    drop(limit: number, options?: SignalOption): _Readable.Readable;
+    take(limit: number, options?: SignalOption): _Readable.Readable;
+    asIndexedPairs(options?: SignalOption): _Readable.Readable;
+    reduce<T = any>(
+        fn: (previous: any, data: any, options?: Pick<ArrayOptions, "signal">) => T,
+        initial?: undefined,
+        options?: Pick<ArrayOptions, "signal">,
+    ): Promise<T>;
+    reduce<T = any>(
+        fn: (previous: T, data: any, options?: Pick<ArrayOptions, "signal">) => T,
+        initial: T,
+        options?: Pick<ArrayOptions, "signal">,
+    ): Promise<T>;
+    _destroy(error: Error | null, callback: (error?: Error | null) => void): void;
+    destroy(error?: Error): this;
 
     /**
      * Event emitter
@@ -91,7 +194,20 @@ declare class _Readable {
     removeListener(event: "error", listener: (err: Error) => void): this;
     removeListener(event: string | symbol, listener: (...args: any[]) => void): this;
 
+    removeAllListeners(event?: string | symbol): this;
+    off(eventName: string | symbol, listener: (...args: any[]) => void): this;
+    setMaxListeners(n: number): this;
+    getMaxListeners(): number;
+    // tslint:disable-next-line:ban-types
+    listeners(eventName: string | symbol): Function[];
+    // tslint:disable-next-line:ban-types
+    rawListeners(eventName: string | symbol): Function[];
+    listenerCount(eventName: string | symbol): number;
+    eventNames(): Array<string | symbol>;
+
+    iterator(options?: { destroyOnReturn?: boolean }): AsyncIterableIterator<any>;
     [Symbol.asyncIterator](): AsyncIterableIterator<any>;
+    [Symbol.asyncDispose](): never;
 
     // static ReadableState: _Readable.ReadableState;
     _readableState: _Readable.ReadableState;
@@ -124,23 +240,33 @@ declare namespace _Readable {
 
     // ==== destroy ====
     interface Destroy {
-        destroy(this: Readable | Writable, error: Error | null, callback?: (error: Error | null) => void): Readable | Writable;
+        destroy(
+            this: Readable | Writable,
+            error: Error | null,
+            callback?: (error: Error | null) => void,
+        ): Readable | Writable;
         undestroy(this: Readable | Writable): void;
     }
 
     // ==== _stream_duplex ====
     type DuplexOptions = ReadableOptions & WritableOptions & {
-        allowHalfOpen?: boolean;
-        readable?: boolean;
-        writable?: boolean;
+        allowHalfOpen?: boolean | undefined;
+        readable?: boolean | undefined;
+        writable?: boolean | undefined;
         read?(this: Duplex, size: number): void;
         write?(this: Duplex, chunk: any, encoding: BufferEncoding, callback: (error?: Error | null) => void): void;
-        writev?(this: Duplex, chunks: Array<{ chunk: any, encoding: BufferEncoding }>, callback: (error?: Error | null) => void): void;
+        writev?(
+            this: Duplex,
+            chunks: Array<{ chunk: any; encoding: BufferEncoding }>,
+            callback: (error?: Error | null) => void,
+        ): void;
         final?(this: Duplex, callback: (error?: Error | null) => void): void;
         destroy?(this: Duplex, error: Error | null, callback: (error: Error | null) => void): void;
     };
 
-    class Duplex extends Writable implements /*extends*/_Readable, Duplex {
+    type _IDuplex = _IReadable & _IWritable;
+
+    class Duplex extends _Writable implements _IDuplex, /*extends*/ _Readable, Duplex {
         /**
          * This is a dummy function required to retain type compatibility to node.
          * @deprecated DO NOT USE
@@ -157,6 +283,13 @@ declare namespace _Readable {
         readonly readableLength: number;
         readonly readableObjectMode: boolean;
         readonly writableObjectMode: boolean;
+
+        readonly readableAborted: never;
+        readonly readableDidRead: never;
+        readonly writableEnded: never;
+        readonly writableFinished: never;
+        readonly writableCorked: never;
+
         _readableState: ReadableState;
 
         _read(size?: number): void;
@@ -169,14 +302,47 @@ declare namespace _Readable {
         unshift(chunk: any): boolean;
         wrap(oldStream: Readable): this;
         push(chunk: any, encoding?: BufferEncoding): boolean;
+        map(fn: (data: any, options?: SignalOption) => any, options?: ArrayOptions): Readable;
+        filter(fn: (data: any, options?: SignalOption) => boolean | Promise<boolean>, options?: ArrayOptions): Readable;
+        forEach(fn: (data: any, options?: SignalOption) => void | Promise<void>, options?: ArrayOptions): Promise<void>;
+        toArray(options?: SignalOption): Promise<any[]>;
+        some(
+            fn: (data: any, options?: SignalOption) => boolean | Promise<boolean>,
+            options?: ArrayOptions,
+        ): Promise<boolean>;
+        find<T>(fn: (data: any, options?: SignalOption) => data is T, options?: ArrayOptions): Promise<T | undefined>;
+        find(
+            fn: (data: any, options?: SignalOption) => boolean | Promise<boolean>,
+            options?: ArrayOptions,
+        ): Promise<any>;
+        every(
+            fn: (data: any, options?: SignalOption) => boolean | Promise<boolean>,
+            options?: ArrayOptions,
+        ): Promise<boolean>;
+        flatMap(fn: (data: any, options?: SignalOption) => any, options?: ArrayOptions): Readable;
+        drop(limit: number, options?: SignalOption): Readable;
+        take(limit: number, options?: SignalOption): Readable;
+        asIndexedPairs(options?: SignalOption): Readable;
+        reduce<T = any>(
+            fn: (previous: any, data: any, options?: Pick<ArrayOptions, "signal">) => T,
+            initial?: undefined,
+            options?: Pick<ArrayOptions, "signal">,
+        ): Promise<T>;
+        reduce<T = any>(
+            fn: (previous: T, data: any, options?: Pick<ArrayOptions, "signal">) => T,
+            initial: T,
+            options?: Pick<ArrayOptions, "signal">,
+        ): Promise<T>;
         _destroy(err: Error | null, callback: (error: Error | null) => void): void;
         destroy(err?: Error, callback?: (error: Error | null) => void): this;
-        pipe<S extends Writable>(dest: S, pipeOpts?: { end?: boolean }): S;
+        pipe<S extends _IWritable>(dest: S, pipeOpts?: { end?: boolean | undefined }): S;
         addListener(ev: string | symbol, fn: (...args: any[]) => void): this;
         on(ev: string | symbol, fn: (...args: any[]) => void): this;
 
         _undestroy(): void;
+        iterator(options?: { destroyOnReturn?: boolean }): AsyncIterableIterator<any>;
         [Symbol.asyncIterator](): AsyncIterableIterator<any>;
+        [Symbol.asyncDispose](): never;
         // end-Readable
 
         constructor(options?: DuplexOptions);
@@ -186,17 +352,21 @@ declare namespace _Readable {
     class PassThrough extends Transform {
         constructor(options?: TransformOptions);
 
-        _transform<T>(chunk: T, encoding: BufferEncoding | string | null | undefined, callback: (error?: Error, data?: T) => void): void;
+        _transform<T>(
+            chunk: T,
+            encoding: BufferEncoding | string | null | undefined,
+            callback: (error?: Error, data?: T) => void,
+        ): void;
     }
 
     // ==== _stream_readable ====
     interface ReadableStateOptions {
-        defaultEncoding?: BufferEncoding;
-        encoding?: BufferEncoding;
-        highWaterMark?: number;
-        objectMode?: boolean;
-        readableObjectMode?: boolean;
-        readableHighWaterMark?: number;
+        defaultEncoding?: BufferEncoding | undefined;
+        encoding?: BufferEncoding | undefined;
+        highWaterMark?: number | undefined;
+        objectMode?: boolean | undefined;
+        readableObjectMode?: boolean | undefined;
+        readableHighWaterMark?: number | undefined;
     }
 
     interface ReadableState {
@@ -226,24 +396,49 @@ declare namespace _Readable {
     }
 
     type ReadableOptions = ReadableStateOptions & {
-        read?(this: _Readable, size: number): void;
-        destroy?(this: _Readable, error: Error | null, callback: (error: Error | null) => void): void;
+        read?(this: _IReadable, size: number): void;
+        destroy?(this: _IReadable, error: Error | null, callback: (error: Error | null) => void): void;
     };
 
     class Readable extends _Readable {
+        readonly readableAborted: never;
+        readonly readableDidRead: never;
+        readonly readableEncoding: never;
+        readonly readableEnded: never;
+        readonly readableObjectMode: never;
+
         constructor(options?: ReadableOptions);
+        pipe<T extends _IWritable>(destination: T, options?: { end?: boolean | undefined }): T;
+        compose<T extends NodeJS.ReadableStream>(
+            stream: T | ComposeFnParam | Iterable<T> | AsyncIterable<T>,
+            options?: { signal: AbortSignal },
+        ): T;
     }
 
     // ==== _stream_transform ====
-    type TransformOptions = DuplexOptions & {
-        read?(this: Transform, size: number): void;
-        write?(this: Transform, chunk: any, encoding: BufferEncoding, callback: (error?: Error | null) => void): void;
-        writev?(this: Transform, chunks: Array<{ chunk: any, encoding: BufferEncoding }>, callback: (error?: Error | null) => void): void;
-        final?(this: Transform, callback: (error?: Error | null) => void): void;
-        destroy?(this: Transform, error: Error | null, callback: (error: Error | null) => void): void;
-        transform?(this: Transform, chunk: any, encoding: BufferEncoding, callback: (error?: Error, data?: any) => void): void;
-        flush?(this: Transform, callback: (er: any, data: any) => void): void;
+    type TransformOptions = ReadableOptions & WritableOptions & {
+        read?(this: _ITransform, size: number): void;
+        write?(this: _ITransform, chunk: any, encoding: BufferEncoding, callback: (error?: Error | null) => void): void;
+        writev?(
+            this: _ITransform,
+            chunks: Array<{ chunk: any; encoding: BufferEncoding }>,
+            callback: (error?: Error | null) => void,
+        ): void;
+        final?(this: _ITransform, callback: (error?: Error | null) => void): void;
+        destroy?(this: _ITransform, error: Error | null, callback: (error: Error | null) => void): void;
+        transform?(
+            this: _ITransform,
+            chunk: any,
+            encoding: BufferEncoding,
+            callback: (error?: Error | null, data?: any) => void,
+        ): void;
+        flush?(callback: (error?: Error | null, data?: any) => void): void;
     };
+
+    interface _ITransform extends _IDuplex {
+        _transform(chunk: any, encoding: BufferEncoding, callback: (error?: Error | null, data?: any) => void): void;
+        _flush(callback: (error?: Error | null, data?: any) => void): void;
+    }
 
     class Transform extends Duplex {
         _transformState: {
@@ -257,8 +452,8 @@ declare namespace _Readable {
 
         constructor(options?: TransformOptions);
 
-        _transform(chunk: any, encoding: BufferEncoding, callback: (error?: Error, data?: any) => void): void;
-        _flush(callback: (error?: Error, data?: any) => void): void;
+        _transform(chunk: any, encoding: BufferEncoding, callback: (error?: Error | null, data?: any) => void): void;
+        _flush(callback: (error?: Error | null, data?: any) => void): void;
     }
 
     // ==== _stream_writable ====
@@ -277,12 +472,12 @@ declare namespace _Readable {
     }
 
     interface WritableStateOptions {
-        decodeStrings?: boolean;
-        defaultEncoding?: BufferEncoding;
-        highWaterMark?: number;
-        objectMode?: boolean;
-        writableObjectMode?: boolean;
-        writableHighWaterMark?: number;
+        decodeStrings?: boolean | undefined;
+        defaultEncoding?: BufferEncoding | undefined;
+        highWaterMark?: number | undefined;
+        objectMode?: boolean | undefined;
+        writableObjectMode?: boolean | undefined;
+        writableHighWaterMark?: number | undefined;
     }
 
     interface WritableState {
@@ -319,30 +514,51 @@ declare namespace _Readable {
     }
 
     type WritableOptions = WritableStateOptions & {
-        write?(this: Writable, chunk: any, encoding: BufferEncoding | string, callback: (error?: Error | null) => void): void;
-        writev?(this: Writable, chunk: ArrayLike<{ chunk: any; encoding: BufferEncoding | string }>, callback: (error?: Error | null) => void): void;
-        destroy?(this: Writable, error: Error | null, callback: (error: Error | null) => void): void;
-        final?(this: Writable, callback: (error?: Error | null) => void): void;
+        write?(
+            this: _IWritable,
+            chunk: any,
+            encoding: BufferEncoding | string,
+            callback: (error?: Error | null) => void,
+        ): void;
+        writev?(
+            this: _IWritable,
+            chunk: ArrayLike<{ chunk: any; encoding: BufferEncoding | string }>,
+            callback: (error?: Error | null) => void,
+        ): void;
+        destroy?(this: _IWritable, error: Error | null, callback: (error: Error | null) => void): void;
+        final?(this: _IWritable, callback: (error?: Error | null) => void): void;
     };
 
-    class Writable extends Stream {
+    interface _IWritable extends _IEventEmitter {
+        writable: boolean;
+        write(chunk: any, cb?: (error: Error | null | undefined) => void): boolean;
+        write(chunk: any, encoding?: string, cb?: (error: Error | null | undefined) => void): boolean;
+        end(cb?: () => void): this;
+        end(data: string | Uint8Array, cb?: () => void): this;
+        end(str: string, encoding?: BufferEncoding, cb?: () => void): this;
+    }
+
+    class _Writable extends Stream implements _IWritable {
         writable: boolean;
         readonly writableHighWaterMark: number;
         readonly writableLength: number;
+        readonly closed: boolean;
+        readonly errored: Error | null;
+        readonly writableNeedDrain: boolean;
         constructor(opts?: WritableOptions);
         _write(chunk: any, encoding: string, callback: (error?: Error | null) => void): void;
-        _writev?(chunks: Array<{ chunk: any, encoding: string }>, callback: (error?: Error | null) => void): void;
+        _writev?(chunks: Array<{ chunk: any; encoding: string }>, callback: (error?: Error | null) => void): void;
         _destroy(error: Error | null, callback: (error: Error | null) => void): void;
         _final(callback: (error?: Error | null) => void): void;
         write(chunk: any, cb?: (error: Error | null | undefined) => void): boolean;
         write(chunk: any, encoding?: string, cb?: (error: Error | null | undefined) => void): boolean;
         setDefaultEncoding(encoding: string): this;
-        end(cb?: () => void): void;
-        end(chunk: any, cb?: () => void): void;
-        end(chunk: any, encoding?: string, cb?: () => void): void;
+        end(cb?: () => void): this;
+        end(chunk: any, cb?: () => void): this;
+        end(chunk: any, encoding?: string, cb?: () => void): this;
         cork(): void;
         uncork(): void;
-        destroy(error?: Error): void;
+        destroy(error?: Error): this;
 
         /**
          * Event emitter
@@ -418,9 +634,22 @@ declare namespace _Readable {
         _undestroy(): void;
     }
 
+    class Writable extends _Writable {
+        readonly writableEnded: never;
+        readonly writableFinished: never;
+        readonly writableObjectMode: never;
+        readonly writableCorked: never;
+
+        constructor(opts?: WritableOptions);
+    }
+
     class Stream extends _Readable {
         constructor(options?: ReadableOptions);
-        pipe<T extends Writable>(destination: T, options?: { end?: boolean; }): T;
+        pipe<T extends _IWritable>(destination: T, options?: { end?: boolean | undefined }): T;
+        compose<T extends NodeJS.ReadableStream>(
+            stream: T | ComposeFnParam | Iterable<T> | AsyncIterable<T>,
+            options?: { signal: AbortSignal },
+        ): T;
     }
 }
 

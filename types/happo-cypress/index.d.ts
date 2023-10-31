@@ -1,14 +1,18 @@
-// Type definitions for happo-cypress 1.17
-// Project: https://github.com/happo/happo-cypress#readme
-// Definitions by: Alexander Polyankin <https://github.com/alexanderpolyankin>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+/// <reference types="cypress" />
+
+export interface HappoScreenshotTarget {
+    name: string;
+    browser: string;
+    viewport: string;
+}
 
 export interface HappoScreenshotOptions {
-    component?: string;
-    variant?: string;
-    targets?: ReadonlyArray<string>;
-    responsiveInlinedCanvases?: boolean;
-    transformDOM?: HappoTransformDOMOptions;
+    component?: string | undefined;
+    variant?: string | undefined;
+    targets?: ReadonlyArray<string | HappoScreenshotTarget> | undefined;
+    responsiveInlinedCanvases?: boolean | undefined;
+    transformDOM?: HappoTransformDOMOptions | undefined;
+    includeAllElements?: boolean | undefined;
 }
 
 export interface HappoTransformDOMOptions {
@@ -17,11 +21,11 @@ export interface HappoTransformDOMOptions {
 }
 
 export interface HappoHideDynamicElementsOptions {
-    matchers?: ReadonlyArray<RegExp>;
-    defaultMatchers?: ReadonlyArray<RegExp>;
-    selectors?: ReadonlyArray<string>;
-    defaultSelectors?: ReadonlyArray<string>;
-    replace?: boolean;
+    matchers?: ReadonlyArray<RegExp> | undefined;
+    defaultMatchers?: ReadonlyArray<RegExp> | undefined;
+    selectors?: ReadonlyArray<string> | undefined;
+    defaultSelectors?: ReadonlyArray<string> | undefined;
+    replace?: boolean | undefined;
 }
 
 declare global {

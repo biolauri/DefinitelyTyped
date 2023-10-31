@@ -1,9 +1,3 @@
-// Type definitions for color-hash 1.0
-// Project: https://github.com/zenozeng/color-hash
-// Definitions by: Johannes Hoppe <https://github.com/JohannesHoppe>
-//                 Kamil Socha <https://github.com/ksocha>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 type ColorValueArray = [number, number, number];
 
 interface HueObject {
@@ -12,16 +6,16 @@ interface HueObject {
 }
 
 type Hue = number | HueObject | ReadonlyArray<HueObject>;
-type Lightness = number | ColorValueArray;
-type Saturation = number | ColorValueArray;
+type Lightness = number | number[];
+type Saturation = number | number[];
 
 type HashFunction = (input: string) => number;
 
 interface ColorHashOptions {
-    lightness?: Lightness;
-    saturation?: Saturation;
-    hue?: Hue;
-    hash?: HashFunction;
+    lightness?: Lightness | undefined;
+    saturation?: Saturation | undefined;
+    hue?: Hue | undefined;
+    hash?: HashFunction | undefined;
 }
 
 declare class ColorHash {

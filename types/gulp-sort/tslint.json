@@ -1,9 +1,7 @@
 {
-    "extends": "dtslint/dt.json",
+    "extends": "@definitelytyped/dtslint/dt.json",
     "rules": {
-        "dt-header": false,
         "interface-name": false,
-        "no-consecutive-blank-lines": false,
         "object-literal-shorthand": false,
         "only-arrow-functions": false,
         "unified-signatures": false

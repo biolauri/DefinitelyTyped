@@ -1,8 +1,3 @@
-// Type definitions for world-currencies 0.0
-// Project: https://github.com/wiredmax/world-currencies
-// Definitions by: BendingBender <https://github.com/BendingBender>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 export = worldCurrencies;
 
 declare const worldCurrencies: Record<string, worldCurrencies.Currency>;
@@ -14,7 +9,7 @@ declare namespace worldCurrencies {
         units: {
             major: Unit;
             minor: MinorUnit;
-            minor2?: MinorUnit;
+            minor2?: MinorUnit | undefined;
         };
         banknotes: CashValues;
         coins: CashValues;

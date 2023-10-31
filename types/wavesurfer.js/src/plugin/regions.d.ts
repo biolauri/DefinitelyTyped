@@ -1,5 +1,5 @@
-import { Styles } from "../../types/util";
 import { PluginDefinition, PluginParams, WaveSurferPlugin } from "../../types/plugin";
+import { Styles } from "../../types/util";
 import Observer from "../util/observer";
 import WaveSurfer from "../wavesurfer";
 
@@ -24,8 +24,8 @@ export default class RegionsPlugin extends Observer implements WaveSurferPlugin 
     getCurrentRegion(): Region | null;
     getRegionSnapToGridValue(value: number, params: RegionParams): number;
 
-    readonly list: Region[];
-    readonly maxRegions: number[];
+    readonly list: { [id: string]: Region };
+    readonly maxRegions: number;
     readonly params: RegionsPluginParams;
     readonly regionsMinLength: number;
     readonly util: WaveSurfer["util"];
@@ -35,39 +35,39 @@ export default class RegionsPlugin extends Observer implements WaveSurferPlugin 
 
 export interface RegionsPluginParams extends PluginParams {
     /** Enable creating regions by dragging with the mouse. */
-    dragSelection?: boolean;
+    dragSelection?: boolean | undefined;
     /** Regions that should be added upon initialisation. */
-    regions?: RegionParams[];
+    regions?: RegionParams[] | undefined;
     /** The sensitivity of the mouse dragging (default: 2). */
-    slop?: number;
+    slop?: number | undefined;
     /** Snap the regions to a grid of the specified multiples in seconds? */
-    snapToGridInterval?: number;
+    snapToGridInterval?: number | undefined;
     /** Shift the snap-to-grid by the specified seconds. May also be negative. */
-    snapToGridOffset?: number;
+    snapToGridOffset?: number | undefined;
     /** Maximum number of regions that may be created by the user at one time. */
-    maxRegions?: number[];
+    maxRegions?: number | undefined;
     /** Allows custom formating for region tooltip. */
-    formatTimeCallback?: () => string;
+    formatTimeCallback?: ((start: number, end: number) => string) | undefined;
     /** from container edges' Optional width for edgeScroll to start (default: 5% of viewport width). */
-    edgeScrollWidth?: number;
+    edgeScrollWidth?: number | undefined;
 }
 
 export class Region extends Observer {
     constructor(params: RegionParams, regionsUtil: WaveSurfer["util"], ws: WaveSurfer);
 
-    bindRagEvents(): void;
+    bindDragEvents(): void;
     bindEvents(): void;
     bindInOut(): void;
     formatTime(start: number, end: number): string;
     getWidth(): number;
     onDrag(delta: number): void;
     onResize(delta: number, direction: "start" | "end"): void;
-    play(start: number): void;
-    playLoop(start: number): void;
+    play(start?: number): void;
+    playLoop(start?: number): void;
     remove(): void;
     render(): void;
     setLoop(loop: boolean): void;
-    update(params: RegionParams): void;
+    update(params: RegionParams, eventParams?: RegionUpdatedEventParams): void;
     updateHandlesResize(resize: boolean): void;
     updateRender(): void;
 
@@ -75,12 +75,12 @@ export class Region extends Observer {
     readonly color: string;
     readonly data: Datas;
     readonly drag: boolean;
-    readonly edgeScrollWidth?: number;
+    readonly edgeScrollWidth?: number | undefined;
     readonly element: HTMLElement;
     readonly end: number;
     readonly firedIn: boolean;
     readonly firedOut: boolean;
-    readonly formatTimeCallback?: (start: number, end: number) => string;
+    readonly formatTimeCallback?: ((start: number, end: number) => string) | undefined;
     readonly handleLeftEl: HTMLElement | null;
     readonly handleRightEl: HTMLElement | null;
     readonly handleStyle: HandleStyle;
@@ -106,17 +106,26 @@ export class Region extends Observer {
 }
 
 export interface RegionParams {
-    id: string;
-    start?: number;
-    end?: number;
-    loop?: boolean;
-    drag?: boolean;
-    resize?: boolean;
-    color?: string;
-    channelIdx?: number;
-    handleStyle?: HandleStyle;
-    preventContextMenu?: boolean;
-    showTooltip?: boolean;
+    id?: string | undefined;
+    start?: number | undefined;
+    end?: number | undefined;
+    loop?: boolean | undefined;
+    drag?: boolean | undefined;
+    resize?: boolean | undefined;
+    color?: string | undefined;
+    channelIdx?: number | undefined;
+    handleStyle?: HandleStyle | undefined;
+    preventContextMenu?: boolean | undefined;
+    showTooltip?: boolean | undefined;
+    attributes?: Attributes | undefined;
+    data?: Datas | undefined;
+}
+
+export interface RegionUpdatedEventParams {
+    action: "drag" | "resize" | "contentEdited";
+    direction?: "right" | "left" | null;
+    oldText?: string;
+    text?: string;
 }
 
 export interface HandleStyle {
@@ -129,5 +138,5 @@ export interface Attributes {
 }
 
 export interface Datas {
-    [dataName: string]: string;
+    [dataName: string]: unknown;
 }

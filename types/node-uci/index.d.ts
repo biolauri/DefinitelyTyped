@@ -1,25 +1,20 @@
-// Type definitions for node-uci 1.3
-// Project: https://github.com/ebemunk/node-uci
-// Definitions by: Weslen Nascimento <https://github.com/weslenng>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 // Minimum TypeScript Version: 3.0
 /// <reference types="node" />
 
-import { EventEmitter } from 'events';
+import { EventEmitter } from "events";
 
 export interface SearchOptions {
-    searchmoves?: ReadonlyArray<string>;
-    ponder?: boolean;
-    wtime?: number;
-    btime?: number;
-    winc?: number;
-    binc?: number;
-    movestogo?: number;
-    depth?: number;
-    nodes?: number;
-    mate?: number;
-    movetime?: number;
+    searchmoves?: ReadonlyArray<string> | undefined;
+    ponder?: boolean | undefined;
+    wtime?: number | undefined;
+    btime?: number | undefined;
+    winc?: number | undefined;
+    binc?: number | undefined;
+    movestogo?: number | undefined;
+    depth?: number | undefined;
+    nodes?: number | undefined;
+    mate?: number | undefined;
+    movetime?: number | undefined;
 }
 
 export interface SearchResult {

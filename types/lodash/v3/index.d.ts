@@ -1,8 +1,3 @@
-// Type definitions for Lo-Dash 3.10
-// Project: http://lodash.com/
-// Definitions by: Brian Zengel <https://github.com/bczengel>, Ilya Mochalov <https://github.com/chrootsu>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 declare var _: _.LoDashStatic;
 
 declare namespace _ {
@@ -71,27 +66,27 @@ declare namespace _ {
         /**
         * The "escape" delimiter.
         **/
-        escape?: RegExp;
+        escape?: RegExp | undefined;
 
         /**
         * The "evaluate" delimiter.
         **/
-        evaluate?: RegExp;
+        evaluate?: RegExp | undefined;
 
         /**
         * An object to import into the template as local variables.
         **/
-        imports?: Dictionary<any>;
+        imports?: Dictionary<any> | undefined;
 
         /**
         * The "interpolate" delimiter.
         **/
-        interpolate?: RegExp;
+        interpolate?: RegExp | undefined;
 
         /**
         * Used to reference the data object in the template text.
         **/
-        variable?: string;
+        variable?: string | undefined;
     }
 
     /**
@@ -4190,7 +4185,7 @@ declare namespace _ {
          *
          * @param value The value to provide to interceptor.
          * @param interceptor The function to invoke.
-         * @parem thisArg The this binding of interceptor.
+         * @param thisArg The this binding of interceptor.
          * @return Returns value.
          **/
         tap<T>(
@@ -9673,17 +9668,17 @@ declare namespace _ {
         /**
          * Specify invoking on the leading edge of the timeout.
          */
-        leading?: boolean;
+        leading?: boolean | undefined;
 
         /**
          * The maximum time func is allowed to be delayed before it’s invoked.
          */
-        maxWait?: number;
+        maxWait?: number | undefined;
 
         /**
          * Specify invoking on the trailing edge of the timeout.
          */
-        trailing?: boolean;
+        trailing?: boolean | undefined;
     }
 
     interface LoDashStatic {
@@ -10240,12 +10235,12 @@ declare namespace _ {
         /**
          * If you'd like to disable the leading-edge call, pass this as false.
          */
-        leading?: boolean;
+        leading?: boolean | undefined;
 
         /**
          * If you'd like to disable the execution on the trailing-edge, pass false.
          */
-        trailing?: boolean;
+        trailing?: boolean | undefined;
     }
 
     interface LoDashStatic {
@@ -11127,6 +11122,8 @@ declare namespace _ {
     }
 
     //_.isEmpty
+    type EmptyObject<T> = { [K in keyof T]?: never };
+    type EmptyObjectOf<T> = EmptyObject<T> extends T ? EmptyObject<T> : never;
     interface LoDashStatic {
         /**
          * Checks if value is empty. A value is considered empty unless it’s an arguments object, array, string, or
@@ -11135,6 +11132,10 @@ declare namespace _ {
          * @param value The value to inspect.
          * @return Returns true if value is empty, else false.
          */
+        isEmpty<T extends { __trapAny: any }>(value?: T): boolean;
+        isEmpty(value: string): value is '';
+        isEmpty(value: Map<any, any> | Set<any> | List<any> | null | undefined): boolean;
+        isEmpty<T extends object>(value: T | null | undefined): value is EmptyObjectOf<T> | null | undefined;
         isEmpty(value?: any): boolean;
     }
 
@@ -11344,7 +11345,7 @@ declare namespace _ {
          * Checks if value is a native function.
          * @param value The value to check.
          *
-         * @retrun Returns true if value is a native function, else false.
+         * @return Returns true if value is a native function, else false.
          */
         isNative(value: any): value is Function;
     }
@@ -14749,7 +14750,7 @@ declare namespace _ {
          * Splits string by separator.
          *
          * Note: This method is based on String#split.
-         * 
+         *
          * @param separator The separator pattern to split by.
          * @param limit The length to truncate results to.
          * @return Returns the new array with the terms splitted.
@@ -14831,7 +14832,7 @@ declare namespace _ {
         /**
          * The sourceURL of the template's compiled source.
          */
-        sourceURL?: string;
+        sourceURL?: string | undefined;
     }
 
     interface TemplateExecutor {
@@ -14976,11 +14977,11 @@ declare namespace _ {
     //_.trunc
     interface TruncOptions {
         /** The maximum string length. */
-        length?: number;
+        length?: number | undefined;
         /** The string to indicate text is omitted. */
-        omission?: string;
+        omission?: string | undefined;
         /** The separator pattern to truncate to. */
-        separator?: string|RegExp;
+        separator?: string|RegExp | undefined;
     }
 
     interface LoDashStatic {
@@ -15107,7 +15108,7 @@ declare namespace _ {
          *
          * @param func The value to convert to a callback.
          * @param thisArg The this binding of func.
-         * @result Returns the callback.
+         * @return Returns the callback.
          */
         callback<TResult>(
             func: Function,
@@ -15531,7 +15532,7 @@ declare namespace _ {
 
     //_.mixin
     interface MixinOptions {
-        chain?: boolean;
+        chain?: boolean | undefined;
     }
 
     interface LoDashStatic {

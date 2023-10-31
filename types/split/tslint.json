@@ -1,13 +1,10 @@
 {
-    "extends": "dtslint/dt.json",
+    "extends": "@definitelytyped/dtslint/dt.json",
     "rules": {
-        "dt-header": false,
         "no-reference-import": false,
-        "no-unnecessary-generics": false,
         "no-var-keyword": false,
         "only-arrow-functions": false,
         "prefer-const": false,
-        "prefer-template": false,
-        "semicolon": false
+        "prefer-template": false
     }
 }

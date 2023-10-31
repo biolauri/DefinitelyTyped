@@ -1,10 +1,4 @@
-// Type definitions for got-resume 2.0
-// Project: https://github.com/overlookmotel/got-resume#readme
-// Definitions by: Ciarán Ingle <https://github.com/inglec-arista>
-//                 BendingBender <https://github.com/BendingBender>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
-import { GotOptions } from "got";
+import { Options } from "got";
 import { ClientRequest, IncomingMessage } from "http";
 import { PassThrough, Transform } from "stream";
 import Promise = require("bluebird");
@@ -82,7 +76,7 @@ declare namespace gotResume {
          *
          * const stream = gotResume('http://google.com/', { attempts: 0 });
          */
-        attempts?: number;
+        attempts?: number | undefined;
 
         /**
          * Max number of total attempts before aborting.
@@ -91,7 +85,7 @@ declare namespace gotResume {
          *
          * @default 0
          */
-        attemptsTotal?: number;
+        attemptsTotal?: number | undefined;
 
         /**
          * Function to determine wait in milliseconds before retry.
@@ -120,7 +114,7 @@ declare namespace gotResume {
          * If `options.length` is set, only that number of bytes will be fetched (i.e. file
          * will be truncated).
          */
-        length?: number;
+        length?: number | undefined;
 
         /**
          * Number of bytes at start of resource to skip.
@@ -130,7 +124,7 @@ declare namespace gotResume {
          *
          * @default 0
          */
-        offset?: number;
+        offset?: number | undefined;
 
         /**
          * Set to `true` if you require the length of the transfer to be retrieved at start of the
@@ -142,7 +136,7 @@ declare namespace gotResume {
          *
          * @default false
          */
-        needLength?: boolean;
+        needLength?: boolean | undefined;
 
         /**
          * Timeout in milliseconds.
@@ -180,7 +174,7 @@ declare namespace gotResume {
          *   }
          * });
          */
-        timeout?: number | TimeoutSpec | null;
+        timeout?: number | TimeoutSpec | null | undefined;
 
         /**
          * An async function that is run before each chunk request. Request will commence once
@@ -218,7 +212,7 @@ declare namespace gotResume {
          *   { transform: zlib.createGzip() }
          * );
          */
-        transform?: Transform;
+        transform?: Transform | undefined;
 
         /**
          * Function to receive logging information e.g. HTTP responses.
@@ -239,18 +233,18 @@ declare namespace gotResume {
          *
          * const stream = gotResume('http://google.com/', { got: { method: 'POST' } });
          */
-        got?: GotOptions<string | null>;
+        got?: Options | undefined;
     }
 
     interface TimeoutSpec {
-        lookup?: number;
-        connect?: number;
-        secureConnect?: number;
-        socket?: number;
-        response?: number;
-        send?: number;
-        request?: number;
-        idle?: number;
+        lookup?: number | undefined;
+        connect?: number | undefined;
+        secureConnect?: number | undefined;
+        socket?: number | undefined;
+        response?: number | undefined;
+        send?: number | undefined;
+        request?: number | undefined;
+        idle?: number | undefined;
     }
 
     interface ToFileOptionsWithUrl extends ToFileOptions, WithUrl {}
@@ -394,31 +388,31 @@ declare namespace gotResume {
     class Transfer {
         /** Options passed to constructor. */
         options: ToFileOptions & Partial<WithUrl>;
-        url?: string;
+        url?: string | undefined;
         /** Length of options passed to constructor. */
-        length?: number;
+        length?: number | undefined;
         log: (...args: unknown[]) => void;
-        gotOptions: GotOptions<string | null>;
-        idleTimeout?: number;
+        gotOptions: Options;
+        idleTimeout?: number | undefined;
 
         attempt: number;
         attemptTotal: number;
-        position?: number;
-        total?: number;
+        position?: number | undefined;
+        total?: number | undefined;
         cancelled: boolean;
         requestEventFired: boolean;
         /** `got` stream request. */
-        req?: ClientRequest;
+        req?: ClientRequest | undefined;
         /** `got` stream response. */
-        res?: IncomingMessage;
+        res?: IncomingMessage | undefined;
         /** Error occurred during transfer. */
-        err?: globalThis.Error;
-        lastMod?: string;
-        etag?: string;
+        err?: globalThis.Error | undefined;
+        lastMod?: string | undefined;
+        etag?: string | undefined;
         /** Promise returned from `options.pre`. */
-        prePromise?: Promise<void>;
+        prePromise?: Promise<void> | undefined;
         /** Timeout. */
-        waitTimer?: number;
+        waitTimer?: number | undefined;
         /** Output stream. */
         stream: TransferStream;
 

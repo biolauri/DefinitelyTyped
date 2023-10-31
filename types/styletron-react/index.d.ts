@@ -1,13 +1,7 @@
-// Type definitions for styletron-react 5.0
-// Project: https://github.com/styletron/styletron
-// Definitions by: Eric Taylor <https://github.com/erictaylor>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 3.1
+import * as React from "react";
+import { driver, StandardEngine, StyleObject } from "styletron-standard";
 
-import * as React from 'react';
-import { driver, StandardEngine, StyleObject } from 'styletron-standard';
-
-export { StyleObject, StandardEngine };
+export { StandardEngine, StyleObject };
 
 // From styletron-react types
 export interface Reducer {
@@ -52,7 +46,7 @@ export interface Styletron {
     debug?: {
         stackIndex: StackIndex;
         stackInfo: StackInfo;
-    };
+    } | undefined;
 }
 
 export type StyleObjectFn<P extends object> = (props: P) => StyleObject;
@@ -60,8 +54,8 @@ export type StyleObjectFn<P extends object> = (props: P) => StyleObject;
 export type $StyleProp<P extends object> = StyleObject | StyleObjectFn<P>;
 
 export interface StyletronComponentInjectedProps<P extends object> {
-    $as?: StyletronBase;
-    $style?: $StyleProp<P>;
+    $as?: StyletronBase | undefined;
+    $style?: $StyleProp<P> | undefined;
 }
 
 export type StyletronComponent<P extends object> = React.FC<P & StyletronComponentInjectedProps<P>> & {
@@ -121,9 +115,9 @@ export type DebugEngine = BrowserDebugEngine | NoopDebugEngine;
 export interface DevProviderProps {
     children: React.ReactNode;
     value: StandardEngine;
-    debugAfterHydration?: boolean;
+    debugAfterHydration?: boolean | undefined;
     /** DebugEngineContext */
-    debug?: DebugEngine;
+    debug?: DebugEngine | undefined;
 }
 
 export class DevProvider extends React.Component<DevProviderProps, { hydrating: boolean }> {}

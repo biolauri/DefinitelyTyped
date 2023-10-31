@@ -7,25 +7,23 @@ import {
     Scene,
     WebGLRenderer,
     Camera,
-    TextureEncoding,
     Mesh,
     Material,
-} from '../../../src/Three';
-import { Pass, FullScreenQuad } from '../postprocessing/Pass';
-import { Reflector } from '../objects/ReflectorForSSRPass';
+    ColorRepresentation,
+} from '../../../src/Three.js';
+import { Pass, FullScreenQuad } from '../postprocessing/Pass.js';
+import { ReflectorForSSRPass } from '../objects/ReflectorForSSRPass.js';
 
 export interface SSRPassParams {
     renderer: WebGLRenderer;
     scene: Scene;
     camera: Camera;
-    width?: number;
-    height?: number;
+    width?: number | undefined;
+    height?: number | undefined;
     selects: Mesh[] | null;
-    encoding: TextureEncoding;
-    isPerspectiveCamera?: boolean;
-    isBouncing?: boolean;
-    morphTargets?: boolean;
-    groundReflector: Reflector | null;
+    isPerspectiveCamera?: boolean | undefined;
+    isBouncing?: boolean | undefined;
+    groundReflector: ReflectorForSSRPass | null;
 }
 
 export class SSRPass extends Pass {
@@ -35,30 +33,27 @@ export class SSRPass extends Pass {
     renderer: WebGLRenderer;
     scene: Scene;
     camera: Camera;
-    groundReflector: Reflector | null;
+    groundReflector: ReflectorForSSRPass | null;
     opacity: number;
     output: number;
     maxDistance: number;
     thickness: number;
-    encoding: TextureEncoding;
     tempColor: Color;
 
     get selects(): Mesh[] | null;
     set selects(val: Mesh[] | null);
     selective: boolean;
-    get isBouncing(): boolean;
-    set isBouncing(val: boolean);
+    get bouncing(): boolean;
+    set bouncing(val: boolean);
 
     blur: boolean;
 
-    get isDistanceAttenuation(): boolean;
-    set isDistanceAttenuation(val: boolean);
-    get isFresnel(): boolean;
-    set isFresnel(val: boolean);
-    get isInfiniteThick(): boolean;
-    set isInfiniteThick(val: boolean);
-
-    thickTolerance: number;
+    get distanceAttenuation(): boolean;
+    set distanceAttenuation(val: boolean);
+    get fresnel(): boolean;
+    set fresnel(val: boolean);
+    get infiniteThick(): boolean;
+    set infiniteThick(val: boolean);
 
     beautyRenderTarget: WebGLRenderTarget;
     prevRenderTarget: WebGLRenderTarget;
@@ -105,23 +100,23 @@ export class SSRPass extends Pass {
         renderer: WebGLRenderer,
         passMaterial: Material,
         renderTarget: WebGLRenderTarget,
-        clearColor: Color | string | number,
-        clearAlpha: Color | string | number,
+        clearColor: ColorRepresentation,
+        clearAlpha: ColorRepresentation,
     ) => void;
 
     renderOverride: (
         renderer: WebGLRenderer,
         passMaterial: Material,
         renderTarget: WebGLRenderTarget,
-        clearColor: Color | string | number,
-        clearAlpha: Color | string | number,
+        clearColor: ColorRepresentation,
+        clearAlpha: ColorRepresentation,
     ) => void;
 
     renderMetalness: (
         renderer: WebGLRenderer,
         passMaterial: Material,
         renderTarget: WebGLRenderTarget,
-        clearColor: Color | string | number,
-        clearAlpha: Color | string | number,
+        clearColor: ColorRepresentation,
+        clearAlpha: ColorRepresentation,
     ) => void;
 }

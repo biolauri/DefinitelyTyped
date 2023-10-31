@@ -1,9 +1,3 @@
-// Type definitions for bpmn-moddle 5.1
-// Project: https://github.com/bpmn-io/bpmn-moddle
-// Definitions by: Hayden <https://github.com/haydos89>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.3
-
 declare namespace BPMNModdle {
     type AdHocOrdering = "Parallel" | "Sequential";
     type AssociationDirection = "None" | "One" | "Both";
@@ -36,17 +30,17 @@ declare namespace BPMNModdle {
         /**
          * Documentation for the element
          */
-        documentation?: Documentation[];
+        documentation?: Documentation[] | undefined;
 
         /**
          * Reference to the extension definitions for this element
          */
-        extensionDefinitions?: ExtensionDefinition[];
+        extensionDefinitions?: ExtensionDefinition[] | undefined;
 
         /**
          * Extension Elements
          */
-        extensionElements?: ExtensionElements;
+        extensionElements?: ExtensionElements | undefined;
 
         /**
          * Attributes that aren't defined by the BPMN Spec such
@@ -54,7 +48,7 @@ declare namespace BPMNModdle {
          */
         $attrs?: {
             [key: string]: any;
-        };
+        } | undefined;
     }
 
     // tslint:disable-next-line:no-empty-interface
@@ -96,7 +90,7 @@ declare namespace BPMNModdle {
     interface Monitoring extends BaseElement {}
 
     // tslint:disable-next-line:no-empty-interface
-   interface Performer extends ResourceRole {}
+    interface Performer extends ResourceRole {}
     interface Process extends FlowElementsContainer, CallableElement {
         processType: string;
         isClosed: boolean;
@@ -442,7 +436,7 @@ declare namespace BPMNModdle {
         import: Import;
     }
     interface FlowElement extends RootElement {
-        name?: string;
+        name?: string | undefined;
         auditing: Auditing;
         monitoring: Monitoring;
         categoryValueRef: CategoryValue[];
@@ -536,9 +530,7 @@ declare namespace BPMNModdle {
         calledChoreographyRef: Choreography;
         participantAssociations: ParticipantAssociation[];
     }
-    interface SubChoreography
-        extends ChoreographyActivity,
-            FlowElementsContainer {
+    interface SubChoreography extends ChoreographyActivity, FlowElementsContainer {
         artifacts: Artifact[];
     }
     interface ChoreographyTask extends ChoreographyActivity {
@@ -587,10 +579,7 @@ declare namespace BPMNModdle {
         implementation: string;
         operationRef: Operation;
     }
-    interface SubProcess
-        extends Activity,
-            FlowElementsContainer,
-            InteractionNode {
+    interface SubProcess extends Activity, FlowElementsContainer, InteractionNode {
         triggeredByEvent: boolean;
         artifacts: Artifact[];
     }
@@ -909,13 +898,13 @@ declare namespace BPMNModdle {
     }
 
     interface BPMNModdleConstructor {
-        new (packages?: any, options?: Option): BPMNModdle;
+        new(packages?: any, options?: Option): BPMNModdle;
     }
 
     type ImportFn = (
         err: Error,
         definitions: Definitions,
-        parseContext: any
+        parseContext: any,
     ) => void;
 
     interface Moddle {
@@ -933,7 +922,7 @@ declare namespace BPMNModdle {
          */
         create<T = ElementTypes, K extends keyof T = keyof T>(
             descriptor: K,
-            attrs?: any
+            attrs?: any,
         ): T[K];
         create(descriptor: any, attrs?: any): BaseElement;
 
@@ -968,7 +957,6 @@ declare namespace BPMNModdle {
          * });
          *
          * // go ahead and serialize the stuff
-         *
          *
          * @param  name  the name of the element
          * @param  nsUri the namespace uri of the element
@@ -1058,7 +1046,7 @@ declare namespace BPMNModdle {
             xmlStr: string,
             typeName: string,
             options: Option,
-            done: ImportFn
+            done: ImportFn,
         ): void;
 
         /**

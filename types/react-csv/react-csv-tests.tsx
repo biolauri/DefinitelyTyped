@@ -1,19 +1,22 @@
 import * as React from "react";
+import { CSVDownload, CSVLink } from "react-csv";
+import { toCSV } from "react-csv/lib/core";
 import { render } from "react-dom";
-import { CSVLink, CSVDownload } from "react-csv";
 
 const headers = [
     { label: "First Name", key: "details.firstName" },
     { label: "Last Name", key: "details.lastName" },
-    { label: "Job", key: "job" }
+    { label: "Job", key: "job" },
 ];
 
 const headersStrings = ["foo", "bar"];
 
 const data = [
     { details: { firstName: "Ahmed", lastName: "Tomi" }, job: "manager" },
-    { details: { firstName: "John", lastName: "Jones" }, job: "developer" }
+    { details: { firstName: "John", lastName: "Jones" }, job: "developer" },
 ];
+
+const dataFunction = () => data;
 
 const dataString = `firstname,lastname
 Ahmed,Tomi
@@ -22,23 +25,22 @@ Yezzi,Min l3b
 `;
 
 const syncOnClickReturn = (
-    event: React.MouseEventHandler<HTMLAnchorElement>
+    event: React.MouseEventHandler<HTMLAnchorElement>,
 ) => {
     window.console.log(event);
     return true;
 };
-const syncOnClickVoid = (event: React.MouseEventHandler<HTMLAnchorElement>) =>
-    window.console.log(event);
+const syncOnClickVoid = (event: React.MouseEventHandler<HTMLAnchorElement>) => window.console.log(event);
 const asyncOnClickReturn = (
     event: React.MouseEventHandler<HTMLAnchorElement>,
-    done: (proceed?: boolean) => void
+    done: (proceed?: boolean) => void,
 ) => {
     window.console.log(event);
     done(true);
 };
 const asyncOnClickVoid = (
     event: React.MouseEventHandler<HTMLAnchorElement>,
-    done: (proceed?: boolean) => void
+    done: (proceed?: boolean) => void,
 ) => {
     window.console.log(event);
     done();
@@ -59,7 +61,7 @@ render(
         separator={","}
         filename={"bob.csv"}
     />,
-    node
+    node,
 );
 render(
     <CSVLink
@@ -69,7 +71,7 @@ render(
         filename={"bob.csv"}
         uFEFF={true}
     />,
-    node
+    node,
 );
 render(
     <CSVLink
@@ -80,7 +82,7 @@ render(
         uFEFF={true}
         enclosingCharacter={`'`}
     />,
-    node
+    node,
 );
 render(
     <CSVLink
@@ -92,7 +94,7 @@ render(
         enclosingCharacter={`'`}
         onClick={syncOnClickReturn}
     />,
-    node
+    node,
 );
 render(
     <CSVLink
@@ -104,7 +106,7 @@ render(
         enclosingCharacter={`'`}
         onClick={syncOnClickVoid}
     />,
-    node
+    node,
 );
 render(
     <CSVLink
@@ -117,7 +119,7 @@ render(
         onClick={asyncOnClickReturn}
         asyncOnClick={true}
     />,
-    node
+    node,
 );
 render(
     <CSVLink
@@ -130,7 +132,7 @@ render(
         onClick={asyncOnClickVoid}
         asyncOnClick={true}
     />,
-    node
+    node,
 );
 render(
     <CSVLink
@@ -145,7 +147,7 @@ render(
         className="test"
         target="_blank"
     />,
-    node
+    node,
 );
 
 render(<CSVDownload data={dataString} />, node);
@@ -160,7 +162,7 @@ render(
         target={"_blank"}
         separator={","}
     />,
-    node
+    node,
 );
 render(
     <CSVDownload
@@ -170,18 +172,7 @@ render(
         separator={","}
         filename={"bob.csv"}
     />,
-    node
-);
-render(
-    <CSVDownload
-        data={data}
-        headers={headers}
-        target={"_blank"}
-        separator={","}
-        filename={"bob.csv"}
-        uFEFF={true}
-    />,
-    node
+    node,
 );
 render(
     <CSVDownload
@@ -192,7 +183,18 @@ render(
         filename={"bob.csv"}
         uFEFF={true}
     />,
-    node
+    node,
+);
+render(
+    <CSVDownload
+        data={data}
+        headers={headers}
+        target={"_blank"}
+        separator={","}
+        filename={"bob.csv"}
+        uFEFF={true}
+    />,
+    node,
 );
 render(
     <CSVDownload
@@ -204,7 +206,7 @@ render(
         uFEFF={true}
         onClick={syncOnClickReturn}
     />,
-    node
+    node,
 );
 render(
     <CSVDownload
@@ -216,7 +218,7 @@ render(
         uFEFF={true}
         onClick={syncOnClickVoid}
     />,
-    node
+    node,
 );
 render(
     <CSVDownload
@@ -229,7 +231,7 @@ render(
         onClick={asyncOnClickReturn}
         asyncOnClick={true}
     />,
-    node
+    node,
 );
 render(
     <CSVDownload
@@ -242,5 +244,19 @@ render(
         onClick={asyncOnClickVoid}
         asyncOnClick={true}
     />,
-    node
+    node,
 );
+render(
+    <CSVDownload
+        data={dataFunction}
+        headers={headers}
+        target="_blank"
+        separator=","
+        filename="bob.csv"
+        uFEFF
+        onClick={asyncOnClickVoid}
+        asyncOnClick
+    />,
+    node,
+);
+toCSV(data, headers, ",", `"`);

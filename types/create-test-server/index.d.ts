@@ -1,17 +1,12 @@
-// Type definitions for create-test-server 3.0
-// Project: https://github.com/lukechilds/create-test-server
-// Definitions by: Chris Midgley <https://github.com/midgleyc>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// Minimum TypeScript Version: 3.5
 /// <reference types="node" />
 
-import { Options as CreateCertOptions } from 'create-cert';
-import { OptionsJson, OptionsText, OptionsUrlencoded } from 'body-parser';
-import { Express } from 'express';
-import * as http from 'http';
-import * as https from 'https';
+import { OptionsJson, OptionsText, OptionsUrlencoded } from "body-parser";
+import { Options as CreateCertOptions } from "create-cert";
+import { Express } from "express";
+import * as http from "http";
+import * as https from "https";
 
-type Server = createTestServer.TestServer & Omit<Express, 'listen'> & {get: (url: string, response: string) => void};
+type Server = createTestServer.TestServer & Omit<Express, "listen"> & { get: (url: string, response: string) => void };
 
 /**
  * Returns a Promise which resolves to an (already listening) server.
@@ -25,13 +20,13 @@ declare namespace createTestServer {
         /**
          * SSL certificate options to be passed to {@link create-cert#createCert | createCert()}.
          */
-        certificate?: string | CreateCertOptions;
+        certificate?: string | CreateCertOptions | undefined;
         /**
          * Body parser options object to be passed to `body-parser` methods.
          *
          * If set to `false` then all body parsing middleware will be disabled.
          */
-        bodyParser?: false | OptionsJson & OptionsText & OptionsUrlencoded;
+        bodyParser?: false | OptionsJson & OptionsText & OptionsUrlencoded | undefined;
     }
 
     interface TestServer {
@@ -42,7 +37,7 @@ declare namespace createTestServer {
          *
          * `undefined` while the server is not listening.
          */
-        url?: string;
+        url?: string | undefined;
         /**
          * The port number you can reach the HTTP server on.
          *
@@ -50,7 +45,7 @@ declare namespace createTestServer {
          *
          * `undefined` while the server is not listening.
          */
-        port?: number;
+        port?: number | undefined;
         /**
          * The url you can reach the HTTPS server on.
          *
@@ -58,7 +53,7 @@ declare namespace createTestServer {
          *
          * `undefined` while the server is not listening.
          */
-        sslUrl?: string;
+        sslUrl?: string | undefined;
         /**
          * The port number you can reach the HTTPS server on.
          *
@@ -66,7 +61,7 @@ declare namespace createTestServer {
          *
          * `undefined` while the server is not listening.
          */
-        sslPort?: number;
+        sslPort?: number | undefined;
         /**
          * The CA certificate to validate the server certificate against.
          */

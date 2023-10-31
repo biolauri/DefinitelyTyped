@@ -1,10 +1,10 @@
 // See docs https://codemirror.net/doc/manual.html#addon_tern and https://codemirror.net/addon/tern/tern.js (comments in the beginning of the file)
 // Docs for tern itself might also be helpful: http://ternjs.net/doc/manual.html
 
-import * as Tern from 'tern';
-import '../../';
+import * as Tern from "tern";
+import "../../";
 
-declare module '../../' {
+declare module "../../" {
     class TernServer {
         constructor(options?: TernOptions);
 
@@ -40,10 +40,10 @@ declare module '../../' {
             callback: (error?: Error, data?: Tern.QueryResult<Q>) => void,
             pos?: Position,
         ): void;
-        request<Q extends Tern.Query['type']>(
+        request<Q extends Tern.Query["type"]>(
             cm: Doc,
             query: Q,
-            callback: (error?: Error, data?: Tern.QueryRegistry[Q]['result']) => void,
+            callback: (error?: Error, data?: Tern.QueryRegistry[Q]["result"]) => void,
             pos?: Position,
         ): void;
         destroy(): void;
@@ -51,9 +51,9 @@ declare module '../../' {
 
     interface TernOptions {
         /** An object mapping plugin names to configuration options. */
-        plugins?: Tern.ConstructorOptions['plugins'];
+        plugins?: Tern.ConstructorOptions["plugins"] | undefined;
         /** An array of JSON definition data structures. */
-        defs?: Tern.Def[];
+        defs?: Tern.Def[] | undefined;
         /**
          * Can be used to access files in
          * the project that haven't been loaded yet. Simply do callback(null) to
@@ -91,15 +91,15 @@ declare module '../../' {
          * want to feature detect the actual value you use here, for example
          * !!window.Worker.
          */
-        useWorker?: boolean;
+        useWorker?: boolean | undefined;
         /** The main script of the worker. Point this to wherever you are hosting worker.js from this directory. */
-        workerScript?: string;
+        workerScript?: string | undefined;
         /**
          * An array of paths pointing (relative to workerScript)
          * to the Acorn and Tern libraries and any Tern plugins you want to
          * load. Or, if you minified those into a single script and included
          * them in the workerScript, simply leave this undefined.
          */
-        workerDeps?: string[];
+        workerDeps?: string[] | undefined;
     }
 }

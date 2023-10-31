@@ -1,4 +1,4 @@
-// For Library Version: 1.91.0
+// For Library Version: 1.119.0
 
 declare module "sap/ui/suite/library" {
   /**
@@ -29,6 +29,8 @@ declare module "sap/ui/suite/TaskCircle" {
 
   import { ID } from "sap/ui/core/library";
 
+  import Event from "sap/ui/base/Event";
+
   import { TaskCircleColor } from "sap/ui/suite/library";
 
   import ElementMetadata from "sap/ui/core/ElementMetadata";
@@ -36,7 +38,9 @@ declare module "sap/ui/suite/TaskCircle" {
   import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 
   /**
-   * @EXPERIMENTAL (since 1.2)
+   * @deprecated (since 1.108) - there's no replacement for this functionality as no active use cases are
+   * known
+   * @experimental (since 1.2) - The API may change. Use with care.
    *
    * This control shows a circle which radius and color depends on the given parameters
    */
@@ -73,66 +77,12 @@ declare module "sap/ui/suite/TaskCircle" {
     );
 
     /**
-     * Adds some ariaDescribedBy into the association {@link #getAriaDescribedBy ariaDescribedBy}.
-     */
-    addAriaDescribedBy(
-      /**
-       * The ariaDescribedBy to add; if empty, nothing is inserted
-       */
-      vAriaDescribedBy: ID | Control
-    ): this;
-    /**
-     * Adds some ariaLabelledBy into the association {@link #getAriaLabelledBy ariaLabelledBy}.
-     */
-    addAriaLabelledBy(
-      /**
-       * The ariaLabelledBy to add; if empty, nothing is inserted
-       */
-      vAriaLabelledBy: ID | Control
-    ): this;
-    /**
-     * Attaches event handler `fnFunction` to the {@link #event:press press} event of this `sap.ui.suite.TaskCircle`.
-     *
-     * When called, the context of the event handler (its `this`) will be bound to `oListener` if specified,
-     * otherwise it will be bound to this `sap.ui.suite.TaskCircle` itself.
-     *
-     * Event is fired when the user clicks the control.
-     */
-    attachPress(
-      /**
-       * An application-specific payload object that will be passed to the event handler along with the event
-       * object when firing the event
-       */
-      oData: object,
-      /**
-       * The function to be called when the event occurs
-       */
-      fnFunction: Function,
-      /**
-       * Context object to call the event handler with. Defaults to this `sap.ui.suite.TaskCircle` itself
-       */
-      oListener?: object
-    ): this;
-    /**
-     * Detaches event handler `fnFunction` from the {@link #event:press press} event of this `sap.ui.suite.TaskCircle`.
-     *
-     * The passed function and listener object must match the ones used for event registration.
-     */
-    detachPress(
-      /**
-       * The function to be called, when the event occurs
-       */
-      fnFunction: Function,
-      /**
-       * Context object on which the given function had to be called
-       */
-      oListener?: object
-    ): this;
-    /**
      * Creates a new subclass of class sap.ui.suite.TaskCircle with name `sClassName` and enriches it with the
      * information contained in `oClassInfo`.
      *
      * `oClassInfo` might contain the same kind of information as described in {@link sap.ui.core.Control.extend}.
+     *
+     * @returns Created class / constructor function
      */
     static extend<T extends Record<string, unknown>>(
       /**
@@ -150,7 +100,101 @@ declare module "sap/ui/suite/TaskCircle" {
       FNMetaImpl?: Function
     ): Function;
     /**
+     * Returns a metadata object for class sap.ui.suite.TaskCircle.
+     *
+     * @returns Metadata object describing this class
+     */
+    static getMetadata(): ElementMetadata;
+    /**
+     * Adds some ariaDescribedBy into the association {@link #getAriaDescribedBy ariaDescribedBy}.
+     *
+     * @returns Reference to `this` in order to allow method chaining
+     */
+    addAriaDescribedBy(
+      /**
+       * The ariaDescribedBy to add; if empty, nothing is inserted
+       */
+      vAriaDescribedBy: ID | Control
+    ): this;
+    /**
+     * Adds some ariaLabelledBy into the association {@link #getAriaLabelledBy ariaLabelledBy}.
+     *
+     * @returns Reference to `this` in order to allow method chaining
+     */
+    addAriaLabelledBy(
+      /**
+       * The ariaLabelledBy to add; if empty, nothing is inserted
+       */
+      vAriaLabelledBy: ID | Control
+    ): this;
+    /**
+     * Attaches event handler `fnFunction` to the {@link #event:press press} event of this `sap.ui.suite.TaskCircle`.
+     *
+     * When called, the context of the event handler (its `this`) will be bound to `oListener` if specified,
+     * otherwise it will be bound to this `sap.ui.suite.TaskCircle` itself.
+     *
+     * Event is fired when the user clicks the control.
+     *
+     * @returns Reference to `this` in order to allow method chaining
+     */
+    attachPress(
+      /**
+       * An application-specific payload object that will be passed to the event handler along with the event
+       * object when firing the event
+       */
+      oData: object,
+      /**
+       * The function to be called when the event occurs
+       */
+      fnFunction: (p1: Event) => void,
+      /**
+       * Context object to call the event handler with. Defaults to this `sap.ui.suite.TaskCircle` itself
+       */
+      oListener?: object
+    ): this;
+    /**
+     * Attaches event handler `fnFunction` to the {@link #event:press press} event of this `sap.ui.suite.TaskCircle`.
+     *
+     * When called, the context of the event handler (its `this`) will be bound to `oListener` if specified,
+     * otherwise it will be bound to this `sap.ui.suite.TaskCircle` itself.
+     *
+     * Event is fired when the user clicks the control.
+     *
+     * @returns Reference to `this` in order to allow method chaining
+     */
+    attachPress(
+      /**
+       * The function to be called when the event occurs
+       */
+      fnFunction: (p1: Event) => void,
+      /**
+       * Context object to call the event handler with. Defaults to this `sap.ui.suite.TaskCircle` itself
+       */
+      oListener?: object
+    ): this;
+    /**
+     * Detaches event handler `fnFunction` from the {@link #event:press press} event of this `sap.ui.suite.TaskCircle`.
+     *
+     * The passed function and listener object must match the ones used for event registration.
+     *
+     * @returns Reference to `this` in order to allow method chaining
+     */
+    detachPress(
+      /**
+       * The function to be called, when the event occurs
+       */
+      fnFunction: (p1: Event) => void,
+      /**
+       * Context object on which the given function had to be called
+       */
+      oListener?: object
+    ): this;
+    /**
+     * @ui5-protected Do not call from applications (only from related classes in the framework)
+     *
      * Fires event {@link #event:press press} to attached listeners.
+     *
+     * @returns Reference to `this` in order to allow method chaining
      */
     firePress(
       /**
@@ -163,13 +207,11 @@ declare module "sap/ui/suite/TaskCircle" {
      */
     focus(): void;
     /**
-     * Returns array of IDs of the elements which are the current targets of the association {@link #getAriaDescribedBy
-     * ariaDescribedBy}.
+     * Returns array of IDs of the elements which are the current targets of the association {@link #getAriaDescribedBy ariaDescribedBy}.
      */
     getAriaDescribedBy(): ID[];
     /**
-     * Returns array of IDs of the elements which are the current targets of the association {@link #getAriaLabelledBy
-     * ariaLabelledBy}.
+     * Returns array of IDs of the elements which are the current targets of the association {@link #getAriaLabelledBy ariaLabelledBy}.
      */
     getAriaLabelledBy(): ID[];
     /**
@@ -178,6 +220,8 @@ declare module "sap/ui/suite/TaskCircle" {
      * Color of the circle. The default color is red.
      *
      * Default value is `Gray`.
+     *
+     * @returns Value of property `color`
      */
     getColor(): TaskCircleColor | keyof typeof TaskCircleColor;
     /**
@@ -186,18 +230,18 @@ declare module "sap/ui/suite/TaskCircle" {
      * Upper limit of the displayed values. Default is 100.
      *
      * Default value is `100`.
+     *
+     * @returns Value of property `maxValue`
      */
     getMaxValue(): int;
-    /**
-     * Returns a metadata object for class sap.ui.suite.TaskCircle.
-     */
-    static getMetadata(): ElementMetadata;
     /**
      * Gets current value of property {@link #getMinValue minValue}.
      *
      * Lower limit of the displayed values. Default is 0.
      *
      * Default value is `0`.
+     *
+     * @returns Value of property `minValue`
      */
     getMinValue(): int;
     /**
@@ -207,34 +251,44 @@ declare module "sap/ui/suite/TaskCircle" {
      * it controls the size of the circle.
      *
      * Default value is `0`.
+     *
+     * @returns Value of property `value`
      */
     getValue(): int;
     /**
      * Removes all the controls in the association named {@link #getAriaDescribedBy ariaDescribedBy}.
+     *
+     * @returns An array of the removed elements (might be empty)
      */
     removeAllAriaDescribedBy(): ID[];
     /**
      * Removes all the controls in the association named {@link #getAriaLabelledBy ariaLabelledBy}.
+     *
+     * @returns An array of the removed elements (might be empty)
      */
     removeAllAriaLabelledBy(): ID[];
     /**
      * Removes an ariaDescribedBy from the association named {@link #getAriaDescribedBy ariaDescribedBy}.
+     *
+     * @returns The removed ariaDescribedBy or `null`
      */
     removeAriaDescribedBy(
       /**
        * The ariaDescribedBy to be removed or its index or ID
        */
       vAriaDescribedBy: int | ID | Control
-    ): ID;
+    ): ID | null;
     /**
      * Removes an ariaLabelledBy from the association named {@link #getAriaLabelledBy ariaLabelledBy}.
+     *
+     * @returns The removed ariaLabelledBy or `null`
      */
     removeAriaLabelledBy(
       /**
        * The ariaLabelledBy to be removed or its index or ID
        */
       vAriaLabelledBy: int | ID | Control
-    ): ID;
+    ): ID | null;
     /**
      * Sets a new value for property {@link #getColor color}.
      *
@@ -243,6 +297,8 @@ declare module "sap/ui/suite/TaskCircle" {
      * When called with a value of `null` or `undefined`, the default value of the property will be restored.
      *
      * Default value is `Gray`.
+     *
+     * @returns Reference to `this` in order to allow method chaining
      */
     setColor(
       /**
@@ -258,6 +314,8 @@ declare module "sap/ui/suite/TaskCircle" {
      * When called with a value of `null` or `undefined`, the default value of the property will be restored.
      *
      * Default value is `100`.
+     *
+     * @returns Reference to `this` in order to allow method chaining
      */
     setMaxValue(
       /**
@@ -273,6 +331,8 @@ declare module "sap/ui/suite/TaskCircle" {
      * When called with a value of `null` or `undefined`, the default value of the property will be restored.
      *
      * Default value is `0`.
+     *
+     * @returns Reference to `this` in order to allow method chaining
      */
     setMinValue(
       /**
@@ -289,30 +349,14 @@ declare module "sap/ui/suite/TaskCircle" {
      * When called with a value of `null` or `undefined`, the default value of the property will be restored.
      *
      * Default value is `0`.
+     *
+     * @returns Reference to `this` in order to allow method chaining
      */
     setValue(
       /**
        * New value for property `value`
        */
       iValue?: int
-    ): this;
-    /**
-     * Attaches event handler `fnFunction` to the {@link #event:press press} event of this `sap.ui.suite.TaskCircle`.
-     *
-     * When called, the context of the event handler (its `this`) will be bound to `oListener` if specified,
-     * otherwise it will be bound to this `sap.ui.suite.TaskCircle` itself.
-     *
-     * Event is fired when the user clicks the control.
-     */
-    attachPress(
-      /**
-       * The function to be called when the event occurs
-       */
-      fnFunction: Function,
-      /**
-       * Context object to call the event handler with. Defaults to this `sap.ui.suite.TaskCircle` itself
-       */
-      oListener?: object
     ): this;
   }
 
@@ -321,24 +365,25 @@ declare module "sap/ui/suite/TaskCircle" {
      * Current value of the task circle to be displayed. In dependency of the parameters maxValue and minValue
      * it controls the size of the circle.
      */
-    value?: int | PropertyBindingInfo;
+    value?: int | PropertyBindingInfo | `{${string}}`;
 
     /**
      * Upper limit of the displayed values. Default is 100.
      */
-    maxValue?: int | PropertyBindingInfo;
+    maxValue?: int | PropertyBindingInfo | `{${string}}`;
 
     /**
      * Lower limit of the displayed values. Default is 0.
      */
-    minValue?: int | PropertyBindingInfo;
+    minValue?: int | PropertyBindingInfo | `{${string}}`;
 
     /**
      * Color of the circle. The default color is red.
      */
     color?:
       | (TaskCircleColor | keyof typeof TaskCircleColor)
-      | PropertyBindingInfo;
+      | PropertyBindingInfo
+      | `{${string}}`;
 
     /**
      * Association to controls / ids which label this control (see WAI-ARIA attribute aria-labelledby).
@@ -353,8 +398,15 @@ declare module "sap/ui/suite/TaskCircle" {
     /**
      * Event is fired when the user clicks the control.
      */
-    press?: Function;
+    press?: (oEvent: Event) => void;
   }
+
+  export interface TaskCircle$PressEventParameters {}
+
+  export type TaskCircle$PressEvent = Event<
+    TaskCircle$PressEventParameters,
+    TaskCircle
+  >;
 }
 
 declare module "sap/ui/suite/VerticalProgressIndicator" {
@@ -362,12 +414,16 @@ declare module "sap/ui/suite/VerticalProgressIndicator" {
 
   import { ID } from "sap/ui/core/library";
 
+  import Event from "sap/ui/base/Event";
+
   import ElementMetadata from "sap/ui/core/ElementMetadata";
 
   import { PropertyBindingInfo } from "sap/ui/base/ManagedObject";
 
   /**
-   * @EXPERIMENTAL (since 1.2)
+   * @deprecated (since 1.108) - there's no replacement for this functionality as no active use cases are
+   * known
+   * @experimental (since 1.2) - The API may change. Use with care.
    *
    * This control shows a vertical progress bar in dependency of the given percentage. Only values between
    * 0 and 100 are valid.
@@ -405,67 +461,12 @@ declare module "sap/ui/suite/VerticalProgressIndicator" {
     );
 
     /**
-     * Adds some ariaDescribedBy into the association {@link #getAriaDescribedBy ariaDescribedBy}.
-     */
-    addAriaDescribedBy(
-      /**
-       * The ariaDescribedBy to add; if empty, nothing is inserted
-       */
-      vAriaDescribedBy: ID | Control
-    ): this;
-    /**
-     * Adds some ariaLabelledBy into the association {@link #getAriaLabelledBy ariaLabelledBy}.
-     */
-    addAriaLabelledBy(
-      /**
-       * The ariaLabelledBy to add; if empty, nothing is inserted
-       */
-      vAriaLabelledBy: ID | Control
-    ): this;
-    /**
-     * Attaches event handler `fnFunction` to the {@link #event:press press} event of this `sap.ui.suite.VerticalProgressIndicator`.
-     *
-     * When called, the context of the event handler (its `this`) will be bound to `oListener` if specified,
-     * otherwise it will be bound to this `sap.ui.suite.VerticalProgressIndicator` itself.
-     *
-     * Event is fired when the user clicks the control.
-     */
-    attachPress(
-      /**
-       * An application-specific payload object that will be passed to the event handler along with the event
-       * object when firing the event
-       */
-      oData: object,
-      /**
-       * The function to be called when the event occurs
-       */
-      fnFunction: Function,
-      /**
-       * Context object to call the event handler with. Defaults to this `sap.ui.suite.VerticalProgressIndicator`
-       * itself
-       */
-      oListener?: object
-    ): this;
-    /**
-     * Detaches event handler `fnFunction` from the {@link #event:press press} event of this `sap.ui.suite.VerticalProgressIndicator`.
-     *
-     * The passed function and listener object must match the ones used for event registration.
-     */
-    detachPress(
-      /**
-       * The function to be called, when the event occurs
-       */
-      fnFunction: Function,
-      /**
-       * Context object on which the given function had to be called
-       */
-      oListener?: object
-    ): this;
-    /**
      * Creates a new subclass of class sap.ui.suite.VerticalProgressIndicator with name `sClassName` and enriches
      * it with the information contained in `oClassInfo`.
      *
      * `oClassInfo` might contain the same kind of information as described in {@link sap.ui.core.Control.extend}.
+     *
+     * @returns Created class / constructor function
      */
     static extend<T extends Record<string, unknown>>(
       /**
@@ -483,7 +484,103 @@ declare module "sap/ui/suite/VerticalProgressIndicator" {
       FNMetaImpl?: Function
     ): Function;
     /**
+     * Returns a metadata object for class sap.ui.suite.VerticalProgressIndicator.
+     *
+     * @returns Metadata object describing this class
+     */
+    static getMetadata(): ElementMetadata;
+    /**
+     * Adds some ariaDescribedBy into the association {@link #getAriaDescribedBy ariaDescribedBy}.
+     *
+     * @returns Reference to `this` in order to allow method chaining
+     */
+    addAriaDescribedBy(
+      /**
+       * The ariaDescribedBy to add; if empty, nothing is inserted
+       */
+      vAriaDescribedBy: ID | Control
+    ): this;
+    /**
+     * Adds some ariaLabelledBy into the association {@link #getAriaLabelledBy ariaLabelledBy}.
+     *
+     * @returns Reference to `this` in order to allow method chaining
+     */
+    addAriaLabelledBy(
+      /**
+       * The ariaLabelledBy to add; if empty, nothing is inserted
+       */
+      vAriaLabelledBy: ID | Control
+    ): this;
+    /**
+     * Attaches event handler `fnFunction` to the {@link #event:press press} event of this `sap.ui.suite.VerticalProgressIndicator`.
+     *
+     * When called, the context of the event handler (its `this`) will be bound to `oListener` if specified,
+     * otherwise it will be bound to this `sap.ui.suite.VerticalProgressIndicator` itself.
+     *
+     * Event is fired when the user clicks the control.
+     *
+     * @returns Reference to `this` in order to allow method chaining
+     */
+    attachPress(
+      /**
+       * An application-specific payload object that will be passed to the event handler along with the event
+       * object when firing the event
+       */
+      oData: object,
+      /**
+       * The function to be called when the event occurs
+       */
+      fnFunction: (p1: Event) => void,
+      /**
+       * Context object to call the event handler with. Defaults to this `sap.ui.suite.VerticalProgressIndicator`
+       * itself
+       */
+      oListener?: object
+    ): this;
+    /**
+     * Attaches event handler `fnFunction` to the {@link #event:press press} event of this `sap.ui.suite.VerticalProgressIndicator`.
+     *
+     * When called, the context of the event handler (its `this`) will be bound to `oListener` if specified,
+     * otherwise it will be bound to this `sap.ui.suite.VerticalProgressIndicator` itself.
+     *
+     * Event is fired when the user clicks the control.
+     *
+     * @returns Reference to `this` in order to allow method chaining
+     */
+    attachPress(
+      /**
+       * The function to be called when the event occurs
+       */
+      fnFunction: (p1: Event) => void,
+      /**
+       * Context object to call the event handler with. Defaults to this `sap.ui.suite.VerticalProgressIndicator`
+       * itself
+       */
+      oListener?: object
+    ): this;
+    /**
+     * Detaches event handler `fnFunction` from the {@link #event:press press} event of this `sap.ui.suite.VerticalProgressIndicator`.
+     *
+     * The passed function and listener object must match the ones used for event registration.
+     *
+     * @returns Reference to `this` in order to allow method chaining
+     */
+    detachPress(
+      /**
+       * The function to be called, when the event occurs
+       */
+      fnFunction: (p1: Event) => void,
+      /**
+       * Context object on which the given function had to be called
+       */
+      oListener?: object
+    ): this;
+    /**
+     * @ui5-protected Do not call from applications (only from related classes in the framework)
+     *
      * Fires event {@link #event:press press} to attached listeners.
+     *
+     * @returns Reference to `this` in order to allow method chaining
      */
     firePress(
       /**
@@ -496,77 +593,64 @@ declare module "sap/ui/suite/VerticalProgressIndicator" {
      */
     focus(): void;
     /**
-     * Returns array of IDs of the elements which are the current targets of the association {@link #getAriaDescribedBy
-     * ariaDescribedBy}.
+     * Returns array of IDs of the elements which are the current targets of the association {@link #getAriaDescribedBy ariaDescribedBy}.
      */
     getAriaDescribedBy(): ID[];
     /**
-     * Returns array of IDs of the elements which are the current targets of the association {@link #getAriaLabelledBy
-     * ariaLabelledBy}.
+     * Returns array of IDs of the elements which are the current targets of the association {@link #getAriaLabelledBy ariaLabelledBy}.
      */
     getAriaLabelledBy(): ID[];
-    /**
-     * Returns a metadata object for class sap.ui.suite.VerticalProgressIndicator.
-     */
-    static getMetadata(): ElementMetadata;
     /**
      * Gets current value of property {@link #getPercentage percentage}.
      *
      * The numerical value between 0 and 100 which determines the height of the vertical bar. Values higher
      * than 100 will be displayed as 100%, values lower than zero will be displayed as 0%.
+     *
+     * @returns Value of property `percentage`
      */
     getPercentage(): int;
     /**
      * Removes all the controls in the association named {@link #getAriaDescribedBy ariaDescribedBy}.
+     *
+     * @returns An array of the removed elements (might be empty)
      */
     removeAllAriaDescribedBy(): ID[];
     /**
      * Removes all the controls in the association named {@link #getAriaLabelledBy ariaLabelledBy}.
+     *
+     * @returns An array of the removed elements (might be empty)
      */
     removeAllAriaLabelledBy(): ID[];
     /**
      * Removes an ariaDescribedBy from the association named {@link #getAriaDescribedBy ariaDescribedBy}.
+     *
+     * @returns The removed ariaDescribedBy or `null`
      */
     removeAriaDescribedBy(
       /**
        * The ariaDescribedBy to be removed or its index or ID
        */
       vAriaDescribedBy: int | ID | Control
-    ): ID;
+    ): ID | null;
     /**
      * Removes an ariaLabelledBy from the association named {@link #getAriaLabelledBy ariaLabelledBy}.
+     *
+     * @returns The removed ariaLabelledBy or `null`
      */
     removeAriaLabelledBy(
       /**
        * The ariaLabelledBy to be removed or its index or ID
        */
       vAriaLabelledBy: int | ID | Control
-    ): ID;
+    ): ID | null;
     /**
      * Property setter for the Percentage, which determines the height of the vertical bar. Values higher than
      * 100 will be displayed as 100%, values lower than zero will be displayed as 0%. A new rendering is not
      * necessary, only the bar will be moved
+     *
+     * @returns `this` to allow method chaining
      */
     setPercentage(iPercentage: int): this;
-    /**
-     * Attaches event handler `fnFunction` to the {@link #event:press press} event of this `sap.ui.suite.VerticalProgressIndicator`.
-     *
-     * When called, the context of the event handler (its `this`) will be bound to `oListener` if specified,
-     * otherwise it will be bound to this `sap.ui.suite.VerticalProgressIndicator` itself.
-     *
-     * Event is fired when the user clicks the control.
-     */
-    attachPress(
-      /**
-       * The function to be called when the event occurs
-       */
-      fnFunction: Function,
-      /**
-       * Context object to call the event handler with. Defaults to this `sap.ui.suite.VerticalProgressIndicator`
-       * itself
-       */
-      oListener?: object
-    ): this;
   }
 
   export interface $VerticalProgressIndicatorSettings extends $ControlSettings {
@@ -574,7 +658,7 @@ declare module "sap/ui/suite/VerticalProgressIndicator" {
      * The numerical value between 0 and 100 which determines the height of the vertical bar. Values higher
      * than 100 will be displayed as 100%, values lower than zero will be displayed as 0%.
      */
-    percentage?: int | PropertyBindingInfo;
+    percentage?: int | PropertyBindingInfo | `{${string}}`;
 
     /**
      * Association to controls / ids which label this control (see WAI-ARIA attribute aria-labelledby).
@@ -589,8 +673,15 @@ declare module "sap/ui/suite/VerticalProgressIndicator" {
     /**
      * Event is fired when the user clicks the control.
      */
-    press?: Function;
+    press?: (oEvent: Event) => void;
   }
+
+  export interface VerticalProgressIndicator$PressEventParameters {}
+
+  export type VerticalProgressIndicator$PressEvent = Event<
+    VerticalProgressIndicator$PressEventParameters,
+    VerticalProgressIndicator
+  >;
 }
 
 declare namespace sap {

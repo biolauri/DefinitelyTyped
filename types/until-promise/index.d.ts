@@ -1,8 +1,3 @@
-// Type definitions for until-promise 0.3
-// Project: https://github.com/saadtazi/until-promise#readme
-// Definitions by: Oliver Conzen <https://github.com/Miladiir>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 /**
  * The type of the execution function. The function can be synchronous or asynchronous.
  */
@@ -33,7 +28,7 @@ interface Options {
     /**
      * The Promise library to use. Defaults to global.Promise.
      */
-    Promise?: PromiseLike<any>;
+    Promise?: PromiseLike<any> | undefined;
 
     /**
      * The error handler to use. Defaults to
@@ -43,28 +38,28 @@ interface Options {
      * Object.assign(err, { nbAttempts, errorType, startedAt, capturedResults, options });
      * reject(err);
      */
-    onError?: errorCallback;
+    onError?: errorCallback | undefined;
 
     /**
      * If not falsy and > 0, until will capture the last X results and pass them to onError. Defaults to 0.
      */
-    captureResults?: number;
+    captureResults?: number | undefined;
 
     /**
      * The amount of time in MS to wait in between calling the execution function. Defaults to 0.
      */
-    wait?: number;
+    wait?: number | undefined;
 
     /**
      * The amount of time the execution function should be called. If this amount is exhausted, polling will fail.
      * Defaults to Infinity.
      */
-    retries?: number;
+    retries?: number | undefined;
 
     /**
      * The maximum duration in MS before rejecting. Defaults to Infinity.
      */
-    duration?: number;
+    duration?: number | undefined;
 }
 
 /**

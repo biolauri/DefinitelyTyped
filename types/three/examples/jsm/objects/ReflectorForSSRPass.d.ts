@@ -7,9 +7,12 @@ import {
     Scene,
     Camera,
     IUniform,
-} from '../../../src/Three';
+    Color,
+    Vector2,
+} from '../../../src/Three.js';
 
 export interface ReflectorShader {
+    name: string;
     defines: {
         DISTANCE_ATTENUATION: boolean;
         FRESNEL: boolean;
@@ -21,24 +24,26 @@ export interface ReflectorShader {
     fragmentShader: string;
 }
 
-export interface ReflectorOptions {
-    clipBias?: number;
-    textureWidth?: number;
-    textureHeight?: number;
-    color?: number;
-    useDepthTexture?: boolean;
-    shader?: ReflectorShader;
+export interface ReflectorForSSRPassOptions {
+    clipBias?: number | undefined;
+    textureWidth?: number | undefined;
+    textureHeight?: number | undefined;
+    color?: number | undefined;
+    useDepthTexture?: boolean | undefined;
+    shader?: ReflectorShader | undefined;
 }
 
-export class Reflector<TGeometry extends BufferGeometry = BufferGeometry> extends Mesh<TGeometry> {
+export class ReflectorForSSRPass<TGeometry extends BufferGeometry = BufferGeometry> extends Mesh<TGeometry> {
     type: 'ReflectorForSSRPass';
-    options: ReflectorOptions;
+    options: ReflectorForSSRPassOptions;
 
     static ReflectorShader: ReflectorShader;
 
     needsUpdate: boolean;
     maxDistance: number;
     opacity: number;
+    color: Color;
+    resolution: Vector2;
 
     get distanceAttenuation(): boolean;
     set distanceAttenuation(val: boolean);
@@ -49,7 +54,7 @@ export class Reflector<TGeometry extends BufferGeometry = BufferGeometry> extend
 
     renderTarget: WebGLRenderTarget;
 
-    constructor(geometry: TGeometry, options: ReflectorOptions);
+    constructor(geometry: TGeometry, options: ReflectorForSSRPassOptions);
 
     doRender: (renderer: WebGLRenderer, scene: Scene, camera: Camera) => void;
 

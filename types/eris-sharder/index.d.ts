@@ -1,10 +1,6 @@
-// Type definitions for Eris-Sharder 1.10
-// Project: https://github.com/discordware/eris-sharder
-// Definitions by: MathleteDev <https://github.com/mathletedev>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
-import * as Eris from 'eris';
-import { EventEmitter } from 'events';
+/// <reference types="node" />
+import * as Eris from "eris";
+import { EventEmitter } from "events";
 
 export interface Cluster {
     shards: number;
@@ -51,20 +47,20 @@ export class Master extends EventEmitter {
         mainFile: string,
         options: {
             clientOptions: Eris.ClientOptions;
-            shards?: number;
-            firstShardID?: number;
-            lastShardID?: number;
-            clusters?: number;
-            clusterTimeout?: number;
-            stats?: boolean;
-            statsInterval?: number;
-            name?: string;
-            guildsPerShard?: number;
+            shards?: number | undefined;
+            firstShardID?: number | undefined;
+            lastShardID?: number | undefined;
+            clusters?: number | undefined;
+            clusterTimeout?: number | undefined;
+            stats?: boolean | undefined;
+            statsInterval?: number | undefined;
+            name?: string | undefined;
+            guildsPerShard?: number | undefined;
             webhooks?: {
                 cluster?: any;
                 shard?: any;
-            };
-            debug?: boolean;
+            } | undefined;
+            debug?: boolean | undefined;
         },
     );
 

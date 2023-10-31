@@ -1,20 +1,6 @@
-// Type definitions for jsonwebtoken 8.5
-// Project: https://github.com/auth0/node-jsonwebtoken
-// Definitions by: Maxime LUCE <https://github.com/SomaticIT>,
-//                 Daniel Heim <https://github.com/danielheim>,
-//                 Brice BERNARD <https://github.com/brikou>,
-//                 Veli-Pekka Kestilä <https://github.com/vpk>,
-//                 Daniel Parker <https://github.com/rlgod>,
-//                 Kjell Dießel <https://github.com/kettil>,
-//                 Robert Gajda <https://github.com/RunAge>,
-//                 Nico Flaig <https://github.com/nflaig>,
-//                 Linus Unnebäck <https://github.com/LinusU>
-//                 Ivan Sieder <https://github.com/ivansieder>
-//                 Piotr Błażejewicz <https://github.com/peterblazejewicz>
-//                 Nandor Kraszlan <https://github.com/nandi95>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 /// <reference types="node" />
+
+import { KeyObject } from "crypto";
 
 export class JsonWebTokenError extends Error {
     inner: Error;
@@ -51,116 +37,125 @@ export interface SignOptions {
      * - ES512:    ECDSA using P-521 curve and SHA-512 hash algorithm
      * - none:     No digital signature or MAC value included
      */
-    algorithm?: Algorithm;
-    keyid?: string;
+    algorithm?: Algorithm | undefined;
+    keyid?: string | undefined;
     /** expressed in seconds or a string describing a time span [zeit/ms](https://github.com/zeit/ms.js).  Eg: 60, "2 days", "10h", "7d" */
-    expiresIn?: string | number;
+    expiresIn?: string | number | undefined;
     /** expressed in seconds or a string describing a time span [zeit/ms](https://github.com/zeit/ms.js).  Eg: 60, "2 days", "10h", "7d" */
-    notBefore?: string | number;
-    audience?: string | string[];
-    subject?: string;
-    issuer?: string;
-    jwtid?: string;
-    mutatePayload?: boolean;
-    noTimestamp?: boolean;
-    header?: JwtHeader;
-    encoding?: string;
+    notBefore?: string | number | undefined;
+    audience?: string | string[] | undefined;
+    subject?: string | undefined;
+    issuer?: string | undefined;
+    jwtid?: string | undefined;
+    mutatePayload?: boolean | undefined;
+    noTimestamp?: boolean | undefined;
+    header?: JwtHeader | undefined;
+    encoding?: string | undefined;
+    allowInsecureKeySizes?: boolean | undefined;
+    allowInvalidAsymmetricKeyTypes?: boolean | undefined;
 }
 
 export interface VerifyOptions {
-    algorithms?: Algorithm[];
-    audience?: string | RegExp | Array<string | RegExp>;
-    clockTimestamp?: number;
-    clockTolerance?: number;
+    algorithms?: Algorithm[] | undefined;
+    audience?: string | RegExp | Array<string | RegExp> | undefined;
+    clockTimestamp?: number | undefined;
+    clockTolerance?: number | undefined;
     /** return an object with the decoded `{ payload, header, signature }` instead of only the usual content of the payload. */
-    complete?: boolean;
-    issuer?: string | string[];
-    ignoreExpiration?: boolean;
-    ignoreNotBefore?: boolean;
-    jwtid?: string;
+    complete?: boolean | undefined;
+    issuer?: string | string[] | undefined;
+    ignoreExpiration?: boolean | undefined;
+    ignoreNotBefore?: boolean | undefined;
+    jwtid?: string | undefined;
     /**
      * If you want to check `nonce` claim, provide a string value here.
      * It is used on Open ID for the ID Tokens. ([Open ID implementation notes](https://openid.net/specs/openid-connect-core-1_0.html#NonceNotes))
      */
-    nonce?: string;
-    subject?: string;
-    /**
-     * @deprecated
-     * Max age of token
-     */
-    maxAge?: string;
+    nonce?: string | undefined;
+    subject?: string | undefined;
+    maxAge?: string | number | undefined;
+    allowInvalidAsymmetricKeyTypes?: boolean | undefined;
 }
 
 export interface DecodeOptions {
-    complete?: boolean;
-    json?: boolean;
+    complete?: boolean | undefined;
+    json?: boolean | undefined;
 }
 export type VerifyErrors =
     | JsonWebTokenError
     | NotBeforeError
     | TokenExpiredError;
-export type VerifyCallback<T = JwtPayload> = (
-    err: VerifyErrors | null,
+export type VerifyCallback<T = Jwt | JwtPayload | string> = (
+    error: VerifyErrors | null,
     decoded: T | undefined,
 ) => void;
 
 export type SignCallback = (
-    err: Error | null, encoded: string | undefined
+    error: Error | null,
+    encoded: string | undefined,
 ) => void;
 
 // standard names https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1
 export interface JwtHeader {
     alg: string | Algorithm;
-    typ?: string;
-    cty?: string;
-    crit?: Array<string | Exclude<keyof JwtHeader, 'crit'>>;
-    kid?: string;
-    jku?: string;
-    x5u?: string | string[];
-    'x5t#S256'?: string;
-    x5t?: string;
-    x5c?: string | string[];
+    typ?: string | undefined;
+    cty?: string | undefined;
+    crit?: Array<string | Exclude<keyof JwtHeader, "crit">> | undefined;
+    kid?: string | undefined;
+    jku?: string | undefined;
+    x5u?: string | string[] | undefined;
+    "x5t#S256"?: string | undefined;
+    x5t?: string | undefined;
+    x5c?: string | string[] | undefined;
 }
 
 // standard claims https://datatracker.ietf.org/doc/html/rfc7519#section-4.1
 export interface JwtPayload {
     [key: string]: any;
-    iss?: string;
-    sub?: string;
-    aud?: string | string[];
-    exp?: number;
-    nbf?: number;
-    iat?: number;
-    jti?: string;
+    iss?: string | undefined;
+    sub?: string | undefined;
+    aud?: string | string[] | undefined;
+    exp?: number | undefined;
+    nbf?: number | undefined;
+    iat?: number | undefined;
+    jti?: string | undefined;
 }
 
 export interface Jwt {
     header: JwtHeader;
-    payload: JwtPayload;
+    payload: JwtPayload | string;
     signature: string;
 }
 
 // https://github.com/auth0/node-jsonwebtoken#algorithms-supported
 export type Algorithm =
-    "HS256" | "HS384" | "HS512" |
-    "RS256" | "RS384" | "RS512" |
-    "ES256" | "ES384" | "ES512" |
-    "PS256" | "PS384" | "PS512" |
-    "none";
+    | "HS256"
+    | "HS384"
+    | "HS512"
+    | "RS256"
+    | "RS384"
+    | "RS512"
+    | "ES256"
+    | "ES384"
+    | "ES512"
+    | "PS256"
+    | "PS384"
+    | "PS512"
+    | "none";
 
 export type SigningKeyCallback = (
-    err: any,
+    error: Error | null,
     signingKey?: Secret,
 ) => void;
 
 export type GetPublicKeyOrSecret = (
     header: JwtHeader,
-    callback: SigningKeyCallback
+    callback: SigningKeyCallback,
 ) => void;
 
 export type Secret =
     | string
     | Buffer
+    | KeyObject
     | { key: string | Buffer; passphrase: string };
 
 /**
@@ -174,6 +169,11 @@ export function sign(
     payload: string | Buffer | object,
     secretOrPrivateKey: Secret,
     options?: SignOptions,
+): string;
+export function sign(
+    payload: string | Buffer | object,
+    secretOrPrivateKey: null,
+    options?: SignOptions & { algorithm: "none" },
 ): string;
 
 /**
@@ -194,6 +194,12 @@ export function sign(
     options: SignOptions,
     callback: SignCallback,
 ): void;
+export function sign(
+    payload: string | Buffer | object,
+    secretOrPrivateKey: null,
+    options: SignOptions & { algorithm: "none" },
+    callback: SignCallback,
+): void;
 
 /**
  * Synchronously verify given token using a secret or a public key to get a decoded token
@@ -202,8 +208,13 @@ export function sign(
  * [options] - Options for the verification
  * returns - The decoded token.
  */
-export function verify(token: string, secretOrPublicKey: Secret, options: VerifyOptions & { complete: true }): Jwt | string;
-export function verify(token: string, secretOrPublicKey: Secret, options?: VerifyOptions): JwtPayload | string;
+export function verify(token: string, secretOrPublicKey: Secret, options: VerifyOptions & { complete: true }): Jwt;
+export function verify(
+    token: string,
+    secretOrPublicKey: Secret,
+    options?: VerifyOptions & { complete?: false },
+): JwtPayload | string;
+export function verify(token: string, secretOrPublicKey: Secret, options?: VerifyOptions): Jwt | JwtPayload | string;
 
 /**
  * Asynchronously verify given token using a secret or a public key to get a decoded token
@@ -217,13 +228,19 @@ export function verify(token: string, secretOrPublicKey: Secret, options?: Verif
 export function verify(
     token: string,
     secretOrPublicKey: Secret | GetPublicKeyOrSecret,
-    callback?: VerifyCallback,
+    callback?: VerifyCallback<JwtPayload | string>,
 ): void;
 export function verify(
     token: string,
     secretOrPublicKey: Secret | GetPublicKeyOrSecret,
-    options?: VerifyOptions & { complete: true },
+    options: VerifyOptions & { complete: true },
     callback?: VerifyCallback<Jwt>,
+): void;
+export function verify(
+    token: string,
+    secretOrPublicKey: Secret | GetPublicKeyOrSecret,
+    options?: VerifyOptions & { complete?: false },
+    callback?: VerifyCallback<JwtPayload | string>,
 ): void;
 export function verify(
     token: string,
@@ -238,5 +255,6 @@ export function verify(
  * [options] - Options for decoding
  * returns - The decoded Token
  */
-export function decode(token: string, options: DecodeOptions & { json: true } | DecodeOptions & { complete: true }): null | Jwt;
+export function decode(token: string, options: DecodeOptions & { complete: true }): null | Jwt;
+export function decode(token: string, options: DecodeOptions & { json: true }): null | JwtPayload;
 export function decode(token: string, options?: DecodeOptions): null | JwtPayload | string;

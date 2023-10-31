@@ -1,12 +1,7 @@
 {
-    "extends": "dtslint/dt.json",
+    "extends": "@definitelytyped/dtslint/dt.json",
     "rules": {
-        "dt-header": false,
         "interface-name": false,
-        "no-padding": false,
-        "no-var-keyword": false,
-        "strict-export-declare-modifiers": false,
-        "typedef-whitespace": false,
-        "whitespace": false
+        "no-var-keyword": false
     }
 }

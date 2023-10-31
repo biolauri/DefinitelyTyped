@@ -1,17 +1,18 @@
-// For Library Version: 1.91.0
+// For Library Version: 1.119.0
 
 declare module "sap/ui/rta/api/startAdaptation" {
-  import UI5Element from "sap/ui/core/Element";
+  import Control from "sap/ui/core/Control";
 
   import UIComponent from "sap/ui/core/UIComponent";
 
   /**
-   * @SINCE 1.83
-   * @EXPERIMENTAL (since 1.83)
+   * @since 1.83
    *
    * Starts UI adaptation, initiated for an application at the passed root control instance. With this API
    * you are also able to modify the UI adaptation plugins list and or add some event handler functions to
    * be called on start, failed and stop events.
+   *
+   * @returns Resolves when UI adaptation was successfully started
    */
   export default function startAdaptation(
     /**
@@ -19,9 +20,9 @@ declare module "sap/ui/rta/api/startAdaptation" {
      */
     mOptions: {
       /**
-       * Control instance from where UI adaptation should be started
+       * Control instance to get the AppComponent. This then is used to start UI adaptation.
        */
-      rootControl: UI5Element | UIComponent;
+      rootControl: Control | UIComponent;
       /**
        * Map with flex-related settings
        */
@@ -57,16 +58,17 @@ declare module "sap/ui/rta/api/startAdaptation" {
 }
 
 declare module "sap/ui/rta/api/startKeyUserAdaptation" {
-  import UI5Element from "sap/ui/core/Element";
+  import Control from "sap/ui/core/Control";
 
   import UIComponent from "sap/ui/core/UIComponent";
 
   /**
-   * @SINCE 1.71
-   * @EXPERIMENTAL (since 1.71)
+   * @since 1.71
    *
    * Starts key user adaptation, initiated for an application at the passed root control instance. It subsequently
    * extends to all valid child controls.
+   *
+   * @returns Resolves when UI adaptation was successfully started
    */
   export default function startKeyUserAdaptation(
     /**
@@ -74,17 +76,16 @@ declare module "sap/ui/rta/api/startKeyUserAdaptation" {
      */
     mPropertyBag: {
       /**
-       * Control instance from where key user adaptation should be started
+       * Control instance to get the AppComponent. This then is used to start UI adaptation.
        */
-      rootControl: UI5Element | UIComponent;
+      rootControl: Control | UIComponent;
     }
   ): Promise<any>;
 }
 
 declare module "sap/ui/rta/enablement/TestDelegate" {
   /**
-   * @SINCE 1.77
-   * @EXPERIMENTAL (since 1.77)
+   * @since 1.77
    *
    * sap.ui.fl Delegate to be used in elementActionTests.
    */
@@ -113,10 +114,8 @@ declare namespace sap {
 
     "sap/ui/rta/service/Selection": undefined;
 
-    "sap/ui/rta/util/changeVisualization/ChangeIndicator": undefined;
+    "sap/ui/rta/service/SupportTools": undefined;
 
-    "sap/ui/rta/util/changeVisualization/ChangeIndicatorRegistry": undefined;
-
-    "sap/ui/rta/util/changeVisualization/ChangeVisualization": undefined;
+    "sap/ui/rta/util/ReloadManager": undefined;
   }
 }

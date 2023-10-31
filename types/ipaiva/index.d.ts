@@ -1,20 +1,15 @@
-// Type definitions for ipaiva 0.2
-// Project: https://github.com/ipaiva-studio
-// Definitions by: ipaiva <https://github.com/ipaiva-studio>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
-declare module 'ipaiva' {
+declare module "ipaiva" {
     /**
      * The version of the ipaiva.
      */
     export const version: string;
 
     interface TextEditorOptions {
-        placeholder?: string;
+        placeholder?: string | undefined;
     }
 
     interface TextEditor {
-        on(event: 'completed', fn: (content: string) => void): this;
+        on(event: "completed", fn: (content: string) => void): this;
     }
 
     export namespace textEditor {
@@ -31,7 +26,7 @@ declare module 'ipaiva' {
     export namespace library {
         type OnDidPickCallback = (callback: { url: string }) => void;
         interface OnDidPickOption {
-            type: 'image' | 'video' | 'audio';
+            type: "image" | "video" | "audio";
         }
 
         function onDidPick(callback: OnDidPickCallback, option?: OnDidPickOption): void;
@@ -50,14 +45,14 @@ declare module 'ipaiva' {
         type Props = Record<string, any>;
 
         interface Design {
-            main?: string;
-            data?: NodeData;
-            options?: DesignOptions;
+            main?: string | undefined;
+            data?: NodeData | undefined;
+            options?: DesignOptions | undefined;
             dependencies?: any;
-            transformer?: Transformer;
-            styleSchema?: DesignStyleSchema;
-            controls?: DesignControls;
-            nodeEvents?: DesignNodeEvents;
+            transformer?: Transformer | undefined;
+            styleSchema?: DesignStyleSchema | undefined;
+            controls?: DesignControls | undefined;
+            nodeEvents?: DesignNodeEvents | undefined;
             preCreate?(option: PreCreateOption): PreCreateOption;
             overrideRenderProperties?(props: Props): Props;
 
@@ -72,19 +67,19 @@ declare module 'ipaiva' {
         interface Render {}
 
         interface Transformer {
-            keepRatio?: boolean;
-            minWidth?: number;
-            minHeight?: number;
-            zoomable?: string;
+            keepRatio?: boolean | undefined;
+            minWidth?: number | undefined;
+            minHeight?: number | undefined;
+            zoomable?: string | undefined;
         }
 
         interface DesignOptions {
-            width?: number;
-            height?: number;
-            hasMask?: boolean;
+            width?: number | undefined;
+            height?: number | undefined;
+            hasMask?: boolean | undefined;
             attrs?: {
                 [key: string]: any;
-            };
+            } | undefined;
         }
 
         type DesignStyleSchema = any;

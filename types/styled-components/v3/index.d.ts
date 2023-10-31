@@ -1,13 +1,6 @@
-// Type definitions for styled-components 3.0
-// Project: https://github.com/styled-components/styled-components
-// Definitions by: Igor Oleinikov <https://github.com/Igorbek>
-//                 Ihor Chulinda <https://github.com/Igmat>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.8
-
 /// <reference types="node" />
 
-import * as React from 'react';
+import * as React from "react";
 
 export interface ThemeProps<T> {
     theme: T;
@@ -17,8 +10,8 @@ export type ThemedStyledProps<P, T> = P & ThemeProps<T>;
 export type StyledProps<P> = ThemedStyledProps<P, any>;
 
 export type ThemedOuterStyledProps<P, T> = P & {
-    theme?: T;
-    innerRef?: ((instance: any) => void) | React.RefObject<HTMLElement | SVGElement | React.Component>;
+    theme?: T | undefined;
+    innerRef?: ((instance: any) => void) | React.RefObject<HTMLElement | SVGElement | React.Component> | undefined;
 };
 export type OuterStyledProps<P> = ThemedOuterStyledProps<P, any>;
 
@@ -77,7 +70,7 @@ export interface ThemedBaseStyledInterface<T> extends ThemedStyledComponentFacto
         P & JSX.IntrinsicElements[TTag]
     >;
     <P, O>(component: StyledComponentClass<P, T, O>): ThemedStyledFunction<P, T, O>;
-    <P extends { [prop: string]: any; theme?: T }>(component: React.ComponentType<P>): ThemedStyledFunction<
+    <P extends { [prop: string]: any; theme?: T | undefined }>(component: React.ComponentType<P>): ThemedStyledFunction<
         P,
         T,
         WithOptionalTheme<P, T>
@@ -90,7 +83,8 @@ export type StyledInterface = ThemedStyledInterface<DefaultTheme>;
 export interface DefaultTheme {}
 
 export interface ThemeProviderProps<T> {
-    theme?: T | ((theme: T) => T);
+    children?: React.ReactElement | undefined | null;
+    theme?: T | ((theme: T) => T) | undefined;
 }
 export type BaseThemeProviderComponent<T> = React.ComponentClass<ThemeProviderProps<T>>;
 export type ThemeProviderComponent<T> = BaseThemeProviderComponent<Extract<keyof T, string> extends never ? any : T>;
@@ -107,8 +101,8 @@ type KeyofBase = keyof any;
 type Diff<T extends KeyofBase, U extends KeyofBase> = ({ [P in T]: P } & { [P in U]: never })[T];
 type Omit<T, K extends keyof T> = Pick<T, Diff<keyof T, K>>;
 type DiffBetween<T, U> = Pick<T, Diff<keyof T, keyof U>> & Pick<U, Diff<keyof U, keyof T>>;
-type WithOptionalTheme<P extends { theme?: T }, T> = Omit<P, 'theme'> & {
-    theme?: T;
+type WithOptionalTheme<P extends { theme?: T | undefined }, T> = Omit<P, "theme"> & {
+    theme?: T | undefined;
 };
 
 export interface ThemedStyledComponentsModule<T> {
@@ -126,7 +120,7 @@ declare const styled: StyledInterface;
 
 export const css: ThemedCssFunction<DefaultTheme>;
 
-export type BaseWithThemeFnInterface<T> = <P extends { theme?: T }>(
+export type BaseWithThemeFnInterface<T> = <P extends { theme?: T | undefined }>(
     component: React.ComponentType<P>,
 ) => React.ComponentClass<WithOptionalTheme<P, T>>;
 export type WithThemeFnInterface<T> = BaseWithThemeFnInterface<Extract<keyof T, string> extends never ? any : T>;
@@ -147,8 +141,9 @@ interface StylesheetComponentProps {
 }
 
 interface StyleSheetManagerProps {
-    sheet?: StyleSheet;
-    target?: Node;
+    children?: React.ReactNode;
+    sheet?: StyleSheet | undefined;
+    target?: Node | undefined;
 }
 
 export class StyleSheetManager extends React.Component<StyleSheetManagerProps> {}

@@ -1,9 +1,3 @@
-// Type definitions for Parcel (module API)
-// Project: https://github.com/parcel/parcel-bundler
-// Definitions by: Fathy Boundjadj <https://github.com/fathyb>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// Based on @types/webpack-env
-
 /**
  * Parcel module API - variables and global functions available inside modules
  */
@@ -26,9 +20,9 @@ declare namespace __ParcelModuleApi {
         loaded: boolean;
         parent: any;
         children: any[];
-        hot?: Hot;
+        hot?: Hot | undefined;
     }
-    type ModuleId = string|number;
+    type ModuleId = string | number;
 
     interface Hot {
         /**
@@ -141,15 +135,15 @@ declare namespace __ParcelModuleApi {
         /**
          * If true the update process continues even if some modules are not accepted (and would bubble to the entry point).
          */
-        ignoreUnaccepted?: boolean;
+        ignoreUnaccepted?: boolean | undefined;
         /**
          * Indicates that apply() is automatically called by check function
          */
-        autoApply?: boolean;
+        autoApply?: boolean | undefined;
     }
     /**
-    * Inside env you can pass any variable
-    */
+     * Inside env you can pass any variable
+     */
     interface NodeProcess {
         env?: any;
     }
@@ -169,8 +163,8 @@ interface NodeModule extends __ParcelModuleApi.Module {}
 declare var module: NodeModule;
 
 /**
-* Declare process variable
-*/
+ * Declare process variable
+ */
 declare namespace NodeJS {
     interface Process extends __ParcelModuleApi.NodeProcess {}
 }

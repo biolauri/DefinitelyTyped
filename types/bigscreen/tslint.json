@@ -1,9 +1,7 @@
 {
-    "extends": "dtslint/dt.json",
+    "extends": "@definitelytyped/dtslint/dt.json",
     "rules": {
-        "dt-header": false,
         "only-arrow-functions": false,
-        "prefer-template": false,
-        "semicolon": false
+        "prefer-template": false
     }
 }

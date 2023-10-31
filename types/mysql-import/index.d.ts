@@ -1,8 +1,3 @@
-// Type definitions for mysql-import 2.0
-// Project: https://github.com/pamblam/mysql-import#readme
-// Definitions by: Ben Grynhaus <https://github.com/bengry>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 export interface Settings {
     /**
      * The MySQL host to connect to.
@@ -11,7 +6,7 @@ export interface Settings {
     /**
      * The MySQL port to connect to.
      */
-    port?: number;
+    port?: number | undefined;
     /**
      * The MySQL user to connect with.
      */

@@ -1,3 +1,5 @@
+import { CookieJar } from "./http";
+
 /**
  * Open WebSocket connection.
  * https://k6.io/docs/javascript-api/k6-ws/connect-url-params-callback/
@@ -41,8 +43,20 @@ export interface Params {
     /** Request headers. */
     headers?: { [name: string]: string };
 
+    /**
+     * Compression algorithm. The only supported algorithm is `deflate`.
+     * If the option is left unset or empty, it defaults to no compression.
+     */
+    compression?: string;
+
     /** Response time metric tags. */
     tags?: { [name: string]: string };
+
+    /**
+     * The cookie jar that will be used when making the initial HTTP request to establish the WebSocket connection.
+     * If empty, the default VU cookie jar will be used.
+     */
+    jar?: CookieJar;
 }
 
 /**
@@ -176,7 +190,7 @@ export abstract class Socket {
 /**
  * Event type.
  */
-export type EventType = 'close' | 'error' | 'message' | 'open' | 'ping' | 'pong' | 'binaryMessage';
+export type EventType = "close" | "error" | "message" | "open" | "ping" | "pong" | "binaryMessage";
 
 /**
  * Timer handler.
@@ -191,20 +205,13 @@ export interface TimerHandler {
 /**
  * Event handler. Signature varies with event type.
  */
-export type EventHandler<ET extends EventType> = ET extends 'close'
-    ? CloseEventHandler
-    : ET extends 'error'
-    ? ErrorEventHandler
-    : ET extends 'message'
-    ? MessageEventHandler
-    : ET extends 'binaryMessage'
-    ? BinaryMessageEventHandler
-    : ET extends 'open'
-    ? OpenEventHandler
-    : ET extends 'ping'
-    ? PingEventHandler
-    : ET extends 'pong'
-    ? PongEventHandler
+export type EventHandler<ET extends EventType> = ET extends "close" ? CloseEventHandler
+    : ET extends "error" ? ErrorEventHandler
+    : ET extends "message" ? MessageEventHandler
+    : ET extends "binaryMessage" ? BinaryMessageEventHandler
+    : ET extends "open" ? OpenEventHandler
+    : ET extends "ping" ? PingEventHandler
+    : ET extends "pong" ? PongEventHandler
     : never;
 
 /**
@@ -234,7 +241,7 @@ export interface MessageEventHandler {
 /**
  * BinaryMessage event handler.
  */
- export interface BinaryMessageEventHandler {
+export interface BinaryMessageEventHandler {
     /** @param message - Message. */
     (message: ArrayBuffer): void;
 }

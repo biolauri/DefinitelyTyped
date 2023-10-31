@@ -1,8 +1,3 @@
-// Type definitions for tap 15.0
-// Project: https://github.com/tapjs/node-tap
-// Definitions by: zkldi <https://github.com/zkldi>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 // TODO: can be removed as soon as https://github.com/tapjs/node-tap/pull/607 is merged
 
 /// <reference types="node" />
@@ -342,7 +337,7 @@ declare namespace Assertions {
     ) => boolean;
     type Type = (
         found: any,
-        type: string | (new (...args: any[]) => object),
+        type: string | (new(...args: any[]) => object),
         message?: string,
         extra?: Options.Assert,
     ) => boolean;
@@ -358,25 +353,25 @@ declare namespace Options {
     }
 
     interface Assert extends Bag {
-        todo?: boolean | string;
-        skip?: boolean | string;
-        diagnostic?: boolean;
+        todo?: boolean | string | undefined;
+        skip?: boolean | string | undefined;
+        diagnostic?: boolean | undefined;
     }
 
     interface Spawn extends Assert {
-        bail?: boolean;
-        timeout?: number;
+        bail?: boolean | undefined;
+        timeout?: number | undefined;
     }
 
     interface Test extends Assert {
-        timeout?: number;
-        bail?: boolean;
-        autoend?: boolean;
-        buffered?: boolean;
-        jobs?: number;
-        grep?: RegExp[];
-        only?: boolean;
-        runOnly?: boolean;
+        timeout?: number | undefined;
+        bail?: boolean | undefined;
+        autoend?: boolean | undefined;
+        buffered?: boolean | undefined;
+        jobs?: number | undefined;
+        grep?: RegExp[] | undefined;
+        only?: boolean | undefined;
+        runOnly?: boolean | undefined;
     }
 }
 
@@ -508,7 +503,13 @@ declare global {
              *
              * @see {@link https://node-tap.org/docs/api/advanced/#tspawncommand-arguments-options-name}
              */
-            spawn(cmd: string, args: string, options?: Options.Bag, name?: string, extra?: Options.Spawn): Promise<void>;
+            spawn(
+                cmd: string,
+                args: string,
+                options?: Options.Bag,
+                name?: string,
+                extra?: Options.Spawn,
+            ): Promise<void>;
 
             done(): void;
 
@@ -725,7 +726,7 @@ declare global {
              */
             resolveMatch(
                 promiseOrFn: Promise<any> | ((...args: any[]) => Promise<any>),
-                wanted: string | RegExp | { [key: string]: RegExp },
+                wanted: any,
                 message?: string,
                 extra?: Options.Assert,
             ): Promise<void>;
@@ -872,6 +873,20 @@ declare global {
             has: Assertions.Match;
 
             /**
+             * Verify that the found object contains the provided property and that it is not undefined. Searches the prototype chain as well as "own" properties.
+             *
+             * @example t.hasProp({ a: 1, b: 2 }, 'a') would succeed, while both t.hasProp({ a: 1, b: 2 }, 'c') and t.hasProp({ a: undefined, b: 2 }, 'a') would fail.
+             */
+            hasProp: Assertions.Match;
+
+            /**
+             * Verifies that the object found contains each of the property names in propertyList, and that they are not undefined. Searches prototype chain as well as "own" properties.
+             *
+             * @example t.hasProps({ a: 1, b: 2 }, ['a', 'b']) would succeed, while both t.hasProp({ a: 1, b: 2 }, ['a', 'c']) and t.hasProp({ a: undefined, b: 2 }, ['a', 'b']) would fail.
+             */
+            hasProps: Assertions.Match;
+
+            /**
              * Inverse of match().
              *
              * Verify that the found object does not match the pattern provided.
@@ -903,8 +918,14 @@ declare global {
             }
         }
 
+        interface MochaIt {
+            (name?: string, fn?: (a: any) => any): void;
+            skip: (name?: string, fn?: (a: any) => any) => void;
+            todo: (name?: string, fn?: (a: any) => any) => void;
+        }
+
         interface Mocha {
-            it: (name?: string, fn?: (a: any) => any) => void;
+            it: MochaIt;
             describe: (name?: string, fn?: (a: any) => any) => void;
             global: () => void;
         }

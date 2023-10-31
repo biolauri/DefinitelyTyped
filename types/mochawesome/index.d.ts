@@ -1,13 +1,8 @@
-// Type definitions for mochawesome 6.2
-// Project: https://github.com/adamgruber/mochawesome#readme
-// Definitions by: Chris Gilardi <https://github.com/Christop406>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 declare namespace Mochawesome {
     interface ReporterOptions {
         quiet: boolean;
         code: boolean;
-        'no-code': boolean;
+        "no-code": boolean;
         html: boolean;
         json: boolean;
         consoleReporter: string;
@@ -15,8 +10,8 @@ declare namespace Mochawesome {
     }
 
     interface Options {
-        inlineDiffs?: boolean;
-        reporterOptions?: Partial<ReporterOptions>;
+        inlineDiffs?: boolean | undefined;
+        reporterOptions?: Partial<ReporterOptions> | undefined;
     }
 
     interface Config {
@@ -65,7 +60,7 @@ declare namespace Mochawesome {
 
     interface TestError {
         message: string;
-        estack?: string;
+        estack?: string | undefined;
         diff: string | string[];
     }
 
@@ -85,12 +80,12 @@ declare namespace Mochawesome {
         skipped: boolean;
         err: TestError | {};
 
-        context?: string;
-        speed?: 'slow' | 'medium' | 'fast';
-        state?: 'failed' | 'passed';
-        duration?: number;
-        code?: string;
-        parentUUID?: string;
+        context?: string | undefined;
+        speed?: "slow" | "medium" | "fast" | undefined;
+        state?: "failed" | "passed" | undefined;
+        duration?: number | undefined;
+        code?: string | undefined;
+        parentUUID?: string | undefined;
     }
 
     /**
@@ -153,7 +148,7 @@ declare class Mochawesome {
      * suite ran by the supplied `Mocha.Runner` instance.
      * Will be populated after the suite is run.
      */
-    output?: Mochawesome.Output;
+    output?: Mochawesome.Output | undefined;
 
     done: Mochawesome.Done;
 }

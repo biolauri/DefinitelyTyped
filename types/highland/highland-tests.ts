@@ -68,7 +68,10 @@ interface StrBarArrMap {
 
 declare class MyPromise<T> implements PromiseLike<T> {
     constructor(executor: (resolve: (value: T | PromiseLike<T>) => void, reject: (err: any) => void) => void);
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: (value: T) => TResult1 | PromiseLike<TResult1>, onrejected?: (reason: any) => TResult2 | PromiseLike<TResult2>): PromiseLike<TResult1 | TResult2>;
+    then<TResult1 = T, TResult2 = never>(
+        onfulfilled?: (value: T) => TResult1 | PromiseLike<TResult1>,
+        onrejected?: (reason: any) => TResult2 | PromiseLike<TResult2>,
+    ): PromiseLike<TResult1 | TResult2>;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -152,16 +155,22 @@ fooStream = _<Foo>((push, next) => {
 fooStream = _(fooStream);
 fooStream = _<Foo>(readable);
 fooStream = _<Foo>(readable, (r, cb) => {
+    return;
+});
+fooStream = _<Foo>(readable, (r, cb) => {
+    return () => {
         return;
+    };
 });
 fooStream = _<Foo>(readable, (r, cb) => {
-        return () => { return; }
+    return { continueOnError: true };
 });
 fooStream = _<Foo>(readable, (r, cb) => {
-        return { continueOnError: true };
-});
-fooStream = _<Foo>(readable, (r, cb) => {
-        return { onDestroy: () => { return; } };
+    return {
+        onDestroy: () => {
+            return;
+        },
+    };
 });
 fooStream = _<Foo>(str, emitter);
 fooStream = _<Foo>(str, emitter, num);
@@ -212,12 +221,12 @@ barStream = fooStream.consume(
         err: Error,
         x: Foo | Highland.Nil,
         push: (err: Error, value?: Bar | Highland.Nil) => void,
-        next: () => void
+        next: () => void,
     ) => {
         push(err);
         push(null, bar);
         next();
-    }
+    },
 );
 
 barStream = fooStream.consume<Bar>((err, x, push, next) => {
@@ -237,7 +246,7 @@ fooStream = fooStream.errors(
         push(err);
         push(null, x);
         push(null, foo);
-    }
+    },
 );
 
 fooStream = fooStream.errors((err, push) => {
@@ -273,7 +282,7 @@ fooStream = fooStream.head();
 fooStream = fooStream.intersperse(foo);
 
 // $ExpectType Stream<Foo | Bar>
-fooStream.intersperse(bar)
+fooStream.intersperse(bar);
 
 barStream = fooStream.invoke<Bar>(str, anyArr);
 
@@ -286,13 +295,13 @@ barStream = fooStream.map((x: Foo) => {
 });
 
 // $ExpectType Stream<Pick<Baz, "foo" | "bar">>
-bazStream.pick(['foo', 'bar']);
+bazStream.pick(["foo", "bar"]);
 
 // $ExpectType Stream<Partial<Foo>>
-fooStream.pickBy((key, value) => key === 'foo');
+fooStream.pickBy((key, value) => key === "foo");
 
 // $ExpectType Stream<() => string>
-fooStream.pluck('foo');
+fooStream.pluck("foo");
 barStream = fooStream.pluck<Bar>(str);
 
 fooStream = fooStream.ratelimit(3, 1000);
@@ -334,20 +343,20 @@ fooStream = fooStream.sort();
 // $ExpectType Stream<Foo>
 fooStream = fooStream.sortBy((a: Foo, b: Foo) => 1);
 
-// $ExpectError
+// @ts-expect-error
 fooStream.split();
 
 // $ExpectType Stream<string>
-_(['']).split();
+_([""]).split();
 
-// $ExpectError
-fooStream.splitBy(",")
-
-// $ExpectType Stream<string>
-_(['']).splitBy(',')
+// @ts-expect-error
+fooStream.splitBy(",");
 
 // $ExpectType Stream<string>
-_(['']).splitBy(/,/)
+_([""]).splitBy(",");
+
+// $ExpectType Stream<string>
+_([""]).splitBy(/,/);
 
 fooStream = fooStream.stopOnError((e: Error) => {});
 
@@ -359,7 +368,7 @@ fooStream = fooStream.throttle(num);
 
 fooStream = fooStream.where(obj);
 
-bazStream = bazStream.where({baz: true});
+bazStream = bazStream.where({ baz: true });
 
 fooStream = fooStream.uniq();
 
@@ -390,19 +399,19 @@ barStream = barArrStream.flatten();
 barStream = barStreamStream.flatten();
 barStream = barStreamArrStream.flatten();
 
-// $ExpectError
+// @ts-expect-error
 barArrStream.flatten<Foo>();
 
 fooStream = fooStream.fork();
 
 fooStream = fooStreamStream.merge();
 
-// $ExpectError
+// @ts-expect-error
 fooStream.merge();
 
 fooStream = fooStreamStream.mergeWithLimit(1);
 
-// $ExpectError
+// @ts-expect-error
 fooStream.mergeWithLimit(1);
 
 fooStream = fooStream.observe();
@@ -415,17 +424,17 @@ barStream = barStreamStream.sequence();
 
 barStream = barStreamStream.series<Bar>();
 
-// $ExpectError
+// @ts-expect-error
 fooStream.sequence();
-// $ExpectError
+// @ts-expect-error
 barStream.series();
-// $ExpectError
+// @ts-expect-error
 fooStreamStream.sequence<Bar>();
 
 bar = fooStream.through((x: Highland.Stream<Foo>) => bar);
 barStream = fooStream.through(readwritable);
 
-// $ExpectError
+// @ts-expect-error
 fooStream.through((x: Highland.Stream<Bar>) => bar);
 
 // $ExpectType Stream<[Foo, Foo]>
@@ -473,10 +482,10 @@ fooStream.toCallback((err: Error, x: Foo) => {});
 fooStream.toCallback((err: Error) => {});
 
 fooStream.toNodeStream();
-fooStream.toNodeStream({objectMode: false});
-fooStream.toNodeStream({objectMode: true});
+fooStream.toNodeStream({ objectMode: false });
+fooStream.toNodeStream({ objectMode: true });
 
-fooStream.toPromise(Promise).then((foo: Foo) => {})
+fooStream.toPromise(Promise).then((foo: Foo) => {});
 
 // Type inference for the generic parameter only seems to work with TS 3.5 or above.
 // Rather than bump the required version, I'm not testing type inference here.
@@ -488,7 +497,7 @@ fooStream.toPromise(MyPromise);
 fooStream.toPromise<Promise<Foo>>(Promise);
 // $ExpectType MyPromise<Foo>
 fooStream.toPromise<MyPromise<Foo>>(MyPromise);
-// $ExpectError
+// @ts-expect-error
 fooStream.toPromise<Promise<Foo>>(MyPromise);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -566,4 +575,4 @@ num = _.add(num, num);
 
 numCurNum = _.add(num);
 
-//missing not
+// missing not

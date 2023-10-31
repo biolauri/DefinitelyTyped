@@ -1,7 +1,31 @@
 import * as Popper from "@popperjs/core";
-import BaseComponent from "./base-component";
+import BaseComponent, { GetInstanceFactory, GetOrCreateInstanceFactory } from "./base-component";
 
 declare class Dropdown extends BaseComponent {
+    /**
+     * Static method which allows you to get the dropdown instance associated
+     * with a DOM element.
+     */
+    static getInstance: GetInstanceFactory<Dropdown>;
+
+    /**
+     * Static method which returns a dropdown instance associated to a DOM element or
+     *  create a new one in case it wasn't initialised.
+     * You can use it like this: bootstrap.Dropdown.getOrCreateInstance(element)
+     */
+    static getOrCreateInstance: GetOrCreateInstanceFactory<Dropdown, Partial<Dropdown.Options>>;
+
+    static jQueryInterface: Dropdown.jQueryInterface;
+
+    /**
+     * Default settings of this plugin
+     *
+     * @link https://getbootstrap.com/docs/5.0/getting-started/javascript/#default-settings
+     */
+    static Default: Dropdown.Options;
+
+    static DefaultType: Record<keyof Dropdown.Options, string>;
+
     constructor(element: string | Element, options?: Partial<Dropdown.Options>);
 
     /**
@@ -23,27 +47,6 @@ declare class Dropdown extends BaseComponent {
      * Updates the position of an element's dropdown.
      */
     update(): void;
-
-    /**
-     * Static method which allows you to get the dropdown instance associated
-     * with a DOM element.
-     */
-    static getInstance(element: Element, options?: Partial<Dropdown.Options>): Dropdown | null;
-
-    static jQueryInterface: Dropdown.jQueryInterface;
-
-    // static NAME: 'dropdown';
-
-    /**
-     * Default settings of this plugin
-     *
-     * @link https://getbootstrap.com/docs/5.0/getting-started/javascript/#default-settings
-     */
-    static Default: Dropdown.Options;
-
-    static DefaultType: Record<keyof Dropdown.Options, string>;
-
-    static DATA_KEY: string;
 }
 
 declare namespace Dropdown {
@@ -139,9 +142,16 @@ declare namespace Dropdown {
          * @default null
          */
         popperConfig: Partial<Popper.Options> | PopperConfigFunction | null;
+
+        /**
+         * Configure the auto close behavior of the dropdown
+         *
+         * @default true
+         */
+        autoClose: boolean | "inside" | "outside";
     }
 
-    type jQueryInterface = (config?: Partial<Options> | "toggle" | "show" | "hide" | "update" | "dispose") => void;
+    type jQueryInterface = (config?: Partial<Options> | "toggle" | "show" | "hide" | "update" | "dispose") => JQuery;
 }
 
 export default Dropdown;

@@ -1,4 +1,4 @@
-import * as langs from 'langs';
+import * as langs from "langs";
 
 // $ExpectType Langs
 langs;
@@ -7,31 +7,34 @@ langs;
 langs.all();
 
 // $ExpectType boolean
-langs.has('2B', 'he');
+langs.has("2B", "he");
 
 // $ExpectType string[]
-langs.codes('1');
+langs.codes("1");
 
 // $ExpectType string[]
 langs.codes(2);
 
 // $ExpectType string[]
-langs.codes('2B');
+langs.codes("2B");
 
 // $ExpectType string[]
-langs.codes('2T');
+langs.codes("2T");
 
 // $ExpectType string[]
-langs.codes('3');
+langs.codes("3");
 
 // $ExpectType string[]
 langs.names(true);
 
-// $ExpectType Language | undefined
-langs.where('1', 'he');
+// $ExpectType string[]
+langs.names();
 
-// $ExpectError
+// $ExpectType Language | undefined
+langs.where("1", "he");
+
+// @ts-expect-error
 langs.codes(5);
 
-// $ExpectError
-langs.codes('foo');
+// @ts-expect-error
+langs.codes("foo");

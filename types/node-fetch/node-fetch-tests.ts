@@ -1,13 +1,19 @@
-import fetch, {
-    Blob,
-    Headers,
-    Request,
-    RequestInit,
-    Response,
-    FetchError
-} from "node-fetch";
-import { URL } from "url";
 import { Agent } from "http";
+import fetch, { AbortError, Blob, FetchError, Headers, Request, RequestInit, Response } from "node-fetch";
+import { URL } from "url";
+
+function test_AbortError() {
+    const e = new AbortError("message");
+
+    // $ExpectType "aborted"
+    e.type;
+
+    // $ExpectType "AbortError"
+    e.name;
+
+    // $ExpectType string
+    e.message;
+}
 
 function test_fetchUrlWithOptions() {
     const headers = new Headers();
@@ -19,22 +25,23 @@ function test_fetchUrlWithOptions() {
         method: "POST",
         redirect: "manual",
         size: 100,
-        timeout: 5000
+        timeout: 5000,
+        agent: false,
     };
     handlePromise(
-        fetch("http://www.andlabs.net/html5/uCOR.php", requestOptions)
+        fetch("http://www.andlabs.net/html5/uCOR.php", requestOptions),
     );
 }
 
 function test_fetchUrlWithHeadersObject() {
     const requestOptions: RequestInit = {
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
-        method: "POST"
+        method: "POST",
     };
     handlePromise(
-        fetch("http://www.andlabs.net/html5/uCOR.php", requestOptions)
+        fetch("http://www.andlabs.net/html5/uCOR.php", requestOptions),
     );
 }
 
@@ -50,32 +57,42 @@ function test_fetchUrlWithRequestObject() {
     const requestOptions: RequestInit = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         signal: {
+            reason: undefined,
             aborted: false,
 
-            addEventListener: (type: "abort", listener: ((event: any) => any), options?: boolean | {
-                capture?: boolean,
-                once?: boolean,
-                passive?: boolean
-            }) => undefined,
+            addEventListener: (
+                type: "abort",
+                listener: (event: any) => any,
+                options?: boolean | {
+                    capture?: boolean | undefined;
+                    once?: boolean | undefined;
+                    passive?: boolean | undefined;
+                },
+            ) => undefined,
 
-            removeEventListener: (type: "abort", listener: ((event: any) => any), options?: boolean | {
-                capture?: boolean
-            }) => undefined,
+            removeEventListener: (
+                type: "abort",
+                listener: (event: any) => any,
+                options?: boolean | {
+                    capture?: boolean | undefined;
+                },
+            ) => undefined,
 
             dispatchEvent: (event: any) => false,
             onabort: null,
-        }
+            throwIfAborted: () => {},
+        },
     };
     const request: Request = new Request(
         "http://www.andlabs.net/html5/uCOR.php",
-        requestOptions
+        requestOptions,
     );
     const timeout: number = request.timeout;
     const size: number = request.size;
-    const agent: Agent | ((parsedUrl: URL) => Agent) | undefined = request.agent;
+    const agent: Agent | ((parsedUrl: URL) => boolean | Agent | undefined) | boolean | undefined = request.agent;
     const protocol: string = request.protocol;
 
     handlePromise(fetch(request));
@@ -102,32 +119,42 @@ function test_fetchUrlObjectWithRequestObject() {
     const requestOptions: RequestInit = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         signal: {
+            reason: undefined,
             aborted: false,
 
-            addEventListener: (type: "abort", listener: ((event: any) => any), options?: boolean | {
-                capture?: boolean,
-                once?: boolean,
-                passive?: boolean
-            }) => undefined,
+            addEventListener: (
+                type: "abort",
+                listener: (event: any) => any,
+                options?: boolean | {
+                    capture?: boolean | undefined;
+                    once?: boolean | undefined;
+                    passive?: boolean | undefined;
+                },
+            ) => undefined,
 
-            removeEventListener: (type: "abort", listener: ((event: any) => any), options?: boolean | {
-                capture?: boolean
-            }) => undefined,
+            removeEventListener: (
+                type: "abort",
+                listener: (event: any) => any,
+                options?: boolean | {
+                    capture?: boolean | undefined;
+                },
+            ) => undefined,
 
             dispatchEvent: (event: any) => false,
             onabort: null,
-        }
+            throwIfAborted: () => {},
+        },
     };
     const request: Request = new Request(
         new URL("https://example.org"),
-        requestOptions
+        requestOptions,
     );
     const timeout: number = request.timeout;
     const size: number = request.size;
-    const agent: Agent | ((parsedUrl: URL) => Agent) | undefined = request.agent;
+    const agent: Agent | ((parsedUrl: URL) => boolean | Agent | undefined) | boolean | undefined = request.agent;
     const protocol: string = request.protocol;
 
     handlePromise(fetch(request));
@@ -141,7 +168,7 @@ function test_globalFetchVar() {
 
 function handlePromise(
     promise: Promise<Response>,
-    isArrayBuffer: boolean = false
+    isArrayBuffer: boolean = false,
 ) {
     promise
         .then(
@@ -154,7 +181,7 @@ function handlePromise(
                 } else {
                     return response.text();
                 }
-            }
+            },
         )
         .then((text: string | ArrayBuffer) => {
             console.log(text);
@@ -169,7 +196,7 @@ function test_headers() {
     [...headers]; // $ExpectType [string, string][]
     [...headers.entries()]; // $ExpectType [string, string][]
     [...headers.keys()]; // $ExpectType string[]
-    [...headers.values()]; // $ExpectType [string][]
+    [...headers.values()]; // $ExpectType string[]
 }
 
 function test_isRedirect() {
@@ -179,12 +206,12 @@ function test_isRedirect() {
 
 function test_FetchError() {
     new FetchError("message", "type", {
-        name: 'Error',
-        message: 'Error message',
+        name: "Error",
+        message: "Error message",
         code: "systemError",
     });
     new FetchError("message", "type", {
-        name: 'Error',
+        name: "Error",
         message: "Error without code",
     });
     new FetchError("message", "type");
@@ -206,11 +233,102 @@ function test_ResponseInit() {
             status: response.status,
             statusText: response.statusText,
             headers: response.headers,
-            timeout: response.timeout
+            timeout: response.timeout,
         });
     });
 }
 
 async function test_BlobText() {
     const someString = await new Blob(["Hello world"]).text(); // $ExpectType string
+}
+
+function test_AbortSignal() {
+    let abortSignal: AbortSignal;
+    const requestOptions: RequestInit = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    requestOptions.signal = {
+        reason: undefined,
+        aborted: false,
+        addEventListener: (
+            type: "abort",
+            listener: (event: any) => any,
+            options?: boolean | {
+                capture?: boolean | undefined;
+                once?: boolean | undefined;
+                passive?: boolean | undefined;
+            },
+        ) => undefined,
+
+        removeEventListener: (
+            type: "abort",
+            listener: (event: any) => any,
+            options?: boolean | {
+                capture?: boolean | undefined;
+            },
+        ) => undefined,
+
+        dispatchEvent: (event: any) => false,
+        onabort: (event: any) => "something",
+        throwIfAborted: () => {},
+    };
+    abortSignal = requestOptions.signal;
+
+    requestOptions.signal = {
+        reason: undefined,
+        aborted: false,
+        addEventListener: (
+            type: "abort",
+            listener: (event: any) => any,
+            options?: boolean | {
+                capture?: boolean | undefined;
+                once?: boolean | undefined;
+                passive?: boolean | undefined;
+            },
+        ) => {},
+
+        removeEventListener: (
+            type: "abort",
+            listener: (event: any) => any,
+            options?: boolean | {
+                capture?: boolean | undefined;
+            },
+        ) => {},
+
+        dispatchEvent: (event: any) => true,
+        onabort: (event: any) => false,
+        throwIfAborted: () => {},
+    };
+    abortSignal = requestOptions.signal;
+
+    requestOptions.signal = {
+        reason: undefined,
+        aborted: true,
+        addEventListener: (
+            type: "abort",
+            listener: (event: string) => string,
+            options?: boolean | {
+                capture?: boolean | undefined;
+                once?: boolean | undefined;
+                passive?: boolean | undefined;
+            },
+        ) => undefined,
+
+        removeEventListener: (
+            type: "abort",
+            listener: (event: any) => any,
+            options?: boolean | {
+                capture?: boolean | undefined;
+            },
+        ) => undefined,
+
+        dispatchEvent: (event: any) => false,
+        onabort: null,
+        throwIfAborted: () => {},
+    };
+    abortSignal = requestOptions.signal;
 }

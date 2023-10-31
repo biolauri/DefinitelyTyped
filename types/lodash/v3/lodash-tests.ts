@@ -5975,9 +5975,9 @@ namespace TestDebounce {
     }
 
     interface Options {
-        leading?: boolean;
-        maxWait?: number;
-        trailing?: boolean;
+        leading?: boolean | undefined;
+        maxWait?: number | undefined;
+        trailing?: boolean | undefined;
     }
 
     interface ResultFunc {
@@ -6389,8 +6389,8 @@ namespace TestThrottle {
     }
 
     interface Options {
-        leading?: boolean;
-        trailing?: boolean;
+        leading?: boolean | undefined;
+        trailing?: boolean | undefined;
     }
 
     interface ResultFunc {
@@ -7005,6 +7005,50 @@ namespace TestIsEmpty {
         result = _('').chain().isEmpty();
         result = _<any>([]).chain().isEmpty();
         result = _({}).chain().isEmpty();
+    }
+
+    {
+        let anything: any;
+        if (_.isEmpty(anything)) {
+            const result: undefined | null | '' | [] | never[] | Record<never, never> = anything;
+        } else {
+            anything; // $ExpectType any
+        }
+
+        let string = 'isEmpty';
+        if (Math.random()) {
+            string = '';
+        }
+        if (_.isEmpty(string)) {
+            string; // $ExpectType ""
+        } else {
+            string; // $ExpectType string
+        }
+
+        const array: Array<{ value: boolean }> = [];
+        if (_.isEmpty(array)) {
+            array.push({ value: true });
+        } else {
+            array.push({ value: false });
+        }
+
+        const obj: { value?: boolean } = {};
+        if (_.isEmpty(obj)) {
+            const result: { value?: undefined } = obj;
+        } else {
+            obj; // $ExpectType { value?: boolean; }
+        }
+        let obj2: { value: boolean } | null | undefined = { value: true };
+        if (Math.random()) {
+            obj2 = null;
+        } else if (Math.random()) {
+            obj2 = undefined;
+        }
+        if (_.isEmpty(obj2)) {
+            const result: null | undefined = obj2;
+        } else {
+            obj2; // $ExpectType { value: boolean; }
+        }
     }
 }
 
@@ -9699,12 +9743,12 @@ namespace TestTemplate {
     }
 
     let options: {
-        escape?: RegExp;
-        evaluate?: RegExp;
-        imports?: _.Dictionary<any>;
-        interpolate?: RegExp;
-        sourceURL?: string;
-        variable?: string;
+        escape?: RegExp | undefined;
+        evaluate?: RegExp | undefined;
+        imports?: _.Dictionary<any> | undefined;
+        interpolate?: RegExp | undefined;
+        sourceURL?: string | undefined;
+        variable?: string | undefined;
     };
 
     {
@@ -10313,7 +10357,7 @@ namespace TestMethodOf {
 // _.mixin
 namespace TestMixin {
     let source: _.Dictionary<Function>;
-    let options: {chain?: boolean};
+    let options: {chain?: boolean | undefined};
 
     {
         let result: TResult;

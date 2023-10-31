@@ -16,8 +16,8 @@ export declare class FeatureFlagScope {
 }
 
 export interface FeatureFlagsProps {
-    children?: React.ReactNode;
-    flags?: FeatureFlagRecord;
+    children?: React.ReactNode | undefined;
+    flags?: FeatureFlagRecord | undefined;
 }
 
 declare const FeatureFlagContext: React.Context<FeatureFlagScope>;
@@ -25,6 +25,4 @@ declare const FeatureFlags: React.FC<FeatureFlagsProps>;
 declare function useFeatureFlag(flag: string): boolean;
 declare function useFeatureFlags(): FeatureFlagScope;
 
-export {
-    FeatureFlags, FeatureFlagContext, useFeatureFlags, useFeatureFlag
-};
+export { FeatureFlagContext, FeatureFlags, useFeatureFlag, useFeatureFlags };

@@ -1,7 +1,3 @@
-// Type definitions for node-isbn 1.6
-// Project: https://github.com/palmerabollo/node-isbn#readme
-// Definitions by: Piotr Błażejewicz <https://github.com/peterblazejewicz>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 /// <reference types="node" />
 import { AxiosRequestConfig } from "axios";
 
@@ -53,15 +49,15 @@ declare namespace isbn {
     interface Book {
         authors: string[];
         categories: string[];
-        description?: string;
+        description?: string | undefined;
         imageLinks?: {
             smallThumbnail: string;
             thumbnail: string;
-        };
+        } | undefined;
         industryIdentifiers: string[];
         infoLink: string;
         language: BookLanguage;
-        pageCount?: number;
+        pageCount?: number | undefined;
         previewLink: string;
         printType: "BOOK";
         publishedDate: string;

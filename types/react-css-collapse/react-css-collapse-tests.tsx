@@ -1,9 +1,9 @@
 import * as React from "react";
-import { SFC } from "react";
-import { render } from "react-dom";
+import { FC } from "react";
 import Collapse from "react-css-collapse";
+import { render } from "react-dom";
 
-const TestOpen: SFC = () => (
+const TestOpen: FC = () => (
     <Collapse isOpen>
         <div>
             i am open

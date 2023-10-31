@@ -1,12 +1,12 @@
-import { Loader } from 'rdf-loaders-registry';
-import { NamedNode } from 'rdf-js';
-import LoaderRegistry = require('rdf-loaders-registry');
+import { NamedNode } from "rdf-js";
+import { Loader } from "rdf-loaders-registry";
+import LoaderRegistry = require("rdf-loaders-registry");
 
 interface Options {
-    property?: NamedNode;
+    property?: NamedNode | undefined;
     context?: any;
-    variables?: Map<string, any>;
-    basePath?: string;
+    variables?: Map<string, any> | undefined;
+    basePath?: string | undefined;
 }
 
 declare namespace loader {

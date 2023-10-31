@@ -1,8 +1,3 @@
-// Type definitions for digital-link.js 1.2
-// Project: https://github.com/evrythng/digital-link.js#readme
-// Definitions by: Eoin O'Brien <https://github.com/eoin-obrien>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 /**
  * Construct a DigitalLink either from object params, a string, or built using
  * the available setters.
@@ -188,10 +183,10 @@ export interface ValidationTrace {
 export interface DigitalLinkInput {
     domain: string;
     identifier: Record<string, string>;
-    keyQualifiers?: Record<string, string>;
-    attributes?: Record<string, string>;
-    keyQualifiersOrder?: string[];
-    sortKeyQualifiers?: boolean;
+    keyQualifiers?: Record<string, string> | undefined;
+    attributes?: Record<string, string> | undefined;
+    keyQualifiersOrder?: string[] | undefined;
+    sortKeyQualifiers?: boolean | undefined;
 }
 
 export type RuleName =

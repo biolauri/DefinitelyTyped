@@ -1,14 +1,9 @@
-// Type definitions for @vertx/eventbus-bridge-client.js 1.0
-// Project: http://vertx.io
-// Definitions by: Chiramet Phong Penglerd <https://github.com/Phong6698>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 declare namespace EventBus {
     type EventBusStatic = new(url: string, options?: any) => EventBus;
 
     interface EventBus {
         url: string;
-        options?: EventBusOptions;
+        options?: EventBusOptions | undefined;
         onopen(): void;
         onerror(error: EventBusError): void;
         onclose(): void;

@@ -1,26 +1,19 @@
-// Type definitions for chrome-remote-interface 0.31
-// Project: https://github.com/cyrus-and/chrome-remote-interface
-// Definitions by: Khairul Azhar Kasmiran <https://github.com/kazarmy>
-//                 Seth Westphal <https://github.com/westy92>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// Minimum TypeScript Version: 3.8
-
-import type ProtocolProxyApi from 'devtools-protocol/types/protocol-proxy-api';
-import type ProtocolMappingApi from 'devtools-protocol/types/protocol-mapping';
+import type ProtocolMappingApi from "devtools-protocol/types/protocol-mapping";
+import type ProtocolProxyApi from "devtools-protocol/types/protocol-proxy-api";
 
 declare namespace CDP {
     interface BaseOptions {
-        host?: string;
-        port?: number;
-        secure?: boolean;
-        useHostName?: boolean;
-        alterPath?: (path: string) => string;
+        host?: string | undefined;
+        port?: number | undefined;
+        secure?: boolean | undefined;
+        useHostName?: boolean | undefined;
+        alterPath?: ((path: string) => string) | undefined;
     }
 
     interface Options extends BaseOptions {
-        target?: ((targets: Target[]) => Target | number) | Target | string;
-        protocol?: Protocol;
-        local?: boolean;
+        target?: ((targets: Target[]) => Target | number) | Target | string | undefined;
+        protocol?: Protocol | undefined;
+        local?: boolean | undefined;
     }
 
     interface ActivateOptions extends BaseOptions {
@@ -32,17 +25,29 @@ declare namespace CDP {
     }
 
     interface NewOptions extends BaseOptions {
-        url?: string;
+        url?: string | undefined;
     }
 
     interface ProtocolOptions extends BaseOptions {
-        local?: boolean;
+        local?: boolean | undefined;
     }
 
     interface EventMessage {
         method: string;
         params: object;
-        sessionId?: string;
+        sessionId?: string | undefined;
+    }
+
+    interface SendError {
+        code: number;
+        message: string;
+        data?: string | undefined;
+    }
+
+    interface SendCallback<T extends keyof ProtocolMappingApi.Commands> {
+        (error: true, response: SendError): void;
+        (error: false, response: ProtocolMappingApi.Commands[T]["returnType"]): void;
+        (error: Error, response: undefined): void;
     }
 
     interface Target {
@@ -57,17 +62,17 @@ declare namespace CDP {
 
     interface VersionResult {
         Browser: string;
-        'Protocol-Version': string;
-        'User-Agent': string;
-        'V8-Version': string;
-        'Webkit-Version': string;
+        "Protocol-Version": string;
+        "User-Agent": string;
+        "V8-Version": string;
+        "Webkit-Version": string;
         webSocketDebuggerUrl: string;
     }
 
     /////////////////////////////////////////////////
-    // Generated from https://app.quicktype.io/,
-    // TypeEnum simplified.
-    // Source: https://github.com/cyrus-and/chrome-remote-interface/blob/v0.30.1/lib/protocol.json
+    // Generated with https://app.quicktype.io/, Name: Protocol, Language: TypeScript, Interfaces only.
+    // Manually done: TypeEnum simplified, add " | undefined" for optional properties.
+    // Source: https://github.com/ChromeDevTools/devtools-protocol/blob/master/json/ (merge JSON objects)
     /////////////////////////////////////////////////
     interface Protocol {
         version: Version;
@@ -76,61 +81,61 @@ declare namespace CDP {
 
     interface Domain {
         domain: string;
-        experimental?: boolean;
-        dependencies?: string[];
-        types?: TypeElement[];
+        experimental?: boolean | undefined;
+        dependencies?: string[] | undefined;
+        types?: TypeElement[] | undefined;
         commands: Command[];
-        events?: Event[];
-        description?: string;
-        deprecated?: boolean;
+        events?: Event[] | undefined;
+        description?: string | undefined;
+        deprecated?: boolean | undefined;
     }
 
     interface Command {
         name: string;
-        description?: string;
-        experimental?: boolean;
-        parameters?: Parameter[];
-        returns?: Parameter[];
-        redirect?: string;
-        deprecated?: boolean;
+        description?: string | undefined;
+        experimental?: boolean | undefined;
+        parameters?: Parameter[] | undefined;
+        returns?: Parameter[] | undefined;
+        redirect?: string | undefined;
+        deprecated?: boolean | undefined;
     }
 
     interface Parameter {
         name: string;
-        description?: string;
-        optional?: boolean;
-        $ref?: string;
-        type?: TypeEnum;
-        items?: Items;
-        enum?: string[];
-        experimental?: boolean;
-        deprecated?: boolean;
+        description?: string | undefined;
+        optional?: boolean | undefined;
+        $ref?: string | undefined;
+        type?: TypeEnum | undefined;
+        items?: Items | undefined;
+        enum?: string[] | undefined;
+        experimental?: boolean | undefined;
+        deprecated?: boolean | undefined;
     }
 
     interface Items {
-        type?: TypeEnum;
-        $ref?: string;
+        type?: TypeEnum | undefined;
+        $ref?: string | undefined;
     }
 
     type TypeEnum = "any" | "array" | "boolean" | "integer" | "number" | "object" | "string";
 
     interface Event {
         name: string;
-        description?: string;
-        parameters?: Parameter[];
-        experimental?: boolean;
-        deprecated?: boolean;
+        description?: string | undefined;
+        parameters?: Parameter[] | undefined;
+        experimental?: boolean | undefined;
+        deprecated?: boolean | undefined;
     }
 
     interface TypeElement {
         id: string;
-        description?: string;
+        description?: string | undefined;
         type: TypeEnum;
-        enum?: string[];
-        properties?: Parameter[];
-        experimental?: boolean;
-        items?: Items;
-        deprecated?: boolean;
+        enum?: string[] | undefined;
+        properties?: Parameter[] | undefined;
+        experimental?: boolean | undefined;
+        items?: Items | undefined;
+        deprecated?: boolean | undefined;
     }
 
     interface Version {
@@ -141,16 +146,43 @@ declare namespace CDP {
     // Generated content end.
     /////////////////////////////////////////////////
 
-    type Client = {
-        close: () => Promise<void>;
-        on(event: 'event', callback: (message: EventMessage) => void): void;
-        on(event: 'ready' | 'disconnect', callback: () => void): void;
-        // '<domain>.<method>' i.e. Network.requestWillBeSent
-        on<T extends keyof ProtocolMappingApi.Events>(event: T, callback: (params: ProtocolMappingApi.Events[T][0], sessionId?: string) => void): void;
-        // '<domain>.<method>.<sessionId>' i.e. Network.requestWillBeSent.abc123
-        on(event: string, callback: (params: object, sessionId?: string) => void): void;
+    type GetEventFromString<D extends string, S extends string> = S extends `${D}.${infer E}` ? E : never;
+    type GetEvent<D extends string> = GetEventFromString<D, keyof ProtocolMappingApi.Events>;
+    type GetReturnType<D extends string, E extends string> = `${D}.${E}` extends keyof ProtocolMappingApi.Events
+        ? ProtocolMappingApi.Events[`${D}.${E}`][0]
+        : never;
+    type DoEventPromises<D extends string> = {
+        [event in GetEvent<D>]:
+            // tslint:disable-next-line: void-return
+            () => Promise<GetReturnType<D, event> extends undefined ? void : GetReturnType<D, event>>;
+    };
+    type DoEventListeners<D extends string> = {
+        [event in GetEvent<D>]: (
+            listener: (params: GetReturnType<D, event>, sessionId?: string) => void,
+        ) => () => Client;
+    };
+    type DoEventObj<D> = D extends string ? DoEventPromises<D> & DoEventListeners<D> : {};
 
-        // stable domains
+    type IsNullableObj<T> = Record<keyof T, undefined> extends T ? true : false;
+    /**
+     * Checks whether the only parameter of `T[key]` is nullable i.e. all of
+     * its properties are optional, and makes it optional if so.
+     */
+    type OptIfParamNullable<T> = {
+        [key in keyof T]: T[key] extends (params: any) => any
+            ? IsNullableObj<Parameters<T[key]>[0]> extends true ? (params?: Parameters<T[key]>[0]) => ReturnType<T[key]>
+            : T[key]
+            : T[key];
+    };
+
+    type AddOptParams<T> = {
+        [key in keyof T]: key extends "on" ? T[key]
+            : T[key] extends (...args: infer P) => infer R ? (...args: [...curArgs: P, sessionId?: string]) => R
+            : T[key];
+    };
+
+    type ImproveAPI<T> = { [key in keyof T]: DoEventObj<key> & AddOptParams<OptIfParamNullable<T[key]>> };
+    interface StableDomains {
         Browser: ProtocolProxyApi.BrowserApi;
         Debugger: ProtocolProxyApi.DebuggerApi;
         DOM: ProtocolProxyApi.DOMApi;
@@ -166,42 +198,116 @@ declare namespace CDP {
         Runtime: ProtocolProxyApi.RuntimeApi;
         Security: ProtocolProxyApi.SecurityApi;
         Target: ProtocolProxyApi.TargetApi;
-        // unstable domains
+    }
+    interface DeprecatedDomains {
+        /** @deprecated This domain is deprecated - use Runtime or Log instead. */
         Console: ProtocolProxyApi.ConsoleApi;
+        /** @deprecated This domain is deprecated. */
         Schema: ProtocolProxyApi.SchemaApi;
+    }
+    interface ExperimentalDomains {
+        /** @deprecated this API is experimental. */
         Accessibility: ProtocolProxyApi.AccessibilityApi;
+        /** @deprecated this API is experimental. */
         Animation: ProtocolProxyApi.AnimationApi;
+        /** @deprecated this API is experimental. */
         ApplicationCache: ProtocolProxyApi.ApplicationCacheApi;
+        /** @deprecated this API is experimental. */
         Audits: ProtocolProxyApi.AuditsApi;
+        /** @deprecated this API is experimental. */
         BackgroundService: ProtocolProxyApi.BackgroundServiceApi;
+        /** @deprecated this API is experimental. */
         CacheStorage: ProtocolProxyApi.CacheStorageApi;
+        /** @deprecated this API is experimental. */
         Cast: ProtocolProxyApi.CastApi;
+        /** @deprecated this API is experimental. */
         CSS: ProtocolProxyApi.CSSApi;
+        /** @deprecated this API is experimental. */
         Database: ProtocolProxyApi.DatabaseApi;
+        /** @deprecated this API is experimental. */
         DeviceOrientation: ProtocolProxyApi.DeviceOrientationApi;
+        /** @deprecated this API is experimental. */
         DOMSnapshot: ProtocolProxyApi.DOMSnapshotApi;
+        /** @deprecated this API is experimental. */
         DOMStorage: ProtocolProxyApi.DOMStorageApi;
+        /** @deprecated this API is experimental. */
         Fetch: ProtocolProxyApi.FetchApi;
+        /** @deprecated this API is experimental. */
         HeadlessExperimental: ProtocolProxyApi.HeadlessExperimentalApi;
+        /** @deprecated this API is experimental. */
         HeapProfiler: ProtocolProxyApi.HeapProfilerApi;
+        /** @deprecated this API is experimental. */
         IndexedDB: ProtocolProxyApi.IndexedDBApi;
+        /** @deprecated this API is experimental. */
         Inspector: ProtocolProxyApi.InspectorApi;
+        /** @deprecated this API is experimental. */
         LayerTree: ProtocolProxyApi.LayerTreeApi;
+        /** @deprecated this API is experimental. */
         Media: ProtocolProxyApi.MediaApi;
+        /** @deprecated this API is experimental. */
         Memory: ProtocolProxyApi.MemoryApi;
+        /** @deprecated this API is experimental. */
         Overlay: ProtocolProxyApi.OverlayApi;
+        /** @deprecated this API is experimental. */
         ServiceWorker: ProtocolProxyApi.ServiceWorkerApi;
+        /** @deprecated this API is experimental. */
         Storage: ProtocolProxyApi.StorageApi;
+        /** @deprecated this API is experimental. */
         SystemInfo: ProtocolProxyApi.SystemInfoApi;
+        /** @deprecated this API is experimental. */
         Tethering: ProtocolProxyApi.TetheringApi;
+        /** @deprecated this API is experimental. */
         Tracing: ProtocolProxyApi.TracingApi;
+        /** @deprecated this API is experimental. */
         WebAudio: ProtocolProxyApi.WebAudioApi;
+        /** @deprecated this API is experimental. */
         WebAuthn: ProtocolProxyApi.WebAuthnApi;
-    } & EventPromises<ProtocolMappingApi.Events>;
+    }
+    type AllDomains = StableDomains & DeprecatedDomains & ExperimentalDomains;
+    type Client =
+        & {
+            close: () => Promise<void>;
+            on(event: "event", callback: (message: EventMessage) => void): void;
+            on(event: "ready" | "disconnect", callback: () => void): void;
+            // '<domain>.<method>' i.e. Network.requestWillBeSent
+            on<T extends keyof ProtocolMappingApi.Events>(
+                event: T,
+                callback: (params: ProtocolMappingApi.Events[T][0], sessionId?: string) => void,
+            ): void;
+            // '<domain>.<method>.<sessionId>' i.e. Network.requestWillBeSent.abc123
+            on(event: string, callback: (params: object, sessionId?: string) => void): void;
+            // client.send(method, [params], [sessionId], [callback])
+            send<T extends keyof ProtocolMappingApi.Commands>(event: T, callback: SendCallback<T>): void;
+            send<T extends keyof ProtocolMappingApi.Commands>(
+                event: T,
+                params: ProtocolMappingApi.Commands[T]["paramsType"][0],
+                callback: SendCallback<T>,
+            ): void;
+            send<T extends keyof ProtocolMappingApi.Commands>(
+                event: T,
+                params: ProtocolMappingApi.Commands[T]["paramsType"][0],
+                sessionId: string,
+                callback: SendCallback<T>,
+            ): void;
+            send<T extends keyof ProtocolMappingApi.Commands>(
+                event: T,
+                params?: ProtocolMappingApi.Commands[T]["paramsType"][0],
+                sessionId?: string,
+            ): Promise<ProtocolMappingApi.Commands[T]["returnType"]>;
+        }
+        & EventPromises<ProtocolMappingApi.Events>
+        & EventCallbacks<ProtocolMappingApi.Events>
+        & ImproveAPI<AllDomains>;
 
     // '<domain>.<event>' i.e. Page.loadEventFired
     type EventPromises<T extends ProtocolMappingApi.Events> = {
         [Property in keyof T]: () => T[Property] extends [any] ? Promise<T[Property][0]> : Promise<void>;
+    };
+
+    type EventCallbacks<T extends ProtocolMappingApi.Events> = {
+        [Property in keyof T]: (
+            callback: (params: T[Property] extends [any] ? T[Property][0] : undefined, sessionId?: string) => void,
+        ) => () => Client;
     };
 }
 

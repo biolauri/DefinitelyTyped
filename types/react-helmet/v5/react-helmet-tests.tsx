@@ -2,7 +2,7 @@ import * as React from "react";
 import { Helmet, HelmetData } from "react-helmet";
 import HelmetDefaultExport from "react-helmet";
 
-const Application = () =>
+const Application = () => (
     <div className="application">
         <Helmet>
             <meta charSet="utf-8" />
@@ -20,7 +20,8 @@ const Application = () =>
                 <meta name="description" content="Nested component" />
             </Helmet>
         </div>
-    </div>;
+    </div>
+);
 
 const helmet: HelmetData = Helmet.renderStatic();
 
@@ -62,9 +63,7 @@ function HTML() {
 <Helmet
     encodeSpecialCharacters={true}
     titleTemplate="MySite.com - %s"
-
     defaultTitle="My Default Title"
-
     onChangeClientState={(newState: any) => console.log(newState)}
 >
     <html lang="en" />
@@ -84,24 +83,30 @@ function HTML() {
 
     <script src="http://include.com/pathtojs.js" type="text/javascript" />
 
-    <script type="application/ld+json">{`
+    <script type="application/ld+json">
+        {`
         {
             "@context": "http://schema.org"
         }
-    `}</script>
+    `}
+    </script>
 
-    <noscript>{`
+    <noscript>
+        {`
         <link rel="stylesheet" type="text/css" href="foo.css" />
-    `}</noscript>
+    `}
+    </noscript>
 
-    <style type="text/css">{`
+    <style type="text/css">
+        {`
         body {
             background-color: blue;
         }
         p {
             font-size: 12px;
         }
-    `}</style>
+    `}
+    </style>
 </Helmet>;
 
 <HelmetDefaultExport>
@@ -121,15 +126,15 @@ function HTML() {
 <Helmet bodyAttributes={{ tabIndex: -1 }} />;
 
 // arbitrary data- attribute
-<Helmet htmlAttributes={{ 'data-foo': 'bar' }} />;
-<Helmet bodyAttributes={{ 'data-foo': 'bar' }} />;
+<Helmet htmlAttributes={{ "data-foo": "bar" }} />;
+<Helmet bodyAttributes={{ "data-foo": "bar" }} />;
 
-// $ExpectError
+// @ts-expect-error
 <Helmet htmlAttributes={{ hidden: 42 }} />;
-// $ExpectError
+// @ts-expect-error
 <Helmet bodyAttributes={{ hidden: 42 }} />;
 
-// $ExpectError
-<Helmet link={[ invalidProp: 'foo' ]} />;
-// $ExpectError
-<Helmet meta={[ invalidProp: 'foo' ]} />;
+// @ts-expect-error
+<Helmet link={{ invalidProp: "foo" }} />;
+// @ts-expect-error
+<Helmet meta={{ invalidProp: "foo" }} />;

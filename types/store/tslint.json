@@ -1,16 +1,12 @@
 {
-    "extends": "dtslint/dt.json",
+    "extends": "@definitelytyped/dtslint/dt.json",
     "rules": {
         "ban-types": false,
-        "comment-format": false,
         "no-boolean-literal-compare": false,
-        "no-declare-current-package": false,
         "no-mergeable-namespace": false,
         "no-var-keyword": false,
         "object-literal-shorthand": false,
         "only-arrow-functions": false,
-        "prefer-const": false,
-        "semicolon": false,
-        "whitespace": false
+        "prefer-const": false
     }
 }

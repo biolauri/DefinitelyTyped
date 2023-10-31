@@ -1,8 +1,7 @@
 {
-    "extends": "dtslint/dt.json",
+    "extends": "@definitelytyped/dtslint/dt.json",
     "rules": {
         "ban-types": false,
-        "dt-header": false,
         "member-access": false,
         "no-empty-interface": false,
         "no-unnecessary-callback-wrapper": false,
@@ -10,9 +9,6 @@
         "no-void-expression": false,
         "only-arrow-functions": false,
         "prefer-const": false,
-        "space-before-function-paren": false,
-        "strict-export-declare-modifiers": false,
-        "unified-signatures": false,
-        "whitespace": false
+        "unified-signatures": false
     }
 }

@@ -1,16 +1,7 @@
-// Type definitions for hubot 3.3
-// Project: https://github.com/hubotio/hubot
-// Definitions by: Dirk Gadsden <https://github.com/dirk>
-//                 Kees C. Bakker <https://github.com/KeesCBakker>
-//                 Emil Marklund <https://github.com/eeemil>
-//                 Jon Phenow <https://github.com/jphenow>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 3.0
-
-import { EventEmitter } from 'events';
-import { Options as HttpOptions, ScopedClient } from 'scoped-http-client';
-import { Server } from 'http';
-import { Express } from 'express';
+import { EventEmitter } from "events";
+import { Express } from "express";
+import { Server } from "http";
+import { Options as HttpOptions, ScopedClient } from "scoped-http-client";
 
 declare namespace Hubot {
     class Adapter extends EventEmitter {
@@ -144,7 +135,7 @@ declare namespace Hubot {
     type DoneFunction = () => void;
     type NextFunction = (done: DoneFunction) => void;
     interface MiddlewareContext<T extends Adapter = Adapter> {
-        response?: Response<T>;
+        response?: Response<T> | undefined;
         [key: string]: unknown;
     }
     type MiddlewareHandler<T extends Adapter = Adapter> = (
@@ -190,7 +181,7 @@ declare namespace Hubot {
         readonly pingIntervalId: null | NodeJS.Timeout;
         readonly globalHttpOptions: HttpOptions;
         readonly version: string;
-        readonly server?: Server;
+        readonly server?: Server | undefined;
         readonly router: Express;
 
         constructor(adapterPath: string, adapter: string, httpd: boolean, name: string, alias?: string);
@@ -230,6 +221,6 @@ declare namespace Hubot {
 }
 
 // Compatibility with CommonJS syntax exported by Hubot's CoffeeScript.
-// tslint:disable-next-line export-just-namespace
+// eslint-disable-next-line @definitelytyped/export-just-namespace
 export = Hubot;
 export as namespace Hubot;

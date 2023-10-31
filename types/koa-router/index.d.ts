@@ -1,15 +1,3 @@
-// Type definitions for koa-router 7.4
-// Project: https://github.com/alexmingoia/koa-router#readme
-// Definitions by: Jerry Chin <https://github.com/hellopao>
-//                 Pavel Ivanov <https://github.com/schfkt>
-//                 JounQin <https://github.com/JounQin>
-//                 Romain Faust <https://github.com/romain-faust>
-//                 Guillaume Mayer <https://github.com/Guillaume-Mayer>
-//                 Andrea Gueugnaut <https://github.com/falinor>
-//                 Yves Kaufmann <https://github.com/yveskaufmann>
-// Definitions: https://github.com/hellopao/DefinitelyTyped
-// TypeScript Version: 2.3
-
 /* =================== USAGE ===================
 
     import * as Router from "koa-router";
@@ -24,23 +12,23 @@ declare namespace Router {
         /**
          * Prefix for all routes.
          */
-        prefix?: string;
+        prefix?: string | undefined;
         /**
          * Methods which should be supported by the router.
          */
-        methods?: string[];
-        routerPath?: string;
+        methods?: string[] | undefined;
+        routerPath?: string | undefined;
         /**
          * Whether or not routing should be case-sensitive.
          */
-        sensitive?: boolean;
+        sensitive?: boolean | undefined;
         /**
          * Whether or not routes should matched strictly.
          *
          * If strict matching is enabled, the trailing slash is taken into
          * account when matching routes.
          */
-        strict?: boolean;
+        strict?: boolean | undefined;
     }
 
     export interface IRouterParamContext<StateT = any, CustomT = {}> {
@@ -81,24 +69,24 @@ declare namespace Router {
         /**
          * throw error instead of setting status and header
          */
-        throw?: boolean;
+        throw?: boolean | undefined;
         /**
          * throw the returned value in place of the default NotImplemented error
          */
-        notImplemented?: () => any;
+        notImplemented?: (() => any) | undefined;
         /**
          * throw the returned value in place of the default MethodNotAllowed error
          */
-        methodNotAllowed?: () => any;
+        methodNotAllowed?: (() => any) | undefined;
     }
 
     export interface ILayerOptions {
         name: string;
-        sensitive?: boolean;
-        strict?: boolean;
-        end?: boolean;
-        prefix?: string;
-        ignoreCaptures?: boolean;
+        sensitive?: boolean | undefined;
+        strict?: boolean | undefined;
+        end?: boolean | undefined;
+        prefix?: string | undefined;
+        ignoreCaptures?: boolean | undefined;
     }
 
     export interface IUrlOptionsQuery {
@@ -519,7 +507,6 @@ declare class Router<StateT = any, CustomT = {}> {
      *
      * router.url('user', { id: 3 }, { query: "limit=1" });
      * // => "/users/3?limit=1"
-     *
      */
     url(name: string, params: any, options?: Router.IUrlOptionsQuery): string;
     url(name: string, params: any, options?: Router.IUrlOptionsQuery): Error;

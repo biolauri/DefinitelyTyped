@@ -51,8 +51,8 @@ declare namespace GoogleAdsScripts {
             longitude: number;
             radius: number;
             radiusUnits: string;
-            bidModifier?: number;
-            address?: AddressObject;
+            bidModifier?: number | undefined;
+            address?: AddressObject | undefined;
         }
 
         /** An operation representing creation of a new targeted proximity. */
@@ -75,11 +75,13 @@ declare namespace GoogleAdsScripts {
          *      }
          */
         interface TargetedProximitySelector
-            extends Base.Selector<TargetedProximityIterator>,
+            extends
+                Base.Selector<TargetedProximityIterator>,
                 Base.SelectorForDateRange,
                 Base.SelectorOrderBy,
                 Base.SelectorWithCondition,
                 Base.SelectorWithIds,
-                Base.SelectorWithLimit {}
+                Base.SelectorWithLimit
+        {}
     }
 }

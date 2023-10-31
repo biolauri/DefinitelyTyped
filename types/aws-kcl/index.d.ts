@@ -1,9 +1,3 @@
-// Type definitions for aws-kcl 2.0
-// Project: https://github.com/awslabs/amazon-kinesis-client-nodejs
-// Definitions by: Vlad Shlosberg <https://github.com/vshlos>
-//                 Foqal <https://github.com/foqal>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 /// <reference types="node" />
 
 import * as fs from "fs";
@@ -41,8 +35,8 @@ declare namespace KCLProcess {
 
     interface InitializeInput {
         shardId: string;
-        sequenceNumber?: string;
-        subSequenceNumber?: number;
+        sequenceNumber?: string | undefined;
+        subSequenceNumber?: number | undefined;
     }
 
     interface CheckpointInput {
@@ -57,7 +51,7 @@ declare namespace KCLProcess {
 
     interface ProcessRecordsInput extends CheckpointInput {
         records: Record[];
-        millisBehindLatest?: number;
+        millisBehindLatest?: number | undefined;
     }
 
     interface LeaseLossInput {} // tslint:disable-line:no-empty-interface

@@ -1,8 +1,3 @@
-// Type definitions for mudder 1.0
-// Project: https://github.com/fasiha/mudderjs#readme
-// Definitions by: Patrick Gingras <https://github.com/p7g>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 export class SymbolTable {
     num2sym: ReadonlyArray<string>;
     sym2num: Map<string, number>;
@@ -26,6 +21,7 @@ export class SymbolTable {
         numStrings?: number,
         base?: number,
         numDivisions?: number,
+        placesToKeep?: number,
     ): string[];
 }
 

@@ -1,10 +1,5 @@
-// Type definitions for bitauth 0.4
-// Project: https://github.com/bitpay/bitauth#readme
-// Definitions by: Justin Langston <https://github.com/nitsujlangston>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
-import { BinaryLike } from 'crypto';
-import { RequestHandler } from 'express';
+import { BinaryLike } from "crypto";
+import { RequestHandler } from "express";
 
 export as namespace bitauth;
 
@@ -30,6 +25,6 @@ export function verifySignature(
 export function validateSin(sin: string, callback?: callback): boolean | void;
 export function encrypt(password: BinaryLike, str: string): string;
 export function decrypt(password: BinaryLike, str: string): string;
-export function middleware(): RequestHandler;
+export const middleware: RequestHandler;
 
 export {};

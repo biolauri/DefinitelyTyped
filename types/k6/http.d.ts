@@ -1,5 +1,5 @@
-import { bytes, JSONValue } from '.';
-import { Selection } from './html';
+import { bytes, JSONValue } from ".";
+import { Selection } from "./html";
 
 /**
  * Make DELETE  request.
@@ -10,9 +10,23 @@ import { Selection } from './html';
  * @returns Resulting response.
  */
 export function del<RT extends ResponseType | undefined>(
-    url: string,
+    url: string | HttpURL,
     body?: RequestBody | null,
-    params?: RefinedParams<RT> | null
+    params?: RefinedParams<RT> | null,
+): RefinedResponse<RT>;
+
+/**
+ * Make HEAD request.
+ * https://k6.io/docs/javascript-api/k6-http/head-url-params/
+ * @param url - Request URL.
+ * @param params - Request parameters.
+ * @returns Resulting response.
+ * @example
+ * http.head('https://test.k6.io')
+ */
+export function head<RT extends ResponseType | undefined>(
+    url: string | HttpURL,
+    params?: RefinedParams<RT> | null,
 ): RefinedResponse<RT>;
 
 /**
@@ -25,8 +39,8 @@ export function del<RT extends ResponseType | undefined>(
  * http.get('https://k6.io')
  */
 export function get<RT extends ResponseType | undefined>(
-    url: string,
-    params?: RefinedParams<RT> | null
+    url: string | HttpURL,
+    params?: RefinedParams<RT> | null,
 ): RefinedResponse<RT>;
 
 /**
@@ -38,9 +52,9 @@ export function get<RT extends ResponseType | undefined>(
  * @returns Resulting response.
  */
 export function options<RT extends ResponseType | undefined>(
-    url: string,
+    url: string | HttpURL,
     body?: RequestBody | null,
-    params?: RefinedParams<RT> | null
+    params?: RefinedParams<RT> | null,
 ): RefinedResponse<RT>;
 
 /**
@@ -52,9 +66,9 @@ export function options<RT extends ResponseType | undefined>(
  * @returns Resulting response.
  */
 export function patch<RT extends ResponseType | undefined>(
-    url: string,
+    url: string | HttpURL,
     body?: RequestBody | null,
-    params?: RefinedParams<RT> | null
+    params?: RefinedParams<RT> | null,
 ): RefinedResponse<RT>;
 
 /**
@@ -70,9 +84,9 @@ export function patch<RT extends ResponseType | undefined>(
  * http.post(url, formData, { headers: headers });
  */
 export function post<RT extends ResponseType | undefined>(
-    url: string,
+    url: string | HttpURL,
     body?: RequestBody | null,
-    params?: RefinedParams<RT> | null
+    params?: RefinedParams<RT> | null,
 ): RefinedResponse<RT>;
 
 /**
@@ -84,9 +98,9 @@ export function post<RT extends ResponseType | undefined>(
  * @returns Resulting response.
  */
 export function put<RT extends ResponseType | undefined>(
-    url: string,
+    url: string | HttpURL,
     body?: RequestBody | null,
-    params?: RefinedParams<RT> | null
+    params?: RefinedParams<RT> | null,
 ): RefinedResponse<RT>;
 
 /**
@@ -104,10 +118,30 @@ export function put<RT extends ResponseType | undefined>(
  */
 export function request<RT extends ResponseType | undefined>(
     method: string,
-    url: string,
+    url: string | HttpURL,
     body?: RequestBody | null,
-    params?: RefinedParams<RT> | null
+    params?: RefinedParams<RT> | null,
 ): RefinedResponse<RT>;
+
+/**
+ * Make async request.
+ * https://k6.io/docs/javascript-api/k6-http/asyncrequest/
+ * @param method - HTTP method.
+ * @param url - Request URL.
+ * @param body - Request body. Object form encoded.
+ * @param params - Request parameters.
+ * @returns Resulting response.
+ * @example
+ * let formData = {name: 'k6'};
+ * let headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+ * http.asyncRequest('POST', url, formData, { headers: headers });
+ */
+export function asyncRequest<RT extends ResponseType | undefined>(
+    method: string,
+    url: string | HttpURL,
+    body?: RequestBody | null,
+    params?: RefinedParams<RT> | null,
+): Promise<RefinedResponse<RT>>;
 
 /**
  * Batch multiple HTTP requests together,
@@ -178,49 +212,49 @@ export function setResponseCallback(responseCallback: ExpectedStatusesCallback):
 // === SSL/TLS versions ===
 // ------------------------
 
-export const SSL_3_0 = 'ssl3.0';
+export const SSL_3_0 = "ssl3.0";
 
-export const TLS_1_0 = 'tls1.0';
+export const TLS_1_0 = "tls1.0";
 
-export const TLS_1_1 = 'tls1.1';
+export const TLS_1_1 = "tls1.1";
 
-export const TLS_1_2 = 'tls1.2';
+export const TLS_1_2 = "tls1.2";
 
-export const TLS_1_3 = 'tls1.3';
+export const TLS_1_3 = "tls1.3";
 
 // === OCSP statuses ===
 // ---------------------
 
-export const OCSP_STATUS_GOOD = 'good';
+export const OCSP_STATUS_GOOD = "good";
 
-export const OCSP_STATUS_REVOKED = 'revoked';
+export const OCSP_STATUS_REVOKED = "revoked";
 
-export const OCSP_STATUS_SERVER_FAILED = 'server_failed';
+export const OCSP_STATUS_SERVER_FAILED = "server_failed";
 
-export const OCSP_STATUS_UNKNOWN = 'unknown';
+export const OCSP_STATUS_UNKNOWN = "unknown";
 
 // === OCSP revocation reasons ===
 // -------------------------------
 
-export const OCSP_REASON_AA_COMPROMISE = 'aa_compromise';
+export const OCSP_REASON_AA_COMPROMISE = "aa_compromise";
 
-export const OCSP_REASON_AFFILIATION_CHANGED = 'affiliation_changed';
+export const OCSP_REASON_AFFILIATION_CHANGED = "affiliation_changed";
 
-export const OCSP_REASON_CA_COMPROMISE = 'ca_compromise';
+export const OCSP_REASON_CA_COMPROMISE = "ca_compromise";
 
-export const OCSP_REASON_CERTIFICATE_HOLD = 'certificate_hold';
+export const OCSP_REASON_CERTIFICATE_HOLD = "certificate_hold";
 
-export const OCSP_REASON_CESSATION_OF_OPERATION = 'cessation_of_operation';
+export const OCSP_REASON_CESSATION_OF_OPERATION = "cessation_of_operation";
 
-export const OCSP_REASON_KEY_COMPROMISE = 'key_compromise';
+export const OCSP_REASON_KEY_COMPROMISE = "key_compromise";
 
-export const OCSP_REASON_PRIVILEGE_WITHDRAWN = 'privilege_withdrawn';
+export const OCSP_REASON_PRIVILEGE_WITHDRAWN = "privilege_withdrawn";
 
-export const OCSP_REASON_REMOVE_FROM_CRL = 'remove_from_crl';
+export const OCSP_REASON_REMOVE_FROM_CRL = "remove_from_crl";
 
-export const OCSP_REASON_SUPERSEDED = 'superseded';
+export const OCSP_REASON_SUPERSEDED = "superseded";
 
-export const OCSP_REASON_UNSPECIFIED = 'unspecified';
+export const OCSP_REASON_UNSPECIFIED = "unspecified";
 
 // === Params ===
 // --------------
@@ -272,12 +306,12 @@ export interface RefinedParams<RT extends ResponseType | undefined> extends Para
 /**
  * Request authentication method.
  */
-export type AuthMethod = 'basic' | 'digest' | 'ntlm';
+export type AuthMethod = "basic" | "digest" | "ntlm";
 
 /**
  * Response type.
  */
-export type ResponseType = 'binary' | 'none' | 'text';
+export type ResponseType = "binary" | "none" | "text";
 
 /**
  * Cookie value in request parameters.
@@ -307,12 +341,12 @@ export interface StructuredRequestBody {
  * Batch request specification.
  * https://k6.io/docs/javascript-api/k6-http/batch-requests
  */
-export type BatchRequest = string | ArrayBatchRequest | ObjectBatchRequest;
+export type BatchRequest = string | HttpURL | ArrayBatchRequest | ObjectBatchRequest;
 
 /**
  * Array form batch request specification.
  */
-export type ArrayBatchRequest = [ string, string, (RequestBody | null)?, (Params | null)? ];
+export type ArrayBatchRequest = [string, string | HttpURL, (RequestBody | null)?, (Params | null)?];
 
 /**
  * Object form batch request specification.
@@ -322,7 +356,7 @@ export interface ObjectBatchRequest {
     method: string;
 
     /** Request URL. */
-    url: string;
+    url: string | HttpURL;
 
     /** Request body. */
     body?: RequestBody | null;
@@ -345,6 +379,7 @@ export type BatchRequests = BatchRequest[] | { [name: string]: BatchRequest };
  */
 export type RefinedBatchRequest<RT extends ResponseType | undefined> =
     | string
+    | HttpURL
     | ArrayRefinedBatchRequest<RT>
     | ObjectRefinedBatchRequest<RT>;
 
@@ -353,9 +388,9 @@ export type RefinedBatchRequest<RT extends ResponseType | undefined> =
  */
 export type ArrayRefinedBatchRequest<RT extends ResponseType | undefined> = [
     string,
-    string,
+    string | HttpURL,
     (RequestBody | null)?,
-    (RefinedParams<RT> | null)?
+    (RefinedParams<RT> | null)?,
 ];
 
 /**
@@ -363,7 +398,7 @@ export type ArrayRefinedBatchRequest<RT extends ResponseType | undefined> = [
  */
 export interface ObjectRefinedBatchRequest<RT extends ResponseType | undefined> {
     method: string;
-    url: string;
+    url: string | HttpURL;
     body?: RequestBody | null;
     params?: RefinedParams<RT> | null;
 }
@@ -520,7 +555,7 @@ export interface Response {
      * let res = http.get(url);
      * res.json();
      */
-    json(selector?: string): JSONValue | undefined;
+    json(selector?: string): JSONValue;
 
     /**
      * Submit form on page.
@@ -542,37 +577,37 @@ export interface Response {
 /**
  * HTTP protocol.
  */
-export type Protocol = 'HTTP/1.0' | 'HTTP/1.1' | 'HTTP/2.0';
+export type Protocol = "HTTP/1.0" | "HTTP/1.1" | "HTTP/2.0";
 
 /**
  * TLS cipher suite.
  */
 export type CipherSuite =
-    | 'TLS_RSA_WITH_RC4_128_SHA'
-    | 'TLS_RSA_WITH_3DES_EDE_CBC_SHA'
-    | 'TLS_RSA_WITH_AES_128_CBC_SHA'
-    | 'TLS_RSA_WITH_AES_128_CBC_SHA256'
-    | 'TLS_RSA_WITH_AES_256_CBC_SHA'
-    | 'TLS_RSA_WITH_AES_128_GCM_SHA256'
-    | 'TLS_RSA_WITH_AES_256_GCM_SHA384'
-    | 'TLS_ECDHE_RSA_WITH_RC4_128_SHA'
-    | 'TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA'
-    | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA'
-    | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256'
-    | 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA'
-    | 'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256'
-    | 'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384'
-    | 'TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305'
-    | 'TLS_ECDHE_ECDSA_WITH_RC4_128_SHA'
-    | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA'
-    | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256'
-    | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA'
-    | 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256'
-    | 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384'
-    | 'TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305'
-    | 'TLS_AES_128_GCM_SHA256'
-    | 'TLS_AES_256_GCM_SHA384'
-    | 'TLS_CHACHA20_POLY1305_SHA256';
+    | "TLS_RSA_WITH_RC4_128_SHA"
+    | "TLS_RSA_WITH_3DES_EDE_CBC_SHA"
+    | "TLS_RSA_WITH_AES_128_CBC_SHA"
+    | "TLS_RSA_WITH_AES_128_CBC_SHA256"
+    | "TLS_RSA_WITH_AES_256_CBC_SHA"
+    | "TLS_RSA_WITH_AES_128_GCM_SHA256"
+    | "TLS_RSA_WITH_AES_256_GCM_SHA384"
+    | "TLS_ECDHE_RSA_WITH_RC4_128_SHA"
+    | "TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA"
+    | "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA"
+    | "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256"
+    | "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA"
+    | "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+    | "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+    | "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305"
+    | "TLS_ECDHE_ECDSA_WITH_RC4_128_SHA"
+    | "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA"
+    | "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256"
+    | "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA"
+    | "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+    | "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384"
+    | "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305"
+    | "TLS_AES_128_GCM_SHA256"
+    | "TLS_AES_256_GCM_SHA384"
+    | "TLS_CHACHA20_POLY1305_SHA256";
 
 /**
  * Refined response.
@@ -590,17 +625,13 @@ export type ResponseBody = string | bytes | null;
 /**
  * Refined response body.
  * Best possible type given `responseType` from request parameters.
- * @typeParam RT - `Params.responseType` value.
+ * @template RT - `Params.responseType` value.
  * @privateRemarks Default type is a union due to depending on program options.
  */
-export type RefinedResponseBody<RT extends ResponseType | undefined> = RT extends 'binary'
-    ? bytes
-    : RT extends 'none'
-    ? null
-    : RT extends 'text'
-    ? string
-    : RT extends undefined
-    ? string | null
+export type RefinedResponseBody<RT extends ResponseType | undefined> = RT extends "binary" ? bytes
+    : RT extends "none" ? null
+    : RT extends "text" ? string
+    : RT extends undefined ? string | null
     : never;
 
 /**
@@ -693,6 +724,23 @@ export class CookieJar {
      * @param options - Optional settings.
      */
     set(url: string, name: string, value: string, options?: CookieOptions | null): void;
+
+    /**
+     * Delete all cookies for the given URL.
+     * https://k6.io/docs/javascript-api/k6-http/cookiejar/cookiejar-clear
+     * @param url - URL to delete all cookies for.
+     */
+
+    clear(url: string): void;
+
+    /**
+     * Deletes specific cookie by name for the given URL.
+     * https://k6.io/docs/javascript-api/k6-http/cookiejar/cookiejar-delete/
+     * @param url - URL to delete cookie for.
+     * @param name - Cookie name to delete.
+     */
+
+    delete(url: string, name: string): void;
 }
 
 /**
@@ -734,6 +782,16 @@ export interface ExpectedStatusesObject {
     max: number;
 }
 
+// === HTTP URL ===
+// -----------------------
+
+/**
+ * Returned value from http.url method.
+ */
+interface HttpURL {
+    __brand: "http-url";
+}
+
 /**
  * The http module contains functionality for performing HTTP transactions.
  * https://k6.io/docs/javascript-api/k6-http/
@@ -748,9 +806,23 @@ declare namespace http {
      * @returns Resulting response.
      */
     function del<RT extends ResponseType | undefined>(
-        url: string,
+        url: string | HttpURL,
         body?: RequestBody | null,
-        params?: RefinedParams<RT> | null
+        params?: RefinedParams<RT> | null,
+    ): RefinedResponse<RT>;
+
+    /**
+     * Make HEAD request.
+     * https://k6.io/docs/javascript-api/k6-http/head-url-params/
+     * @param url - Request URL.
+     * @param params - Request parameters.
+     * @returns Resulting response.
+     * @example
+     * http.head('https://test.k6.io')
+     */
+    function head<RT extends ResponseType | undefined>(
+        url: string | HttpURL,
+        params?: RefinedParams<RT> | null,
     ): RefinedResponse<RT>;
 
     /**
@@ -763,8 +835,8 @@ declare namespace http {
      * http.get('https://k6.io')
      */
     function get<RT extends ResponseType | undefined>(
-        url: string,
-        params?: RefinedParams<RT> | null
+        url: string | HttpURL,
+        params?: RefinedParams<RT> | null,
     ): RefinedResponse<RT>;
 
     /**
@@ -776,9 +848,9 @@ declare namespace http {
      * @returns Resulting response.
      */
     function options<RT extends ResponseType | undefined>(
-        url: string,
+        url: string | HttpURL,
         body?: RequestBody | null,
-        params?: RefinedParams<RT> | null
+        params?: RefinedParams<RT> | null,
     ): RefinedResponse<RT>;
 
     /**
@@ -790,9 +862,9 @@ declare namespace http {
      * @returns Resulting response.
      */
     function patch<RT extends ResponseType | undefined>(
-        url: string,
+        url: string | HttpURL,
         body?: RequestBody | null,
-        params?: RefinedParams<RT> | null
+        params?: RefinedParams<RT> | null,
     ): RefinedResponse<RT>;
 
     /**
@@ -808,9 +880,9 @@ declare namespace http {
      * http.post(url, formData, { headers: headers });
      */
     function post<RT extends ResponseType | undefined>(
-        url: string,
+        url: string | HttpURL,
         body?: RequestBody | null,
-        params?: RefinedParams<RT> | null
+        params?: RefinedParams<RT> | null,
     ): RefinedResponse<RT>;
 
     /**
@@ -822,9 +894,9 @@ declare namespace http {
      * @returns Resulting response.
      */
     function put<RT extends ResponseType | undefined>(
-        url: string,
+        url: string | HttpURL,
         body?: RequestBody | null,
-        params?: RefinedParams<RT> | null
+        params?: RefinedParams<RT> | null,
     ): RefinedResponse<RT>;
 
     /**
@@ -842,10 +914,41 @@ declare namespace http {
      */
     function request<RT extends ResponseType | undefined>(
         method: string,
-        url: string,
+        url: string | HttpURL,
         body?: RequestBody | null,
-        params?: RefinedParams<RT> | null
+        params?: RefinedParams<RT> | null,
     ): RefinedResponse<RT>;
+
+    /**
+     * Make async request.
+     * https://k6.io/docs/javascript-api/k6-http/asyncrequest/
+     * @param method - HTTP method.
+     * @param url - Request URL.
+     * @param body - Request body. Object form encoded.
+     * @param params - Request parameters.
+     * @returns Resulting response.
+     * @example
+     * let formData = {name: 'k6'};
+     * let headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+     * http.asyncRequest('POST', url, formData, { headers: headers });
+     */
+    function asyncRequest<RT extends ResponseType | undefined>(
+        method: string,
+        url: string | HttpURL,
+        body?: RequestBody | null,
+        params?: RefinedParams<RT> | null,
+    ): Promise<RefinedResponse<RT>>;
+
+    /**
+     * Creates a URL with set name tag.
+     * https://k6.io/docs/using-k6/http-requests/#url-grouping
+     * @param strings - Passed string values.
+     * @param args - Tagged template expressions.
+     * @returns HTTP URL object.
+     * @example
+     * http.get(http.url`http://example.com/posts/${id}`) // tags.name="http://example.com/posts/${}",
+     */
+    function url(strings: TemplateStringsArray, ...args: Array<string | number | boolean>): HttpURL;
 
     /**
      * Batch multiple HTTP requests together,

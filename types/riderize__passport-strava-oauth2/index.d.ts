@@ -1,11 +1,7 @@
-// Type definitions for @riderize/passport-strava-oauth2 2.1
-// Project: https://github.com/Riderize/passport-strava-oauth2
-// Definitions by: edilson <https://github.com/edilson>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
-// tslint:disable-next-line:no-single-declare-module
-declare module '@riderize/passport-strava-oauth2' {
-    import { Request } from 'express';
+/* eslint-disable @definitelytyped/no-declare-current-package */
+// eslint-disable-next-line @definitelytyped/no-single-declare-module
+declare module "@riderize/passport-strava-oauth2" {
+    import { Request } from "express";
 
     interface Profile {
         provider: string;
@@ -15,10 +11,12 @@ declare module '@riderize/passport-strava-oauth2' {
             familyName: string;
             givenName: string;
         };
-        photos?: Array<{
-            value: string;
-        }>;
-        token?: string;
+        photos?:
+            | Array<{
+                value: string;
+            }>
+            | undefined;
+        token?: string | undefined;
 
         _raw: string;
         _json: any;
@@ -29,9 +27,9 @@ declare module '@riderize/passport-strava-oauth2' {
         clientSecret: string;
         callbackURL: string;
 
-        authorizationURL?: string;
-        tokenURL?: string;
-        profileURL?: string;
+        authorizationURL?: string | undefined;
+        tokenURL?: string | undefined;
+        profileURL?: string | undefined;
     }
 
     interface StrategyOptionWithRequest extends StrategyOption {

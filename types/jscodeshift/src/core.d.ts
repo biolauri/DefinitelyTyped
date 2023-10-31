@@ -26,7 +26,7 @@ declare namespace core {
     }
 
     interface FileInfo {
-        /** The absolute path to the current file. */
+        /** The path to the current file. */
         path: string;
         /** The source code of the current file. */
         source: string;
@@ -53,7 +53,7 @@ declare namespace core {
 
         match(
             path: ASTNode | ASTPath,
-            filter: ((path: ASTNode) => boolean) | ASTNode
+            filter: ((path: ASTNode) => boolean) | ASTNode,
         ): boolean;
 
         /** template, bound to default parser */

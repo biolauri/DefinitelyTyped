@@ -1,18 +1,12 @@
-// Type definitions for validator.js 13.1
-// Project: https://github.com/validatorjs/validator.js
-// Definitions by: tgfjt <https://github.com/tgfjt>
-//                 Ilya Mochalov <https://github.com/chrootsu>
-//                 Ayman Nedjmeddine <https://github.com/IOAyman>
-//                 Louay Alakkad <https://github.com/louy>
-//                 Kacper Polak <https://github.com/kacepe>
-//                 Bonggyun Lee <https://github.com/deptno>
-//                 Naoto Yokoyama <https://github.com/builtinnya>
-//                 Philipp Katz <https://github.com/qqilihq>
-//                 Jace Warren <https://github.com/keatz55>
-//                 Munif Tanjim <https://github.com/MunifTanjim>
-//                 Vlad Poluch <https://github.com/vlapo>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.1
+import * as _isBoolean from "./lib/isBoolean";
+import * as _isEmail from "./lib/isEmail";
+import * as _isFQDN from "./lib/isFQDN";
+import * as _isIBAN from "./lib/isIBAN";
+import * as _isISO31661Alpha2 from "./lib/isISO31661Alpha2";
+import * as _isISO4217 from "./lib/isISO4217";
+import * as _isISO6391 from "./lib/isISO6391";
+import * as _isTaxID from "./lib/isTaxID";
+import * as _isURL from "./lib/isURL";
 
 declare namespace validator {
     const version: string;
@@ -21,12 +15,23 @@ declare namespace validator {
      *** Validators ***
      ******************/
 
+    interface ContainsOptions {
+        /**
+         * @default false
+         */
+        ignoreCase?: boolean | undefined;
+        /**
+         * @default 1
+         */
+        minOccurrences?: number | undefined;
+    }
+
     /**
      * Check if the string contains the seed.
      *
      * @param seed - Seed
      */
-    function contains(str: string, seed: any): boolean;
+    function contains(str: string, seed: any, options?: ContainsOptions): boolean;
 
     /**
      * Check if the string matches the comparison.
@@ -43,132 +48,150 @@ declare namespace validator {
     function isAfter(str: string, date?: string): boolean;
 
     type AlphaLocale =
-        | 'en-US'
-        | 'bg-BG'
-        | 'cs-CZ'
-        | 'da-DK'
-        | 'de-DE'
-        | 'el-GR'
-        | 'es-ES'
-        | 'fr-FR'
-        | 'it-IT'
-        | 'nb-NO'
-        | 'nl-NL'
-        | 'nn-NO'
-        | 'hu-HU'
-        | 'pl-PL'
-        | 'pt-PT'
-        | 'ru-RU'
-        | 'sl-SI'
-        | 'sk-SK'
-        | 'sr-RS@latin'
-        | 'sr-RS'
-        | 'sv-SE'
-        | 'tr-TR'
-        | 'uk-UA'
-        | 'ku-IQ'
-        | 'ar'
-        | 'he'
-        | 'fa-IR'
-        | 'en-AU'
-        | 'en-GB'
-        | 'en-HK'
-        | 'en-IN'
-        | 'en-NZ'
-        | 'en-ZA'
-        | 'en-ZM'
-        | 'ar-AE'
-        | 'ar-BH'
-        | 'ar-DZ'
-        | 'ar-EG'
-        | 'ar-IQ'
-        | 'ar-JO'
-        | 'ar-KW'
-        | 'ar-LB'
-        | 'ar-LY'
-        | 'ar-MA'
-        | 'ar-QM'
-        | 'ar-QA'
-        | 'ar-SA'
-        | 'ar-SD'
-        | 'ar-SY'
-        | 'ar-TN'
-        | 'ar-YE'
-        | 'pt-BR'
-        | 'pl-Pl';
+        | "en-US"
+        | "bg-BG"
+        | "cs-CZ"
+        | "da-DK"
+        | "de-DE"
+        | "el-GR"
+        | "es-AR"
+        | "es-ES"
+        | "fr-FR"
+        | "it-IT"
+        | "nb-NO"
+        | "nl-NL"
+        | "nn-NO"
+        | "hu-HU"
+        | "pl-PL"
+        | "pt-PT"
+        | "ru-RU"
+        | "sl-SI"
+        | "sk-SK"
+        | "sr-RS@latin"
+        | "sr-RS"
+        | "sv-SE"
+        | "tr-TR"
+        | "uk-UA"
+        | "ku-IQ"
+        | "ar"
+        | "he"
+        | "fa-IR"
+        | "en-AU"
+        | "en-GB"
+        | "en-HK"
+        | "en-IN"
+        | "en-NZ"
+        | "en-ZA"
+        | "en-ZM"
+        | "ar-AE"
+        | "ar-BH"
+        | "ar-DZ"
+        | "ar-EG"
+        | "ar-IQ"
+        | "ar-JO"
+        | "ar-KW"
+        | "ar-LB"
+        | "ar-LY"
+        | "ar-MA"
+        | "ar-QM"
+        | "ar-QA"
+        | "ar-SA"
+        | "ar-SD"
+        | "ar-SY"
+        | "ar-TN"
+        | "ar-YE"
+        | "pt-BR"
+        | "pl-Pl";
 
     const isAlphaLocales: AlphaLocale[];
+
+    interface IsAlphaOptions {
+        /**
+         * @default undefined
+         */
+        ignore?: string | RegExp | undefined;
+    }
 
     /**
      * Check if the string contains only letters (a-zA-Z).
      *
      * @param [locale] - AlphaLocale
+     * @param [options] - IsAlphaOptions
      */
-    function isAlpha(str: string, locale?: AlphaLocale): boolean;
+    function isAlpha(str: string, locale?: AlphaLocale, options?: IsAlphaOptions): boolean;
 
     type AlphanumericLocale =
-        | 'en-US'
-        | 'bg-BG'
-        | 'cs-CZ'
-        | 'da-DK'
-        | 'de-DE'
-        | 'el-GR'
-        | 'es-ES'
-        | 'fr-FR'
-        | 'it-IT'
-        | 'hu-HU'
-        | 'nb-NO'
-        | 'nl-NL'
-        | 'nn-NO'
-        | 'pl-PL'
-        | 'pt-PT'
-        | 'ru-RU'
-        | 'sl-SI'
-        | 'sk-SK'
-        | 'sr-RS@latin'
-        | 'sr-RS'
-        | 'sv-SE'
-        | 'tr-TR'
-        | 'uk-UA'
-        | 'ku-IQ'
-        | 'ar'
-        | 'he'
-        | 'fa-IR'
-        | 'en-AU'
-        | 'en-GB'
-        | 'en-HK'
-        | 'en-IN'
-        | 'en-NZ'
-        | 'en-ZA'
-        | 'en-ZM'
-        | 'ar-AE'
-        | 'ar-BH'
-        | 'ar-DZ'
-        | 'ar-EG'
-        | 'ar-IQ'
-        | 'ar-JO'
-        | 'ar-KW'
-        | 'ar-LB'
-        | 'ar-LY'
-        | 'ar-MA'
-        | 'ar-QM'
-        | 'ar-QA'
-        | 'ar-SA'
-        | 'ar-SD'
-        | 'ar-SY'
-        | 'ar-TN'
-        | 'ar-YE'
-        | 'pt-BR'
-        | 'pl-Pl';
+        | "en-US"
+        | "bg-BG"
+        | "cs-CZ"
+        | "da-DK"
+        | "de-DE"
+        | "el-GR"
+        | "es-AR"
+        | "es-ES"
+        | "fr-FR"
+        | "it-IT"
+        | "hu-HU"
+        | "nb-NO"
+        | "nl-NL"
+        | "nn-NO"
+        | "pl-PL"
+        | "pt-PT"
+        | "ru-RU"
+        | "sl-SI"
+        | "sk-SK"
+        | "sr-RS@latin"
+        | "sr-RS"
+        | "sv-SE"
+        | "tr-TR"
+        | "uk-UA"
+        | "ku-IQ"
+        | "ar"
+        | "he"
+        | "fa-IR"
+        | "en-AU"
+        | "en-GB"
+        | "en-HK"
+        | "en-IN"
+        | "en-NZ"
+        | "en-ZA"
+        | "en-ZM"
+        | "ar-AE"
+        | "ar-BH"
+        | "ar-DZ"
+        | "ar-EG"
+        | "ar-IQ"
+        | "ar-JO"
+        | "ar-KW"
+        | "ar-LB"
+        | "ar-LY"
+        | "ar-MA"
+        | "ar-QM"
+        | "ar-QA"
+        | "ar-SA"
+        | "ar-SD"
+        | "ar-SY"
+        | "ar-TN"
+        | "ar-YE"
+        | "pt-BR"
+        | "pl-Pl";
 
     const isAlphanumericLocales: AlphanumericLocale[];
+
+    interface IsAlphanumericOptions {
+        /**
+         * @default undefined
+         */
+        ignore?: string | RegExp | undefined;
+    }
 
     /**
      * Check if the string contains only letters and numbers.
      *
      * @param [locale] - AlphanumericLocale
+     * @param [options] - IsAlphanumericOptions
      */
-    function isAlphanumeric(str: string, locale?: AlphanumericLocale): boolean;
+    function isAlphanumeric(str: string, locale?: AlphanumericLocale, options?: IsAlphanumericOptions): boolean;
 
     /**
      * Check if the string contains ASCII chars only.
@@ -179,12 +202,16 @@ declare namespace validator {
      * Check if a string is base32 encoded.
      */
     function isBase32(str: string): boolean;
+    /**
+     * check if a string is base58 encoded
+     */
+    function isBase58(str: string): boolean;
 
     interface IsBase64Options {
         /**
          * @default false
          */
-        urlSafe?: boolean;
+        urlSafe?: boolean | undefined;
     }
 
     /**
@@ -201,30 +228,25 @@ declare namespace validator {
      */
     function isBefore(str: string, date?: string): boolean;
 
-    /**
-     * Check if a string is a IBAN (International Bank Account Number).
-     */
-    function isIBAN(str: string): boolean;
+    const isIBAN: typeof _isIBAN.default;
+    const ibanLocales: typeof _isIBAN.locales;
 
     /**
      * Check if a string is a BIC (Bank Identification Code) or SWIFT code.
      */
     function isBIC(str: string): boolean;
 
-    /**
-     * check if a string is a boolean.
-     */
-    function isBoolean(str: string): boolean;
+    const isBoolean: typeof _isBoolean.default;
 
     interface IsByteLengthOptions {
         /**
          * @default 0
          */
-        min?: number;
+        min?: number | undefined;
         /**
          * @default undefined
          */
-        max?: number;
+        max?: number | undefined;
     }
 
     /**
@@ -234,74 +256,81 @@ declare namespace validator {
      */
     function isByteLength(str: string, options?: IsByteLengthOptions): boolean;
 
+    interface IsCreditCardOptions {
+        /**
+         * @default undefined
+         */
+        provider?: "amex" | "dinersclub" | "discover" | "jcb" | "mastercard" | "unionpay" | "visa" | "";
+    }
+
     /**
      * Check if the string is a credit card.
      */
-    function isCreditCard(str: string): boolean;
+    function isCreditCard(str: string, options?: IsCreditCardOptions): boolean;
 
     interface IsCurrencyOptions {
         /**
          * @default '$'
          */
-        symbol?: string;
+        symbol?: string | undefined;
         /**
          * @default false
          */
-        require_symbol?: boolean;
+        require_symbol?: boolean | undefined;
         /**
          * @default false
          */
-        allow_space_after_symbol?: boolean;
+        allow_space_after_symbol?: boolean | undefined;
         /**
          * @default false
          */
-        symbol_after_digits?: boolean;
+        symbol_after_digits?: boolean | undefined;
         /**
          * @default true
          */
-        allow_negatives?: boolean;
+        allow_negatives?: boolean | undefined;
         /**
          * @default false
          */
-        parens_for_negatives?: boolean;
+        parens_for_negatives?: boolean | undefined;
         /**
          * @default false
          */
-        negative_sign_before_digits?: boolean;
+        negative_sign_before_digits?: boolean | undefined;
         /**
          * @default false
          */
-        negative_sign_after_digits?: boolean;
+        negative_sign_after_digits?: boolean | undefined;
         /**
          * @default false
          */
-        allow_negative_sign_placeholder?: boolean;
+        allow_negative_sign_placeholder?: boolean | undefined;
         /**
          * @default ','
          */
-        thousands_separator?: string;
+        thousands_separator?: string | undefined;
         /**
          * @default '.'
          */
-        decimal_separator?: string;
+        decimal_separator?: string | undefined;
         /**
          * @default true
          */
-        allow_decimal?: boolean;
+        allow_decimal?: boolean | undefined;
         /**
          * @default false
          */
-        require_decimal?: boolean;
+        require_decimal?: boolean | undefined;
         /**
          * The array `digits_after_decimal` is filled with the exact number of digits allowed not a range, for example a range `1` to `3` will be given as `[1, 2, 3]`.
          *
          * @default [2]
          */
-        digits_after_decimal?: number[];
+        digits_after_decimal?: number[] | undefined;
         /**
          * @default false
          */
-        allow_space_after_digits?: boolean;
+        allow_space_after_digits?: boolean | undefined;
     }
 
     /**
@@ -330,20 +359,20 @@ declare namespace validator {
         /**
          * @default false
          */
-        format?: string;
+        format?: string | undefined;
         /**
          * If strictMode is set to true,
          * the validator will reject inputs different from format.
          *
          * @default false
          */
-        strictMode?: boolean;
+        strictMode?: boolean | undefined;
         /**
          * `delimiters` is an array of allowed date delimiters
          *
          * @default ['/', '-']
          */
-        delimiters?: string[];
+        delimiters?: string[] | undefined;
     }
 
     /**
@@ -357,20 +386,20 @@ declare namespace validator {
         /**
          * @default false
          */
-        force_decimal?: boolean;
+        force_decimal?: boolean | undefined;
         /**
          * `decimal_digits` is given as a range like `'1,3'`,
          * a specific value like `'3'` or min like `'1,'`
          *
          * @default '1,'
          */
-        decimal_digits?: string;
+        decimal_digits?: string | undefined;
         /**
          * DecimalLocale
          *
          * @default 'en-US'
          */
-        locale?: DecimalLocale;
+        locale?: DecimalLocale | undefined;
     }
 
     /**
@@ -388,64 +417,21 @@ declare namespace validator {
      */
     function isDivisibleBy(str: string, number: number): boolean;
 
-    interface IsEmailOptions {
-        /**
-         * If `allow_display_name` is set to `true`, the validator will also match `Display Name <email-address>`.
-         *
-         * @default false
-         */
-        allow_display_name?: boolean;
-        /**
-         * If `require_display_name` is set to `true`, the validator will reject strings without the format `Display Name <email-address>`.
-         *
-         * @default false
-         */
-        require_display_name?: boolean;
-        /**
-         * If `allow_utf8_local_part` is set to `false`, the validator will not allow any non-English UTF8 character in email address' local part.
-         *
-         * @default true
-         */
-        allow_utf8_local_part?: boolean;
-        /**
-         * If `require_tld` is set to `false`, e-mail addresses without having TLD in their domain will also be matched.
-         *
-         * @default true
-         */
-        require_tld?: boolean;
-        /**
-         * If `ignore_max_length` is set to `true`, the validator will not check for the standard max length of an email.
-         *
-         * @default false
-         */
-        ignore_max_length?: boolean;
-        /**
-         * If `allow_ip_domain` is set to `true`, the validator will allow IP addresses in the host part.
-         *
-         * @default false
-         */
-        allow_ip_domain?: boolean;
-        /**
-         * If `domain_specific_validation` is `true`, some additional validation will be enabled,
-         * e.g. disallowing certain syntactically valid email addresses that are rejected by GMail.
-         *
-         * @default false
-         */
-        domain_specific_validation?: boolean;
-    }
+    type IsEmailOptions = _isEmail.IsEmailOptions;
+    const isEmail: typeof _isEmail.default;
 
     /**
-     * Check if the string is an email.
-     *
-     * @param [options] - Options
+     *  check if the string is a [Magnet URI format][Mailto URI Format].<br/><br/>`options` is an object of validating emails inside the URI (check `isEmail`s options for details).
+     * @param str
+     * @param [options]
      */
-    function isEmail(str: string, options?: IsEmailOptions): boolean;
+    function isMailtoURI(str: string, options?: IsEmailOptions): boolean;
 
     interface IsEmptyOptions {
         /**
          * @default false
          */
-        ignore_whitespace?: boolean;
+        ignore_whitespace?: boolean | undefined;
     }
 
     /**
@@ -456,56 +442,56 @@ declare namespace validator {
     function isEmpty(str: string, options?: IsEmptyOptions): boolean;
 
     type FloatLocale =
-        | 'en-US'
-        | 'ar'
-        | 'en-AU'
-        | 'en-GB'
-        | 'en-HK'
-        | 'en-IN'
-        | 'en-NZ'
-        | 'en-ZA'
-        | 'en-ZM'
-        | 'ar-AE'
-        | 'ar-BH'
-        | 'ar-DZ'
-        | 'ar-EG'
-        | 'ar-IQ'
-        | 'ar-JO'
-        | 'ar-KW'
-        | 'ar-LB'
-        | 'ar-LY'
-        | 'ar-MA'
-        | 'ar-QM'
-        | 'ar-QA'
-        | 'ar-SA'
-        | 'ar-SD'
-        | 'ar-SY'
-        | 'ar-TN'
-        | 'ar-YE'
-        | 'bg-BG'
-        | 'cs-CZ'
-        | 'da-DK'
-        | 'de-DE'
-        | 'el-GR'
-        | 'es-ES'
-        | 'fr-FR'
-        | 'it-IT'
-        | 'ku-IQ'
-        | 'hu-HU'
-        | 'nb-NO'
-        | 'nn-NO'
-        | 'nl-NL'
-        | 'pl-PL'
-        | 'pt-PT'
-        | 'ru-RU'
-        | 'sl-SI'
-        | 'sr-RS@latin'
-        | 'sr-RS'
-        | 'sv-SE'
-        | 'tr-TR'
-        | 'uk-UA'
-        | 'pt-BR'
-        | 'pl-Pl';
+        | "en-US"
+        | "ar"
+        | "en-AU"
+        | "en-GB"
+        | "en-HK"
+        | "en-IN"
+        | "en-NZ"
+        | "en-ZA"
+        | "en-ZM"
+        | "ar-AE"
+        | "ar-BH"
+        | "ar-DZ"
+        | "ar-EG"
+        | "ar-IQ"
+        | "ar-JO"
+        | "ar-KW"
+        | "ar-LB"
+        | "ar-LY"
+        | "ar-MA"
+        | "ar-QM"
+        | "ar-QA"
+        | "ar-SA"
+        | "ar-SD"
+        | "ar-SY"
+        | "ar-TN"
+        | "ar-YE"
+        | "bg-BG"
+        | "cs-CZ"
+        | "da-DK"
+        | "de-DE"
+        | "el-GR"
+        | "es-ES"
+        | "fr-FR"
+        | "it-IT"
+        | "ku-IQ"
+        | "hu-HU"
+        | "nb-NO"
+        | "nn-NO"
+        | "nl-NL"
+        | "pl-PL"
+        | "pt-PT"
+        | "ru-RU"
+        | "sl-SI"
+        | "sr-RS@latin"
+        | "sr-RS"
+        | "sv-SE"
+        | "tr-TR"
+        | "uk-UA"
+        | "pt-BR"
+        | "pl-Pl";
 
     const isFloatLocales: FloatLocale[];
 
@@ -513,23 +499,23 @@ declare namespace validator {
         /**
          * less or equal
          */
-        min?: number;
+        min?: number | undefined;
         /**
          * greater or equal
          */
-        max?: number;
+        max?: number | undefined;
         /**
          * greater than
          */
-        gt?: number;
+        gt?: number | undefined;
         /**
          * less than
          */
-        lt?: number;
+        lt?: number | undefined;
         /**
          * FloatLocale
          */
-        locale?: FloatLocale;
+        locale?: FloatLocale | undefined;
     }
 
     /**
@@ -539,27 +525,8 @@ declare namespace validator {
      */
     function isFloat(str: string, options?: IsFloatOptions): boolean;
 
-    interface IsFQDNOptions {
-        /**
-         * @default true
-         */
-        require_tld?: boolean;
-        /**
-         * @default false
-         */
-        allow_underscores?: boolean;
-        /**
-         * @default false
-         */
-        allow_trailing_dot?: boolean;
-    }
-
-    /**
-     * Check if the string is a fully qualified domain name (e.g. `domain.com`).
-     *
-     * @param [options] - Options
-     */
-    function isFQDN(str: string, options?: IsFQDNOptions): boolean;
+    type IsFQDNOptions = _isFQDN.IsFQDNOptions;
+    const isFQDN: typeof _isFQDN.default;
 
     /**
      * Check if the string contains any full-width chars.
@@ -572,19 +539,19 @@ declare namespace validator {
     function isHalfWidth(str: string): boolean;
 
     type HashAlgorithm =
-        | 'md4'
-        | 'md5'
-        | 'sha1'
-        | 'sha256'
-        | 'sha384'
-        | 'sha512'
-        | 'ripemd128'
-        | 'ripemd160'
-        | 'tiger128'
-        | 'tiger160'
-        | 'tiger192'
-        | 'crc32'
-        | 'crc32b';
+        | "md4"
+        | "md5"
+        | "sha1"
+        | "sha256"
+        | "sha384"
+        | "sha512"
+        | "ripemd128"
+        | "ripemd160"
+        | "tiger128"
+        | "tiger160"
+        | "tiger192"
+        | "crc32"
+        | "crc32b";
 
     /**
      * Check if the string is a hash of type algorithm.
@@ -616,14 +583,30 @@ declare namespace validator {
      */
     function isRgbColor(str: string, includePercentValues?: boolean): boolean;
 
-    type IdentityCardLocale = 'ES' | 'he-IL' | 'zh-TW';
+    type IdentityCardLocale = "ES" | "he-IL" | "zh-TW" | "zh-CN";
 
     /**
      * Check if the string is a valid identity card code.
      *
      * @param [locale="any"] - IdentityCardLocale
      */
-    function isIdentityCard(str: string, locale?: 'any' | IdentityCardLocale): boolean;
+    function isIdentityCard(str: string, locale?: "any" | IdentityCardLocale): boolean;
+
+    interface IsIMEIOptions {
+        /**
+         * This value is `false` by default. Set to `true` to allow IMEI with hyphens.
+         */
+        allow_hyphens?: boolean | undefined;
+    }
+
+    /**
+     * Check if the string is a valid IMEI.
+     * Non-hyphenated (`###############`) only is supported by default.
+     * Use the `options` param to enable hyphenated (`##-######-######-#`) support.
+     *
+     * @param [options] - Options
+     */
+    function isIMEI(str: string, options?: IsIMEIOptions): boolean;
 
     /**
      * Check if the string is in a array of allowed values.
@@ -636,24 +619,24 @@ declare namespace validator {
         /**
          * to check the integer min boundary
          */
-        min?: number;
+        min?: number | undefined;
         /**
          * to check the integer max boundary
          */
-        max?: number;
+        max?: number | undefined;
         /**
          * if `false`, will disallow integer values with leading zeroes
          * @default true
          */
-        allow_leading_zeroes?: boolean;
+        allow_leading_zeroes?: boolean | undefined;
         /**
          * enforce integers being greater than the value provided
          */
-        lt?: number;
+        lt?: number | undefined;
         /**
          * enforce integers being less than the value provided
          */
-        gt?: number;
+        gt?: number | undefined;
     }
 
     /**
@@ -663,7 +646,7 @@ declare namespace validator {
      */
     function isInt(str: string, options?: IsIntOptions): boolean;
 
-    type IPVersion = '4' | '6' | 4 | 6;
+    type IPVersion = "4" | "6" | 4 | 6;
 
     /**
      * Check if the string is an IP (version 4 or 6).
@@ -677,7 +660,7 @@ declare namespace validator {
      */
     function isIPRange(str: string, version?: IPVersion): boolean;
 
-    type ISBNVersion = '10' | '13' | 10 | 13;
+    type ISBNVersion = "10" | "13" | 10 | 13;
 
     /**
      * Check if the string is an ISBN (version 10 or 13).
@@ -696,15 +679,28 @@ declare namespace validator {
      */
     function isISIN(str: string): boolean;
 
-    /**
-     * Check if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.
-     */
-    function isISO31661Alpha2(str: string): boolean;
+    const isISO31661Alpha2: typeof _isISO31661Alpha2.default;
 
     /**
      * Check if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.
      */
     function isISO31661Alpha3(str: string): boolean;
+
+    /**
+     * check if the string is a valid [ISO 6346](https://en.wikipedia.org/wiki/ISO_6346) shipping container identification.
+     * @param str
+     */
+    function isISO6346(str: string): boolean;
+
+    /**
+     * alias for `isISO6346`, check if the string is a valid [ISO 6346](https://en.wikipedia.org/wiki/ISO_6346) shipping container identification.
+     */
+    const isFreightContainerID: typeof isISO6346;
+
+    /**
+     * Check if the string is a valid [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) officially assigned language code.
+     */
+    const isISO6391: typeof _isISO6391.default;
 
     interface IsISO8601Options {
         /**
@@ -713,7 +709,12 @@ declare namespace validator {
          *
          * @default false
          */
-        strict?: boolean;
+        strict?: boolean | undefined;
+        /**
+         * If `strictSeparator` is true, date strings with date and time separated
+         * by anything other than a T will be invalid
+         */
+        strictSeparator?: boolean | undefined;
     }
 
     /**
@@ -729,11 +730,11 @@ declare namespace validator {
          *
          * @default false
          */
-        case_sensitive?: boolean;
+        case_sensitive?: boolean | undefined;
         /**
          * @default false
          */
-        require_hyphen?: boolean;
+        require_hyphen?: boolean | undefined;
     }
 
     /**
@@ -742,6 +743,8 @@ declare namespace validator {
      * @param [options] - Options
      */
     function isISSN(str: string, options?: IsISSNOptions): boolean;
+
+    const isISO4217: typeof _isISO4217.default;
 
     /**
      * Check if the string is a [ISRC](https://en.wikipedia.org/wiki/International_Standard_Recording_Code).
@@ -774,11 +777,11 @@ declare namespace validator {
         /**
          * @default 0
          */
-        min?: number;
+        min?: number | undefined;
         /**
          * @default undefined
          */
-        max?: number;
+        max?: number | undefined;
     }
 
     /**
@@ -809,7 +812,7 @@ declare namespace validator {
          *
          * @default false
          */
-        no_colons?: boolean;
+        no_colons?: boolean | undefined;
     }
 
     /**
@@ -834,93 +837,124 @@ declare namespace validator {
      */
     function isMimeType(str: string): boolean;
 
-    type MobilePhoneLocale =
-        | 'ar-AE'
-        | 'ar-BH'
-        | 'ar-DZ'
-        | 'ar-EG'
-        | 'ar-IQ'
-        | 'ar-JO'
-        | 'ar-KW'
-        | 'ar-SA'
-        | 'ar-SY'
-        | 'ar-TN'
-        | 'be-BY'
-        | 'bg-BG'
-        | 'bn-BD'
-        | 'cs-CZ'
-        | 'da-DK'
-        | 'de-DE'
-        | 'de-AT'
-        | 'el-GR'
-        | 'en-AU'
-        | 'en-GB'
-        | 'en-GG'
-        | 'en-GH'
-        | 'en-HK'
-        | 'en-IE'
-        | 'en-IN'
-        | 'en-KE'
-        | 'en-MT'
-        | 'en-MU'
-        | 'en-NG'
-        | 'en-NZ'
-        | 'en-PK'
-        | 'en-RW'
-        | 'en-SG'
-        | 'en-TZ'
-        | 'en-UG'
-        | 'en-US'
-        | 'en-ZA'
-        | 'en-ZM'
-        | 'es-CL'
-        | 'es-ES'
-        | 'es-MX'
-        | 'es-PA'
-        | 'es-PY'
-        | 'es-UY'
-        | 'et-EE'
-        | 'fa-IR'
-        | 'fi-FI'
-        | 'fj-FJ'
-        | 'fo-FO'
-        | 'fr-FR'
-        | 'fr-GF'
-        | 'fr-GP'
-        | 'fr-MQ'
-        | 'fr-RE'
-        | 'he-IL'
-        | 'hu-HU'
-        | 'id-ID'
-        | 'it-IT'
-        | 'ja-JP'
-        | 'kk-KZ'
-        | 'kl-GL'
-        | 'ko-KR'
-        | 'lt-LT'
-        | 'ms-MY'
-        | 'nb-NO'
-        | 'nl-BE'
-        | 'nl-NL'
-        | 'nn-NO'
-        | 'pl-PL'
-        | 'pt-BR'
-        | 'pt-PT'
-        | 'ro-RO'
-        | 'ru-RU'
-        | 'sl-SI'
-        | 'sk-SK'
-        | 'sr-RS'
-        | 'sv-SE'
-        | 'th-TH'
-        | 'tr-TR'
-        | 'uk-UA'
-        | 'vi-VN'
-        | 'zh-CN'
-        | 'zh-TW'
-        | 'en-CA'
-        | 'fr-BE'
-        | 'zh-HK';
+    type MobilePhoneLocale = PhoneLocale | PhoneLocaleAlias;
+    type PhoneLocale =
+        | "am-AM"
+        | "ar-AE"
+        | "ar-BH"
+        | "ar-DZ"
+        | "ar-LB"
+        | "ar-EG"
+        | "ar-IQ"
+        | "ar-JO"
+        | "ar-KW"
+        | "ar-LY"
+        | "ar-MA"
+        | "ar-OM"
+        | "ar-SA"
+        | "ar-SY"
+        | "ar-TN"
+        | "az-AZ"
+        | "bs-BA"
+        | "be-BY"
+        | "bg-BG"
+        | "bn-BD"
+        | "ca-AD"
+        | "cs-CZ"
+        | "da-DK"
+        | "de-DE"
+        | "de-AT"
+        | "de-CH"
+        | "de-LU"
+        | "el-GR"
+        | "en-AU"
+        | "en-GB"
+        | "en-GG"
+        | "en-GH"
+        | "en-HK"
+        | "en-MO"
+        | "en-IE"
+        | "en-IN"
+        | "en-KE"
+        | "en-MT"
+        | "en-MU"
+        | "en-NG"
+        | "en-NZ"
+        | "en-PK"
+        | "en-PH"
+        | "en-RW"
+        | "en-SG"
+        | "en-SL"
+        | "en-TZ"
+        | "en-UG"
+        | "en-US"
+        | "en-ZA"
+        | "en-ZM"
+        | "en-ZW"
+        | "es-AR"
+        | "es-BO"
+        | "es-CO"
+        | "es-CL"
+        | "es-CR"
+        | "es-DO"
+        | "es-HN"
+        | "es-EC"
+        | "es-ES"
+        | "es-PE"
+        | "es-MX"
+        | "es-PA"
+        | "es-PY"
+        | "es-UY"
+        | "es-VE"
+        | "et-EE"
+        | "fa-IR"
+        | "fi-FI"
+        | "fj-FJ"
+        | "fo-FO"
+        | "fr-FR"
+        | "fr-GF"
+        | "fr-GP"
+        | "fr-MQ"
+        | "fr-RE"
+        | "he-IL"
+        | "hu-HU"
+        | "id-ID"
+        | "it-IT"
+        | "it-SM"
+        | "ja-JP"
+        | "ka-GE"
+        | "kk-KZ"
+        | "kl-GL"
+        | "ko-KR"
+        | "lt-LT"
+        | "lv-LV"
+        | "ms-MY"
+        | "mz-MZ"
+        | "nb-NO"
+        | "ne-NP"
+        | "nl-BE"
+        | "nl-NL"
+        | "nn-NO"
+        | "pl-PL"
+        | "pt-BR"
+        | "pt-PT"
+        | "pt-AO"
+        | "ro-RO"
+        | "ru-RU"
+        | "si-LK"
+        | "sl-SI"
+        | "sk-SK"
+        | "sq-AL"
+        | "sr-RS"
+        | "sv-SE"
+        | "th-TH"
+        | "tr-TR"
+        | "uk-UA"
+        | "uz-UZ"
+        | "vi-VN"
+        | "zh-CN"
+        | "zh-TW";
+    type PhoneLocaleAlias = "en-CA" | "fr-CA" | "fr-BE" | "zh-HK" | "zh-MO" | "ga-IE" | "fr-CH" | "it-CH";
 
     const isMobilePhoneLocales: MobilePhoneLocale[];
 
@@ -930,7 +964,7 @@ declare namespace validator {
          *
          * @default false
          */
-        strictMode?: boolean;
+        strictMode?: boolean | undefined;
     }
 
     /**
@@ -941,7 +975,7 @@ declare namespace validator {
      */
     function isMobilePhone(
         str: string,
-        locale?: 'any' | MobilePhoneLocale | MobilePhoneLocale[],
+        locale?: "any" | MobilePhoneLocale | MobilePhoneLocale[],
         options?: IsMobilePhoneOptions,
     ): boolean;
 
@@ -961,7 +995,8 @@ declare namespace validator {
          *
          * @default false
          */
-        no_symbols?: boolean;
+        no_symbols?: boolean | undefined;
+        locale?: AlphaLocale | undefined;
     }
 
     /**
@@ -989,58 +1024,61 @@ declare namespace validator {
     function isPort(str: string): boolean;
 
     type PostalCodeLocale =
-        | 'AD'
-        | 'AT'
-        | 'AU'
-        | 'BE'
-        | 'BG'
-        | 'BR'
-        | 'CA'
-        | 'CH'
-        | 'CZ'
-        | 'DE'
-        | 'DK'
-        | 'DZ'
-        | 'EE'
-        | 'ES'
-        | 'FI'
-        | 'FR'
-        | 'GB'
-        | 'GR'
-        | 'HR'
-        | 'HU'
-        | 'ID'
-        | 'IE'
-        | 'IL'
-        | 'IN'
-        | 'IS'
-        | 'IT'
-        | 'JP'
-        | 'KE'
-        | 'LI'
-        | 'LT'
-        | 'LU'
-        | 'LV'
-        | 'MX'
-        | 'MT'
-        | 'NL'
-        | 'NO'
-        | 'NZ'
-        | 'PL'
-        | 'PR'
-        | 'PT'
-        | 'RO'
-        | 'RU'
-        | 'SA'
-        | 'SE'
-        | 'SI'
-        | 'SK'
-        | 'TN'
-        | 'TW'
-        | 'UA'
-        | 'US'
-        | 'ZA'
-        | 'ZM';
+        | "AD"
+        | "AT"
+        | "AU"
+        | "BE"
+        | "BG"
+        | "BR"
+        | "CA"
+        | "CH"
+        | "CN"
+        | "CZ"
+        | "DE"
+        | "DK"
+        | "DZ"
+        | "EE"
+        | "ES"
+        | "FI"
+        | "FR"
+        | "GB"
+        | "GR"
+        | "HR"
+        | "HU"
+        | "ID"
+        | "IE"
+        | "IL"
+        | "IN"
+        | "IR"
+        | "IS"
+        | "IT"
+        | "JP"
+        | "KE"
+        | "KR"
+        | "LI"
+        | "LT"
+        | "LU"
+        | "LV"
+        | "MX"
+        | "MT"
+        | "NL"
+        | "NO"
+        | "NZ"
+        | "PL"
+        | "PR"
+        | "PT"
+        | "RO"
+        | "RU"
+        | "SA"
+        | "SE"
+        | "SI"
+        | "SK"
+        | "TN"
+        | "TW"
+        | "UA"
+        | "US"
+        | "ZA"
+        | "ZM";
 
     const isPostalCodeLocales: PostalCodeLocale[];
 
@@ -1049,7 +1087,7 @@ declare namespace validator {
      *
      * @param locale - PostalCodeLocale
      */
-    function isPostalCode(str: string, locale: 'any' | PostalCodeLocale): boolean;
+    function isPostalCode(str: string, locale: "any" | PostalCodeLocale): boolean;
 
     /**
      * Check if the string is a Semantic Versioning Specification (SemVer).
@@ -1060,88 +1098,64 @@ declare namespace validator {
      * Check if string is considered a strong password. Allows options to be added
      */
 
-    interface strongPasswordOptions {
-        minLength?: number;
-        minLowercase?: number;
-        minUppercase?: number;
-        minNumbers?: number;
-        minSymbols?: number;
-        returnScore?: boolean;
-        pointsPerUnique?: number;
-        pointsPerRepeat?: number;
-        pointsForContainingLower?: number;
-        pointsForContainingUpper?: number;
-        pointsForContainingNumber?: number;
-        pointsForContainingSymbol?: number;
+    interface StrongPasswordOptions {
+        minLength?: number | undefined;
+        minLowercase?: number | undefined;
+        minUppercase?: number | undefined;
+        minNumbers?: number | undefined;
+        minSymbols?: number | undefined;
+        returnScore?: boolean | undefined;
+        pointsPerUnique?: number | undefined;
+        pointsPerRepeat?: number | undefined;
+        pointsForContainingLower?: number | undefined;
+        pointsForContainingUpper?: number | undefined;
+        pointsForContainingNumber?: number | undefined;
+        pointsForContainingSymbol?: number | undefined;
     }
-    function isStrongPassword(str: string, options?: strongPasswordOptions): boolean;
+
+    function isStrongPassword(
+        str: string,
+        options?: StrongPasswordOptions & { returnScore?: false | undefined },
+    ): boolean;
+    function isStrongPassword(str: string, options: StrongPasswordOptions & { returnScore: true }): number;
+
     /**
      * Check if the string contains any surrogate pairs chars.
      */
     function isSurrogatePair(str: string): boolean;
 
-    interface IsURLOptions {
+    interface IsTimeOptions {
         /**
-         * @default ['http','https','ftp']
+         * 'hour24' will validate hours in 24 format and 'hour12' will validate hours in 12 format.
+         * @default 'hour24'
          */
-        protocols?: string[];
+        hourFormat?: "hour12" | "hour24";
         /**
-         * @default true
+         * 'default' will validate HH:MM format, 'withSeconds' will validate the HH:MM:SS format
+         *
+         * @default 'default'
          */
-        require_tld?: boolean;
-        /**
-         * @default false
-         */
-        require_protocol?: boolean;
-        /**
-         * @default true
-         */
-        require_host?: boolean;
-        /**
-         * @default true
-         */
-        require_valid_protocol?: boolean;
-        /**
-         * @default false
-         */
-        allow_underscores?: boolean;
-        /**
-         * @default false
-         */
-        host_whitelist?: Array<string | RegExp>;
-        /**
-         * @default false
-         */
-        host_blacklist?: Array<string | RegExp>;
-        /**
-         * @default false
-         */
-        allow_trailing_dot?: boolean;
-        /**
-         * @default false
-         */
-        allow_protocol_relative_urls?: boolean;
-        /**
-         * @default false
-         */
-        disallow_auth?: boolean;
+        mode?: "default" | "withSeconds";
     }
 
     /**
-     * Check if the string is an URL.
-     *
-     * @param [options] - Options
+     * Check if the string is a valid time.
      */
-    function isURL(str: string, options?: IsURLOptions): boolean;
+    function isTime(str: string, options?: IsTimeOptions): boolean;
+
+    const isURL: typeof _isURL.default;
+    type IsURLOptions = _isURL.IsURLOptions;
+
+    const isTaxID: typeof _isTaxID.default;
 
     /**
      * Check if the string is uppercase.
      */
     function isUppercase(str: string): boolean;
 
-    type UUIDVersion = 3 | 4 | 5 | '3' | '4' | '5' | 'all';
+    type UUIDVersion = "1" | "2" | "3" | "4" | "5" | "all" | 1 | 2 | 3 | 4 | 5;
     /**
-     * Check if the string is a UUID (version 3, 4 or 5).
+     * Check if the string is a UUID (version 1, 2, 3, 4 or 5).
      *
      * @param [version="all"] - UUID version
      */
@@ -1151,6 +1165,11 @@ declare namespace validator {
      * Check if the string contains a mixture of full and half-width chars.
      */
     function isVariableWidth(str: string): boolean;
+
+    /**
+     * Checks that the string is a [valid VAT number
+     */
+    function isVAT(str: string, countryCode: string): boolean;
 
     /**
      * Checks characters if they appear in the whitelist.
@@ -1216,76 +1235,76 @@ declare namespace validator {
          *
          * @default true
          */
-        all_lowercase?: boolean;
+        all_lowercase?: boolean | undefined;
         /**
          * GMail addresses are known to be case-insensitive, so this switch allows lowercasing them even when `all_lowercase` is set to `false`.
          * Please note that when `all_lowercase` is `true`, GMail addresses are lowercased regardless of the value of this setting.
          *
          * @default true
          */
-        gmail_lowercase?: boolean;
+        gmail_lowercase?: boolean | undefined;
         /**
          * Removes dots from the local part of the email address, as GMail ignores them
          * (e.g. `"john.doe"` and `"johndoe"` are considered equal).
          *
          * @default true
          */
-        gmail_remove_dots?: boolean;
+        gmail_remove_dots?: boolean | undefined;
         /**
          * Normalizes addresses by removing "sub-addresses", which is the part following a `"+"` sign
          * (e.g. `"foo+bar@gmail.com"` becomes `"foo@gmail.com"`).
          *
          * @default true
          */
-        gmail_remove_subaddress?: boolean;
+        gmail_remove_subaddress?: boolean | undefined;
         /**
          * Converts addresses with domain `@googlemail.com` to `@gmail.com`, as they're equivalent.
          *
          * @default true
          */
-        gmail_convert_googlemaildotcom?: boolean;
+        gmail_convert_googlemaildotcom?: boolean | undefined;
         /**
          * Outlook.com addresses (including Windows Live and Hotmail) are known to be case-insensitive, so this switch allows lowercasing them even when `all_lowercase` is set to `false`.
          * Please note that when `all_lowercase` is `true`, Outlook.com addresses are lowercased regardless of the value of this setting.
          *
          * @default true
          */
-        outlookdotcom_lowercase?: boolean;
+        outlookdotcom_lowercase?: boolean | undefined;
         /**
          * Normalizes addresses by removing "sub-addresses", which is the part following a `"+"` sign
          * (e.g. `"foo+bar@outlook.com"` becomes `"foo@outlook.com"`).
          *
          * @default true
          */
-        outlookdotcom_remove_subaddress?: boolean;
+        outlookdotcom_remove_subaddress?: boolean | undefined;
         /**
          * Yahoo Mail addresses are known to be case-insensitive, so this switch allows lowercasing them even when `all_lowercase` is set to `false`.
          * Please note that when `all_lowercase` is `true`, Yahoo Mail addresses are lowercased regardless of the value of this setting.
          *
          * @default true
          */
-        yahoo_lowercase?: boolean;
+        yahoo_lowercase?: boolean | undefined;
         /**
          * Normalizes addresses by removing "sub-addresses", which is the part following a `"-"` sign
          * (e.g. `"foo-bar@yahoo.com"` becomes `"foo@yahoo.com"`).
          *
          * @default true
          */
-        yahoo_remove_subaddress?: boolean;
+        yahoo_remove_subaddress?: boolean | undefined;
         /**
          * iCloud addresses (including MobileMe) are known to be case-insensitive, so this switch allows lowercasing them even when `all_lowercase` is set to `false`.
          * Please note that when `all_lowercase` is `true`, iCloud addresses are lowercased regardless of the value of this setting.
          *
          * @default true
          */
-        icloud_lowercase?: boolean;
+        icloud_lowercase?: boolean | undefined;
         /**
          * Normalizes addresses by removing "sub-addresses", which is the part following a `"+"` sign
          * (e.g. `"foo+bar@icloud.com"` becomes `"foo@icloud.com"`).
          *
          * @default true
          */
-        icloud_remove_subaddress?: boolean;
+        icloud_remove_subaddress?: boolean | undefined;
     }
 
     /**
@@ -1355,3 +1374,5 @@ declare namespace validator {
     function toString(input: any): string;
 }
 export default validator;
+
+export as namespace validator;

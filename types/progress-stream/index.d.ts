@@ -1,9 +1,3 @@
-// Type definitions for progress-stream 2.0
-// Project: https://github.com/freeall/progress-stream
-// Definitions by: Mick Dekkers <https://github.com/mickdekkers>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.1
-
 /// <reference types="node" />
 
 import stream = require("stream");
@@ -22,11 +16,11 @@ declare function progress_stream(
 
 declare namespace progress_stream {
     interface Options {
-        time?: number;
-        speed?: number;
-        length?: number;
-        drain?: boolean;
-        transferred?: number;
+        time?: number | undefined;
+        speed?: number | undefined;
+        length?: number | undefined;
+        drain?: boolean | undefined;
+        transferred?: number | undefined;
     }
 
     type ProgressListener = (progress: Progress) => void;

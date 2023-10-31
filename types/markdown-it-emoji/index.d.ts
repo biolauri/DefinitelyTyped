@@ -1,20 +1,15 @@
-// Type definitions for markdown-it-emoji 2.0
-// Project: https://github.com/markdown-it/markdown-it-emoji
-// Definitions by: Christopher Quadflieg <https://github.com/Shinigami92>
-//                 Piotr Błażejewicz <https://github.com/peterblazejewicz>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 import { PluginSimple, PluginWithOptions } from "markdown-it/lib";
 
 export as namespace markdownitEmoji;
 
 declare namespace markdownitEmoji {
     interface Options {
-        defs?: Record<string, string>;
-        enabled?: string[];
-        shortcuts?: Shortcuts;
+        defs?: Record<string, string> | undefined;
+        enabled?: string[] | undefined;
+        shortcuts?: Shortcuts | undefined;
     }
 
-    type LiteralUnion<T extends U, U = string> = T | (U & { _?: never });
+    type LiteralUnion<T extends U, U = string> = T | (U & { _?: never | undefined });
 
     type PartialRecord<K extends keyof any, T> = {
         [P in K]?: T | T[];

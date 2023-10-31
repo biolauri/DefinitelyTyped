@@ -1,8 +1,3 @@
-// Type definitions for markdown-magic 1.0
-// Project: https://github.com/DavidWells/markdown-magic#readme
-// Definitions by: Piotr Błażejewicz (Peter Blazejewicz) <https://github.com/peterblazejewicz>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 /**
  * @param path Path or glob pattern
  * @param config See configuration options below
@@ -21,19 +16,19 @@ declare namespace markdownMagic {
          */
         transforms?: {
             [name: string]: TransformFunction;
-        };
+        } | undefined;
         /**
          * Change output path of new content. Default behavior is replacing the original file
          */
-        outputDir?: string;
+        outputDir?: string | undefined;
         /**
          * Comment pattern to look for & replace inner contents. Default AUTO-GENERATED-CONTENT
          */
-        matchWord?: string;
+        matchWord?: string | undefined;
         /**
          * set debug flag to true to inspect the process
          */
-        DEBUG?: boolean;
+        DEBUG?: boolean | undefined;
     }
 
     /**

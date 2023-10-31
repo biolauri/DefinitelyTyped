@@ -1,8 +1,3 @@
-// Type definitions for Google Apps Script Event Objects 2021-04-15
-// Project: https://developers.google.com/apps-script/
-// Definitions by: Oleg Valter <https://github.com/Oaphi>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 declare namespace GoogleAppsScript {
     /**
      * @summary Apps Script Addon Event Objects
@@ -15,12 +10,12 @@ declare namespace GoogleAppsScript {
          */
         interface EventObject {
             commonEventObject: CommonEventObject;
-            calendar?: CalendarEventObject;
-            docs?: DocsEventObject;
-            drive?: DriveEventObject;
-            gmail?: GmailEventObject;
-            sheets?: SheetsEventObject;
-            slides?: SlidesEventObject;
+            calendar?: CalendarEventObject | undefined;
+            docs?: DocsEventObject | undefined;
+            drive?: DriveEventObject | undefined;
+            gmail?: GmailEventObject | undefined;
+            sheets?: SheetsEventObject | undefined;
+            slides?: SlidesEventObject | undefined;
         }
 
         type InvitationResponseStatus = "accepted" | "declined" | "needsAction" | "tentative";
@@ -107,8 +102,8 @@ declare namespace GoogleAppsScript {
          * @see https://developers.google.com/workspace/add-ons/concepts/event-objects#docs_event_object
          */
         interface DocsEventObject {
-            id?: string;
-            title?: string;
+            id?: string | undefined;
+            title?: string | undefined;
             addonHasFileScopePermission: boolean;
         }
 
@@ -139,11 +134,11 @@ declare namespace GoogleAppsScript {
          */
         interface GmailEventObject {
             accessToken: string;
-            bccRecipients?: string[];
-            ccRecipients?: string[];
+            bccRecipients?: string[] | undefined;
+            ccRecipients?: string[] | undefined;
             messageId: string;
             threadId: string;
-            toRecipients?: string[];
+            toRecipients?: string[] | undefined;
         }
 
         /**
@@ -151,8 +146,8 @@ declare namespace GoogleAppsScript {
          * @see https://developers.google.com/workspace/add-ons/concepts/event-objects#sheets_event_object
          */
         interface SheetsEventObject {
-            id?: string;
-            title?: string;
+            id?: string | undefined;
+            title?: string | undefined;
             addonHasFileScopePermission: boolean;
         }
 
@@ -161,8 +156,8 @@ declare namespace GoogleAppsScript {
          * @see https://developers.google.com/workspace/add-ons/concepts/event-objects#slides_event_object
          */
         interface SlidesEventObject {
-            id?: string;
-            title?: string;
+            id?: string | undefined;
+            title?: string | undefined;
             addonHasFileScopePermission: boolean;
         }
 
@@ -174,22 +169,28 @@ declare namespace GoogleAppsScript {
          * @see https://developers.google.com/workspace/add-ons/concepts/event-objects#common_event_object
          */
         interface CommonEventObject {
-            userLocale?: string;
+            userLocale?: string | undefined;
             timeZone?: {
                 id: string;
                 offset: string;
-            };
+            } | undefined;
             platform: Platform;
             parameters: { [key: string]: string };
             hostApp: HostApplication;
             formInputs: {
                 [ID: string]: {
+                    // For Rhino, always one key only <"">
                     "": {
-                        stringInputs?: StringInputObject;
-                        dateInput?: DateInputObject;
-                        timeInput?: TimeInputObject;
-                        dateTimeInput?: DateTimeInputObject;
-                    }; // always one key only <"">
+                        stringInputs?: StringInputObject | undefined;
+                        dateInput?: DateInputObject | undefined;
+                        timeInput?: TimeInputObject | undefined;
+                        dateTimeInput?: DateTimeInputObject | undefined;
+                    };
+                    // For V8 (recommended)
+                    stringInputs?: StringInputObject | undefined;
+                    dateInput?: DateInputObject | undefined;
+                    timeInput?: TimeInputObject | undefined;
+                    dateTimeInput?: DateTimeInputObject | undefined;
                 };
             };
         }

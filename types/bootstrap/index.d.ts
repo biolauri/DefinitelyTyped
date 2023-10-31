@@ -1,13 +1,3 @@
-// Type definitions for bootstrap 5.0
-// Project: https://getbootstrap.com/
-// Definitions by: denisname <https://github.com/denisname>
-//                 Piotr Błażejewicz <https://github.com/peterblazejewicz>
-//                 Martin Badin <https://github.com/martin-badin>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// Minimum TypeScript Version: 3.8
-
-/// <reference types="jquery" />
-
 export as namespace bootstrap;
 
 import Alert from "./js/dist/alert";
@@ -41,24 +31,23 @@ declare global {
 
     interface Element {
         addEventListener(
-            type: Carousel.Events,
+            type: Carousel.Events | "slide.bs.carousel" | "slid.bs.carousel",
             listener: (this: Element, ev: Carousel.Event) => any,
+            options?: boolean | AddEventListenerOptions,
+        ): void;
+
+        addEventListener(
+            type:
+                | Modal.Events
+                | "show.bs.modal"
+                | "shown.bs.modal"
+                | "hide.bs.modal"
+                | "hidden.bs.modal"
+                | "hidePrevented.bs.modal",
+            listener: (this: Element, ev: Modal.Event) => any,
             options?: boolean | AddEventListenerOptions,
         ): void;
     }
 }
 
-export {
-    Alert,
-    Button,
-    Carousel,
-    Collapse,
-    Dropdown,
-    Modal,
-    Offcanvas,
-    Popover,
-    ScrollSpy,
-    Tab,
-    Toast,
-    Tooltip,
-};
+export { Alert, Button, Carousel, Collapse, Dropdown, Modal, Offcanvas, Popover, ScrollSpy, Tab, Toast, Tooltip };

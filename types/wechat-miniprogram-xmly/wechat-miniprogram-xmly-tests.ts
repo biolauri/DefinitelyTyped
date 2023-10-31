@@ -1,27 +1,31 @@
-import XMPlugin from 'wechat-miniprogram-xmly';
+import XMPlugin from "wechat-miniprogram-xmly";
 
 // plugin
-const { player, xmly } = XMPlugin.init({
-    appKey: 'your appKey',
-    appSecret: 'your appSecret',
+let { player, xmly } = XMPlugin.init({
+    appKey: "your appKey",
+    appSecret: "your appSecret",
 });
 XMPlugin.init({
-    appKey: 'your appKey',
-    accessTokenUrl: 'your accessTokenUrl',
+    appKey: "your appKey",
+    accessTokenUrl: "your accessTokenUrl",
 });
 XMPlugin.init({
-    appKey: 'your appKey',
-    getAccessToken: () => 'your appSecret',
+    appKey: "your appKey",
+    getAccessToken: () => "your appSecret",
 });
-XMPlugin.getInstance();
-XMPlugin.destory();
+const xmplugin = XMPlugin.getInstance();
+if (xmplugin) {
+    player = xmplugin.player;
+    xmly = xmplugin.xmly;
+}
+XMPlugin.destroy();
 // $ExpectType string
 XMPlugin.getDeviceId();
 // $ExpectType string
 XMPlugin.getVersion();
 
 // player
-async () => {
+(async () => {
     await player.play();
     await player.play(1);
     await player.preloadSound(1);
@@ -44,8 +48,8 @@ async () => {
     player.setSounds({
         1: {
             id: 1,
-            title: 'title',
-            src: 'ximalaya',
+            title: "title",
+            src: "ximalaya",
         },
     });
     player.getSounds();
@@ -58,7 +62,7 @@ async () => {
     player.setPlaylist([1]);
     player.getPlaylist();
     player.getPlaylist(true);
-    player.setPlayMode('order');
+    player.setPlayMode("order");
     //  $ExpectType string
     player.getPlayMode();
     player.setPlaybackRate(0.5);
@@ -67,17 +71,17 @@ async () => {
     //  $ExpectType string
     player.getPlayState();
     player.setAutoskip(true);
-    player.destory();
-    player.on('play', () => {});
-    player.once('play', () => {});
-    player.emit('play', {});
-    player.off('play');
-    player.off('play', () => {});
-};
+    player.destroy();
+    player.on("play", () => {});
+    player.once("play", () => {});
+    player.emit("play", {});
+    player.off("play");
+    player.off("play", () => {});
+});
 
 // xmly
-async () => {
-    const url = 'https://open.ximalaya.com';
+(async () => {
+    const url = "https://open.ximalaya.com";
     let res: {
         code: number;
         message: string;
@@ -85,11 +89,11 @@ async () => {
     };
     res = await xmly.request({
         url,
-        type: 'GET',
+        type: "GET",
         params: {},
     });
     res = await xmly.get(url);
     res = await xmly.post(url);
-    res = await xmly.bindThirdUid('xx');
-    res = await xmly.unbindThirdUid('xx');
-};
+    res = await xmly.bindThirdUid("xx");
+    res = await xmly.unbindThirdUid("xx");
+});

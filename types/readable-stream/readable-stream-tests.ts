@@ -1,7 +1,26 @@
+import stream = require("stream");
 import RStream = require("readable-stream");
+import { dot, spec, tap } from "node:test/reporters";
+
+function testTypes() {
+    const ANY: any = undefined;
+    const _readableOpts = ANY as RStream.ReadableOptions;
+    const _writableOpts: stream.WritableOptions = ANY as RStream.WritableOptions;
+    const _transformOpts = ANY as RStream.TransformOptions;
+    const _duplexOpts = ANY as RStream.DuplexOptions;
+
+    const _readable: stream.Readable = new RStream.Readable(_readableOpts);
+    const _writable: stream.Writable = new RStream.Writable(_writableOpts);
+    const _transform: stream.Transform = new RStream.Transform(_transformOpts);
+    const _duplex: stream.Duplex = new RStream.Duplex(_duplexOpts);
+
+    _readable.compose(tap).pipe(_duplex).pipe(_transform).pipe(_writable);
+    _readable.compose(dot);
+    _readable.compose(new spec());
+}
 
 function test() {
-    const rs: RStream.Stream = (null as any) as RStream.Stream;
+    const rs: stream.Stream = (null as any) as RStream.Stream;
     const RS_Readable = RStream;
     const RS_Writable = RStream.Writable;
     const RS_Transform = RStream.Transform;
@@ -15,7 +34,7 @@ function test() {
         destroy(error, cb) {
             assertType<Error | null>(error);
             assertType<(err: Error | null) => void>(cb);
-        }
+        },
     });
 
     streamR.once("end", () => {
@@ -25,8 +44,8 @@ function test() {
     const row = null;
     const i = 0;
     if (streamR.push(row)) streamR.emit("result", row, i);
-    else streamR.emit("error", new Error("a possible exception"));  // Pass on any errors
-    streamR.push(null);  // pushing null, indicating EOF
+    else streamR.emit("error", new Error("a possible exception")); // Pass on any errors
+    streamR.push(null); // pushing null, indicating EOF
 
     const streamW = new RS_Writable({
         write(chunk, enc, cb) {
@@ -44,7 +63,7 @@ function test() {
         },
         final(cb) {
             assertType<(err?: Error | null) => void>(cb);
-        }
+        },
     });
     streamW.write(new Buffer("test"));
     streamW.emit("finish");
@@ -54,13 +73,13 @@ function test() {
             assertType<any>(chunk);
             assertType<string>(enc);
             assertType<(err?: Error, data?: any) => void>(cb);
-        }
+        },
     });
     assertType<boolean>(streamT.allowHalfOpen);
     assertType<boolean>(streamT.readable);
     assertType<boolean>(streamT.writable);
     streamT.unpipe(streamW);
-    streamT._transformState.afterTransform = (err, data) => { };
+    streamT._transformState.afterTransform = (err, data) => {};
 
     const streamD = new RS_Duplex({
         read(size: number) {
@@ -71,7 +90,7 @@ function test() {
             assertType<string>(enc);
             assertType<(err?: Error | null) => void>(cb);
         },
-        writableObjectMode: false
+        writableObjectMode: false,
     });
     assertType<boolean>(streamD.allowHalfOpen);
     assertType<boolean>(streamD.readable);
@@ -85,7 +104,7 @@ function test() {
     const testBufferEncoding = new RS_Duplex({
         write(chunk: any, enc: BufferEncoding, cb: (err?: Error | null) => void) {
             assertType<BufferEncoding>(enc);
-        }
+        },
     });
 
     rs.addListener("read", (...args: any[]) => console.log(args));
@@ -117,7 +136,7 @@ function test() {
         highWaterMark: 100,
         readableHighWaterMark: 100,
         readableObjectMode: false,
-        read(size: number) { }
+        read(size: number) {},
     };
 
     const wOpts: RStream.WritableOptions = {
@@ -126,7 +145,7 @@ function test() {
         highWaterMark: 100,
         writableHighWaterMark: 100,
         writableObjectMode: false,
-        write(chunk: any, enc: string, cb: (err?: Error | null) => void) { }
+        write(chunk: any, enc: string, cb: (err?: Error | null) => void) {},
     };
 }
 

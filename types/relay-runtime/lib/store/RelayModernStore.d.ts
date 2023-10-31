@@ -1,17 +1,17 @@
+import { DataID, Disposable } from "../util/RelayRuntimeTypes";
 import {
     CheckOptions,
-    Store,
     MutableRecordSource,
-    Scheduler,
-    OperationLoader,
     OperationAvailability,
     OperationDescriptor,
+    OperationLoader,
     RecordSource,
+    RequestDescriptor,
+    Scheduler,
     SingularReaderSelector,
     Snapshot,
-    RequestDescriptor,
-} from './RelayStoreTypes';
-import { DataID, Disposable } from '../util/RelayRuntimeTypes';
+    Store,
+} from "./RelayStoreTypes";
 
 export interface InvalidationState {
     dataIDs: ReadonlyArray<DataID>;
@@ -22,10 +22,10 @@ export default class RelayModernStore implements Store {
     constructor(
         source: MutableRecordSource,
         options?: {
-            gcScheduler?: Scheduler | null;
-            operationLoader?: OperationLoader | null;
-            gcReleaseBufferSize?: number | null;
-            queryCacheExpirationTime?: number | null;
+            gcScheduler?: Scheduler | null | undefined;
+            operationLoader?: OperationLoader | null | undefined;
+            gcReleaseBufferSize?: number | null | undefined;
+            queryCacheExpirationTime?: number | null | undefined;
         },
     );
     getSource(): RecordSource;

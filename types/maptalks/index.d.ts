@@ -1,8 +1,3 @@
-// Type definitions for maptalks 0.49
-// Project: https://github.com/maptalks/maptalks.js
-// Definitions by: Yu Yan <https://github.com/yanyu510>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 export const INTERNAL_LAYER_PREFIX: string;
 /**
  * Symbol properties containing external resources
@@ -27,30 +22,30 @@ export const COLOR_PROPERTIES: string[];
 export interface MapOptions {
     center: Coordinate | number[] | undefined;
     zoom: number | undefined;
-    spatialReference?: object;
-    baseLayer?: Layer;
-    layers?: Layer[];
-    attribution?: boolean | control.AttributionOptions;
+    spatialReference?: object | undefined;
+    baseLayer?: Layer | undefined;
+    layers?: Layer[] | undefined;
+    attribution?: boolean | control.AttributionOptions | undefined;
     // allow map to drag pitching, true by default
-    dragPitch?: boolean;
+    dragPitch?: boolean | undefined;
     // allow map to drag rotating, true by default
-    dragRotate?: boolean;
+    dragRotate?: boolean | undefined;
     // enable map to drag pitching and rotating at the same time, false by default
-    dragRotatePitch?: boolean;
-    dragPan?: boolean;
-    pitch?: number;
-    zoomControl?: boolean | object;
-    scaleControl?: boolean | object;
-    overviewControl?: boolean;
-    centerCross?: boolean;
-    minZoom?: number;
-    maxZoom?: number;
-    draggable?: boolean; //  disable draggble
-    scrollWheelZoom?: boolean; //  disable scroll wheel zoom
-    dblClickZoom?: boolean; //  disable doubleclick
-    touchZoom?: boolean;
-    doubleClickZoom?: boolean;
-    layerSwitcherControl?: object;
+    dragRotatePitch?: boolean | undefined;
+    dragPan?: boolean | undefined;
+    pitch?: number | undefined;
+    zoomControl?: boolean | object | undefined;
+    scaleControl?: boolean | object | undefined;
+    overviewControl?: boolean | undefined;
+    centerCross?: boolean | undefined;
+    minZoom?: number | undefined;
+    maxZoom?: number | undefined;
+    draggable?: boolean | undefined; //  disable draggble
+    scrollWheelZoom?: boolean | undefined; //  disable scroll wheel zoom
+    dblClickZoom?: boolean | undefined; //  disable doubleclick
+    touchZoom?: boolean | undefined;
+    doubleClickZoom?: boolean | undefined;
+    layerSwitcherControl?: object | undefined;
 }
 export interface MapJsonOptions {
     baseLayer?: any;
@@ -58,219 +53,219 @@ export interface MapJsonOptions {
 }
 
 export interface LayerOptions {
-    attribution?: string;
-    minZoom?: number;
-    maxZoom?: number;
-    visible?: boolean;
-    opacity?: number;
-    zindex?: number;
-    hitDetect?: boolean;
-    renderer?: string;
+    attribution?: string | undefined;
+    minZoom?: number | undefined;
+    maxZoom?: number | undefined;
+    visible?: boolean | undefined;
+    opacity?: number | undefined;
+    zindex?: number | undefined;
+    hitDetect?: boolean | undefined;
+    renderer?: string | undefined;
     //  context.globalCompositeOperation, 'source-over' in default
-    globalCompositeOperation?: string;
-    debugOutline?: string;
-    cssFilter?: string | null;
-    forceRenderOnMoving?: boolean;
-    forceRenderOnZooming?: boolean;
-    forceRenderOnRotating?: boolean;
+    globalCompositeOperation?: string | undefined;
+    debugOutline?: string | undefined;
+    cssFilter?: string | null | undefined;
+    forceRenderOnMoving?: boolean | undefined;
+    forceRenderOnZooming?: boolean | undefined;
+    forceRenderOnRotating?: boolean | undefined;
     style?: any;
 }
 
 export type urlTemplateFun = (...param: any[]) => string;
 export interface TileLayerOptions extends LayerOptions {
     urlTemplate: string | urlTemplateFun;
-    subdomains?: string[] | number[];
-    spatialReference?: object;
-    tileSize?: number[];
-    offset?: number[];
-    tileSystem?: number[];
-    maxAvailableZoom?: number;
-    repeatWorld?: boolean;
-    background?: boolean;
-    backgroundZoomDiff?: number;
-    placeholder?: boolean;
-    fragmentShader?: string;
-    crossOrigin?: string;
-    fadeAnimation?: boolean;
-    debug?: boolean;
-    maxCacheSize?: number;
-    cascadeTiles?: boolean;
-    zoomOffset?: number;
-    tileRetryCount?: number;
+    subdomains?: string[] | number[] | undefined;
+    spatialReference?: object | undefined;
+    tileSize?: number[] | undefined;
+    offset?: number[] | undefined;
+    tileSystem?: number[] | undefined;
+    maxAvailableZoom?: number | undefined;
+    repeatWorld?: boolean | undefined;
+    background?: boolean | undefined;
+    backgroundZoomDiff?: number | undefined;
+    placeholder?: boolean | undefined;
+    fragmentShader?: string | undefined;
+    crossOrigin?: string | undefined;
+    fadeAnimation?: boolean | undefined;
+    debug?: boolean | undefined;
+    maxCacheSize?: number | undefined;
+    cascadeTiles?: boolean | undefined;
+    zoomOffset?: number | undefined;
+    tileRetryCount?: number | undefined;
 }
 
 export interface WMSTileLayerOptions extends TileLayerOptions {
-    service?: string;
+    service?: string | undefined;
     layers: string;
-    styles?: string;
-    format?: string;
-    transparent?: boolean;
-    version?: string;
-    crs?: string;
-    uppercase?: boolean;
-    detectRetina?: string;
+    styles?: string | undefined;
+    format?: string | undefined;
+    transparent?: boolean | undefined;
+    version?: string | undefined;
+    crs?: string | undefined;
+    uppercase?: boolean | undefined;
+    detectRetina?: string | undefined;
 }
 
 export interface VectorLayerOptions extends LayerOptions {
-    debug?: boolean;
-    enableSimplify?: boolean;
-    cursor?: string;
-    geometryEvents?: boolean;
-    defaultIconSize?: boolean;
-    enableAltitude?: boolean;
-    altitudeProperty?: string;
-    drawAltitude?: object;
-    altitude?: number;
-    drawImmediate?: boolean;
+    debug?: boolean | undefined;
+    enableSimplify?: boolean | undefined;
+    cursor?: string | undefined;
+    geometryEvents?: boolean | undefined;
+    defaultIconSize?: boolean | undefined;
+    enableAltitude?: boolean | undefined;
+    altitudeProperty?: string | undefined;
+    drawAltitude?: object | undefined;
+    altitude?: number | undefined;
+    drawImmediate?: boolean | undefined;
 }
 
 export interface CanvasLayerOptions extends LayerOptions {
-    doubleBuffer?: boolean;
-    animation?: boolean;
-    fps?: boolean;
+    doubleBuffer?: boolean | undefined;
+    animation?: boolean | undefined;
+    fps?: boolean | undefined;
 }
 
 export interface ImageLayerOptions extends LayerOptions {
-    crossOrigin?: string;
-    renderer?: string;
+    crossOrigin?: string | undefined;
+    renderer?: string | undefined;
 }
 
 export interface GeometryOptions {
-    id?: string | number;
-    visible?: boolean;
-    editable?: boolean;
-    interactive?: boolean;
-    cursor?: string | null;
-    measure?: string;
-    draggable?: boolean;
-    dragShadow?: boolean;
-    drawOnAxis?: string | null;
-    zIndex?: number;
-    properties?: object;
-    symbol?: object;
-    shadowBlur?: number;
-    shadowColor?: string;
+    id?: string | number | undefined;
+    visible?: boolean | undefined;
+    editable?: boolean | undefined;
+    interactive?: boolean | undefined;
+    cursor?: string | null | undefined;
+    measure?: string | undefined;
+    draggable?: boolean | undefined;
+    dragShadow?: boolean | undefined;
+    drawOnAxis?: string | null | undefined;
+    zIndex?: number | undefined;
+    properties?: object | undefined;
+    symbol?: object | undefined;
+    shadowBlur?: number | undefined;
+    shadowColor?: string | undefined;
 }
 
 export interface PathOptions extends GeometryOptions {
-    smoothness?: number;
-    enableSimplify?: boolean;
-    simplifyTolerance?: number;
-    enableClip?: boolean;
-    symbol?: object;
+    smoothness?: number | undefined;
+    enableSimplify?: boolean | undefined;
+    simplifyTolerance?: number | undefined;
+    enableClip?: boolean | undefined;
+    symbol?: object | undefined;
 }
 
 export interface MarkerOptions extends GeometryOptions {
-    hitTestForEvent?: boolean;
+    hitTestForEvent?: boolean | undefined;
 }
 
 export interface LabelOptions extends GeometryOptions {
-    boxStyle?: object;
-    textSymbol?: object;
-    hitTestForEvent?: string;
+    boxStyle?: object | undefined;
+    textSymbol?: object | undefined;
+    hitTestForEvent?: string | undefined;
 }
 
 export interface TextBoxOptions extends GeometryOptions {
-    textStyle?: object;
-    boxSymbol?: object;
-    hitTestForEvent?: string;
+    textStyle?: object | undefined;
+    boxSymbol?: object | undefined;
+    hitTestForEvent?: string | undefined;
 }
 
 export interface LineStringOptions extends PathOptions {
-    arrowStyle?: string | number[] | null;
-    arrowPlacement?: string;
+    arrowStyle?: string | number[] | null | undefined;
+    arrowPlacement?: string | undefined;
 }
 
 export interface ArcCurveOptions extends LineStringOptions {
-    arcDegree?: number;
+    arcDegree?: number | undefined;
 }
 
 export interface ConnectorLineOptions extends LineStringOptions {
-    showOn?: string;
+    showOn?: string | undefined;
 }
 
 export interface ArcConnectorLineOptions extends ConnectorLineOptions, ArcCurveOptions {}
 
 export interface EllipseOptions extends PathOptions {
-    numberOfShellPoints?: number;
+    numberOfShellPoints?: number | undefined;
 }
 
 export interface DrawToolOptions {
     //  doubleClickZoom?: boolean;
     //  ignoreMouseleave?: boolean
-    mode?: string;
-    symbol?: object;
-    once?: boolean;
-    autoPanAtEdge?: boolean;
+    mode?: string | undefined;
+    symbol?: object | undefined;
+    once?: boolean | undefined;
+    autoPanAtEdge?: boolean | undefined;
 }
 
 export interface DrawToolModeActionOptions {
-    action: object;
-    create: object;
-    update: object;
-    generate: object;
+    action: string[];
+    create: (projection: object, clickCoords: object, event: object) => object;
+    update: (projection: object, path: object, geometry: object, event: object) => void;
+    generate: (geometry: object, extraData: { drawTool: DrawTool }) => object;
 }
 
 export interface DistanceToolOptions extends DrawToolOptions {
-    language?: string;
-    metric?: boolean;
-    imperial?: boolean;
-    vertexSymbol?: object;
-    labelOptions?: object;
-    clearButtonSymbol?: any[];
+    language?: string | undefined;
+    metric?: boolean | undefined;
+    imperial?: boolean | undefined;
+    vertexSymbol?: object | undefined;
+    labelOptions?: object | undefined;
+    clearButtonSymbol?: any[] | undefined;
 }
 
 export namespace control {
     interface ZoomOptions {
-        position?: string | object;
-        slider?: boolean;
-        zoomLevel?: boolean;
+        position?: string | object | undefined;
+        slider?: boolean | undefined;
+        zoomLevel?: boolean | undefined;
     }
 
     interface LayerSwitcherOptions {
-        position?: string | object;
-        baseTitle?: string | object;
-        overlayTitle?: string | object;
-        excludeLayers?: any[];
-        containerClass?: string | object;
+        position?: string | object | undefined;
+        baseTitle?: string | object | undefined;
+        overlayTitle?: string | object | undefined;
+        excludeLayers?: any[] | undefined;
+        containerClass?: string | object | undefined;
     }
 
     interface AttributionOptions {
-        position?: string | object;
-        content?: string;
+        position?: string | object | undefined;
+        content?: string | undefined;
     }
 
     interface ScaleOptions {
-        position?: string | object;
-        maxWidth?: number;
-        metric?: boolean;
-        imperial?: boolean;
-        containerClass?: string | object | null;
+        position?: string | object | undefined;
+        maxWidth?: number | undefined;
+        metric?: boolean | undefined;
+        imperial?: boolean | undefined;
+        containerClass?: string | object | null | undefined;
     }
 
     interface PanelOptions {
-        position?: string | object;
-        draggable?: boolean;
-        custom?: boolean;
-        content?: string | HTMLElement;
-        closeButton?: boolean;
+        position?: string | object | undefined;
+        draggable?: boolean | undefined;
+        custom?: boolean | undefined;
+        content?: string | HTMLElement | undefined;
+        closeButton?: boolean | undefined;
     }
 
     interface ToolbarOptions {
-        position?: string | object;
-        vertical?: boolean;
-        reverseMenu?: boolean;
+        position?: string | object | undefined;
+        vertical?: boolean | undefined;
+        reverseMenu?: boolean | undefined;
         items: any[];
     }
 
     interface OverviewOptions {
-        position?: string | object;
-        level?: number;
-        maximize?: boolean;
-        size?: object;
-        symbol?: object;
-        containerClass?: string;
-        buttonClass?: string;
+        position?: string | object | undefined;
+        level?: number | undefined;
+        maximize?: boolean | undefined;
+        size?: object | undefined;
+        symbol?: object | undefined;
+        containerClass?: string | undefined;
+        buttonClass?: string | undefined;
     }
 
     abstract class Control extends Eventable {
@@ -464,36 +459,36 @@ export namespace control {
 
 export namespace ui {
     interface UIComponentOptions {
-        eventsPropagation?: boolean;
-        eventsToStop?: boolean;
-        dx?: number;
-        dy?: number;
-        autoPan?: boolean;
-        autoPanDuration?: boolean;
-        single?: boolean;
-        animation?: string;
-        animationDuration?: number;
-        pitchWithMap?: boolean;
-        rotateWithMap?: boolean;
+        eventsPropagation?: boolean | undefined;
+        eventsToStop?: boolean | undefined;
+        dx?: number | undefined;
+        dy?: number | undefined;
+        autoPan?: boolean | undefined;
+        autoPanDuration?: boolean | undefined;
+        single?: boolean | undefined;
+        animation?: string | undefined;
+        animationDuration?: number | undefined;
+        pitchWithMap?: boolean | undefined;
+        rotateWithMap?: boolean | undefined;
     }
 
     interface UIMarkerOptions extends UIComponentOptions {
-        draggable?: boolean;
+        draggable?: boolean | undefined;
         content: string | HTMLElement;
     }
 
     interface ToolTipOptions extends UIComponentOptions {
-        width?: number;
-        height?: number;
-        cssName?: string;
-        showTimeout?: number;
+        width?: number | undefined;
+        height?: number | undefined;
+        cssName?: string | undefined;
+        showTimeout?: number | undefined;
     }
 
     interface MenuOptions extends UIComponentOptions {
-        width?: number;
-        maxHeight?: number;
-        custom?: string | HTMLElement;
-        items?: object[] | string | HTMLElement;
+        width?: number | undefined;
+        maxHeight?: number | undefined;
+        custom?: string | HTMLElement | undefined;
+        items?: object[] | string | HTMLElement | undefined;
     }
 
     abstract class UIComponent extends Eventable {
@@ -807,7 +802,7 @@ export namespace ui {
 
 export namespace animation {
     interface AnimationOptions {
-        easing?: object;
+        easing?: object | undefined;
     }
 
     interface Easing {
@@ -1159,7 +1154,6 @@ export namespace renderer {
          * a required abstract method to implement
          * draw the layer when map is not interacting
          *
-         *
          *  draw
          *  renderer.CanvasRenderer
          */
@@ -1168,7 +1162,6 @@ export namespace renderer {
         /**
          * an optional abstract method to implement
          * draw the layer when map is interacting (moving/zooming/dragrotating)
-         *
          *
          *  drawOnInteracting
          * @param  eventParam event parameters
@@ -1483,7 +1476,6 @@ export interface Ajax {
      *         console.log(json.foo);
      *     }
      * );
-     *
      */
     getJSON(url: string, options?: object, cb?: AjaxCallbackFun): Ajax;
 }
@@ -1691,7 +1683,6 @@ export namespace DomUtil {
      * Vendor-prefixed fransform style name (e.g. `'webkitTransform'` for WebKit).
      *   TRANSFORM
      *  DomUtil
-     *
      */
     const TRANSFORM: string;
 
@@ -1699,7 +1690,6 @@ export namespace DomUtil {
      * Vendor-prefixed tfransform-origin name (e.g. `'webkitTransformOrigin'` for WebKit).
      *   TRANSFORMORIGIN
      *  DomUtil
-     *
      */
     const TRANSFORMORIGIN: string;
 
@@ -1707,7 +1697,6 @@ export namespace DomUtil {
      * Vendor-prefixed transition name (e.g. `'WebkitTransition'` for WebKit).
      *   TRANSITION
      *  DomUtil
-     *
      */
     const TRANSITION: string;
 
@@ -1715,7 +1704,6 @@ export namespace DomUtil {
      * Vendor-prefixed filter name (e.g. `'WebkitFilter'` for WebKit).
      *   FILTER
      *  DomUtil
-     *
      */
     const CSSFILTER: string;
 
@@ -1835,7 +1823,7 @@ export namespace DomUtil {
     /**
      * Get dom's css class
      * @param  name css class
-     * @retrun {String} class字符串
+     * @return class字符串
      *  DomUtil
      */
     function getClass(el: string): string;
@@ -1972,7 +1960,6 @@ export namespace StringUtil {
  *
  * Foo.addInitHook('whenCreated');
  * @category core
- *
  */
 export abstract class Class {
     id: string | number;
@@ -2575,7 +2562,7 @@ export interface Map extends Handlerable, ui.Menuable {
 }
 
 export interface MapStatic {
-    new (container: string | HTMLElement, opts?: MapOptions): Map;
+    new(container: string | HTMLElement, opts?: MapOptions): Map;
 }
 
 export const Map: MapStatic;
@@ -2654,7 +2641,6 @@ export abstract class Layer extends Eventable implements JSONAble {
     /**
      * If the layer is rendered by HTML5 Canvas.
      * @return
-     *
      */
     isCanvasRender(): boolean;
 
@@ -2784,8 +2770,8 @@ export interface TileSystem {
 }
 
 export interface TileSystemStatic {
-    new (sx: number, sy: number, ox: number, oy: number): TileSystem;
-    new (sx: number[]): TileSystem;
+    new(sx: number, sy: number, ox: number, oy: number): TileSystem;
+    new(sx: number[]): TileSystem;
 }
 
 export const TileSystem: TileSystemStatic;
@@ -2795,9 +2781,6 @@ export interface TileLayer extends Layer {
      * Reproduce a TileLayer from layer's profile JSON.
      * @param   layerJSON - layer's profile JSON
      * @return
-     *
-     *
-     *
      */
     fromJSON(layerJSON: object): TileLayer;
 
@@ -2845,7 +2828,7 @@ export interface TileLayer extends Layer {
 }
 
 export interface TileLayerInstanceStatic {
-    new (id: string | number, options?: TileLayerOptions): TileLayer;
+    new(id: string | number, options?: TileLayerOptions): TileLayer;
 }
 
 export const TileLayer: TileLayerInstanceStatic;
@@ -2859,7 +2842,7 @@ export interface GroupTileLayer extends TileLayer {
 }
 
 export interface GroupTileLayerStatic {
-    new (id: string | number, layers: TileLayer[], options?: TileLayerOptions): GroupTileLayer;
+    new(id: string | number, layers: TileLayer[], options?: TileLayerOptions): GroupTileLayer;
 }
 
 export const GroupTileLayer: GroupTileLayerStatic;
@@ -2869,7 +2852,7 @@ export interface WMSTileLayer extends TileLayer {
 }
 
 export interface WMSTileLayerStatic {
-    new (id: string | number, options?: WMSTileLayerOptions): WMSTileLayer;
+    new(id: string | number, options?: WMSTileLayerOptions): WMSTileLayer;
 }
 
 export const WMSTileLayer: WMSTileLayerStatic;
@@ -2884,7 +2867,7 @@ export interface CanvasTileLayer extends TileLayer {
     drawTile(canvas: HTMLCanvasElement, ...options: any[] /*canvas, options*/): void;
 }
 export interface CanvasTileLayerStatic {
-    new (id: string | number, options?: TileLayerOptions): CanvasTileLayer;
+    new(id: string | number, options?: TileLayerOptions): CanvasTileLayer;
 }
 export const CanvasTileLayer: CanvasTileLayerStatic;
 
@@ -2987,7 +2970,6 @@ export interface OverlayLayer extends Layer {
     /**
      * Called when geometry is being removed to clear the context concerned.
      * @param   geometry - the geometry instance to remove
-     *
      */
     onRemoveGeometry(geometry: Geometry): Geometry;
 
@@ -3038,7 +3020,7 @@ export interface VectorLayer extends OverlayLayer {
 }
 
 export interface VectorLayerStatic {
-    new (id: string | number, geometries?: Geometry | Geometry[] | null, options?: VectorLayerOptions): VectorLayer;
+    new(id: string | number, geometries?: Geometry | Geometry[] | null, options?: VectorLayerOptions): VectorLayer;
 }
 export const VectorLayer: VectorLayerStatic;
 
@@ -3166,7 +3148,7 @@ export interface CanvasLayer extends Layer {
 }
 
 export interface CanvasLayerStatic {
-    new (id: string | number, options: CanvasLayerOptions): CanvasLayer;
+    new(id: string | number, options: CanvasLayerOptions): CanvasLayer;
 }
 export const CanvasLayer: CanvasLayerStatic;
 
@@ -3179,7 +3161,7 @@ export interface ParticleLayer extends CanvasLayer {
 }
 
 export interface ParticleLayerStatic {
-    new (id: string, options?: CanvasLayerOptions): ParticleLayer;
+    new(id: string, options?: CanvasLayerOptions): ParticleLayer;
 }
 export const ParticleLayer: ParticleLayerStatic;
 
@@ -3199,7 +3181,7 @@ export interface ImageLayer extends Layer {
 }
 
 export interface ImageLayerStatic {
-    new (id: string | number, images?: object[], options?: ImageLayerOptions): ImageLayer;
+    new(id: string | number, images?: object[], options?: ImageLayerOptions): ImageLayer;
 }
 export const ImageLayer: ImageLayerStatic;
 
@@ -3246,21 +3228,21 @@ export class Extent {
 
     /**
      * Get the minimum point
-     * @params {Coorindate} [out=undefined] - optional point to receive result
+     * @param [out=undefined] - optional point to receive result
      * @return
      */
     getMin(out?: Coordinate): Coordinate;
 
     /**
      * Get the maximum point
-     * @params {Coorindate} [out=undefined] - optional point to receive result
+     * @param [out=undefined] - optional point to receive result
      * @return
      */
     getMax(out?: Coordinate): Coordinate;
 
     /**
      * Get center of the extent.
-     * @params {Coorindate} [out=undefined] - optional point to receive result
+     * @param [out=undefined] - optional point to receive result
      * @return
      */
     getCenter(out?: Coordinate): Coordinate;
@@ -3436,8 +3418,8 @@ export abstract class Position {
 
     /**
      * Set point or coordinate's x, y value
-     * @params  x - x value
-     * @params  y - y value
+     * @param  x - x value
+     * @param  y - y value
      * @return  this
      */
     set(x: number, y: number): Coordinate | Point;
@@ -3958,13 +3940,11 @@ export interface Geometry extends Handlerable, JSONAble, ui.Menuable {
 
     /**
      * Whether the geometry is being edited.
-     * @return
      */
     isEditing(): boolean;
 
     /**
      * Whether the geometry is being dragged.
-     * @reutrn
      */
     isDragging(): boolean;
 
@@ -4080,7 +4060,7 @@ export interface Path extends Geometry {
 export interface Marker extends Geometry, CenterAble {}
 
 export interface MarkerStatic {
-    new (coordinates: Coordinate | number[], options?: MarkerOptions): Marker;
+    new(coordinates: Coordinate | number[], options?: MarkerOptions): Marker;
 }
 
 export const Marker: MarkerStatic;
@@ -4129,7 +4109,7 @@ export interface Label extends TextMarker, TextEditable {
 }
 
 export interface LabelStatic {
-    new (contetn: string, coordinates: Coordinate | number[], options?: LabelOptions): Label;
+    new(contetn: string, coordinates: Coordinate | number[], options?: LabelOptions): Label;
 }
 export const Label: LabelStatic;
 
@@ -4188,7 +4168,7 @@ export interface TextBox extends TextMarker, TextEditable {
 }
 
 export interface TextBoxStatic {
-    new (
+    new(
         content: string,
         coordinates: Coordinate | number[],
         width: number,
@@ -4247,7 +4227,7 @@ export interface Polygon extends Path {
 }
 
 export interface PolygonStatic {
-    new (coordinates: number[][] | number[][][] | Coordinate[] | Coordinate[][], options?: PathOptions): Polygon;
+    new(coordinates: number[][] | number[][][] | Coordinate[] | Coordinate[][], options?: PathOptions): Polygon;
 }
 export const Polygon: PolygonStatic;
 
@@ -4278,7 +4258,7 @@ export interface LineString extends Path {
 }
 
 export interface LineStringStatic {
-    new (coordinates: Coordinate[] | number[][] | any[], options?: LineStringOptions): LineString;
+    new(coordinates: Coordinate[] | number[][] | any[], options?: LineStringOptions): LineString;
 }
 export const LineString: LineStringStatic;
 
@@ -4291,7 +4271,7 @@ export interface ArcCurve extends Curve {
 }
 
 export interface ArcCurveStatic {
-    new (coordinates: Coordinate[] | number[][], options?: ArcCurveOptions): ArcCurve;
+    new(coordinates: Coordinate[] | number[][], options?: ArcCurveOptions): ArcCurve;
 }
 
 export const ArcCurve: ArcCurveStatic;
@@ -4301,7 +4281,7 @@ export interface QuadBezierCurve extends Curve {
 }
 
 export interface QuadBezierCurveStatic {
-    new (coordinates: Coordinate[] | number[][], options?: LineStringOptions): QuadBezierCurve;
+    new(coordinates: Coordinate[] | number[][], options?: LineStringOptions): QuadBezierCurve;
 }
 
 export const QuadBezierCurve: QuadBezierCurveStatic;
@@ -4310,7 +4290,7 @@ export interface CubicBezierCurve extends Curve {
     _cubicBezierCurve: string;
 }
 export interface CubicBezierCurveStatic {
-    new (coordinates: Coordinate[] | number[][], options?: LineStringOptions): CubicBezierCurve;
+    new(coordinates: Coordinate[] | number[][], options?: LineStringOptions): CubicBezierCurve;
 }
 
 export const CubicBezierCurve: CubicBezierCurveStatic;
@@ -4350,7 +4330,7 @@ export interface Connectable {
 export interface ConnectorLine extends Connectable, LineString {}
 
 export interface ConnectorLineStatic {
-    new (
+    new(
         src: Geometry | control.Control | ui.UIComponent,
         target: Geometry | control.Control | ui.UIComponent,
         options?: ConnectorLineOptions,
@@ -4362,7 +4342,7 @@ export const ConnectorLine: ConnectorLineStatic;
 export interface ArcConnectorLine extends Connectable, LineString {}
 
 export interface ArcConnectorLineStatic {
-    new (
+    new(
         src: Geometry | control.Control | ui.UIComponent,
         target: Geometry | control.Control | ui.UIComponent,
         options?: ArcConnectorLineOptions,
@@ -4378,12 +4358,11 @@ export interface Ellipse extends Polygon, CenterAble {
      * @fires Geometry#positionchange
      *  CenterAble.setCoordinates
      */
-      setCoordinates(coordinates: Coordinate | number[]): this;
+    setCoordinates(coordinates: Coordinate | number[]): this;
 
     /**
      * Get geometry's center
      * @return  - center of the geometry
-     *
      */
     getCoordinates(): Coordinate;
 
@@ -4442,7 +4421,7 @@ export interface Ellipse extends Polygon, CenterAble {
 }
 
 export interface EllipseStatic {
-    new (center: Coordinate | number[], width: number, height: number, options?: EllipseOptions): Ellipse;
+    new(center: Coordinate | number[], width: number, height: number, options?: EllipseOptions): Ellipse;
 }
 export const Ellipse: EllipseStatic;
 
@@ -4459,7 +4438,6 @@ export interface Circle extends Polygon, CenterAble {
     /**
      * Get geometry's center
      * @return  - center of the geometry
-     *
      */
     getCoordinates(): Coordinate;
 
@@ -4504,7 +4482,7 @@ export interface Circle extends Polygon, CenterAble {
 }
 
 export interface CircleStatic {
-    new (center: Coordinate | number[], radius: number, options?: EllipseOptions): Circle;
+    new(center: Coordinate | number[], radius: number, options?: EllipseOptions): Circle;
 }
 export const Circle: CircleStatic;
 
@@ -4545,7 +4523,7 @@ export interface Sector extends Circle {
 }
 
 export interface SectorStatic {
-    new (
+    new(
         center: Coordinate | number[],
         radius: number,
         startAngle: number,
@@ -4617,7 +4595,7 @@ export interface Rectangle extends Polygon {
 }
 
 export interface RectangleStatic {
-    new (coordinates: Coordinate | number[], width: number, height: number, options?: PathOptions): Rectangle;
+    new(coordinates: Coordinate | number[], width: number, height: number, options?: PathOptions): Rectangle;
 }
 export const Rectangle: RectangleStatic;
 
@@ -4686,7 +4664,7 @@ export interface GeometryCollectionStatic {
      * @param  geometries - GeometryCollection's geometries
      * @param  [options=null] - options defined in [nGeometryCollection]{@link GeometryCollection#options}
      */
-    new (geometries: Geometry[], options?: object): GeometryCollection;
+    new(geometries: Geometry[], options?: object): GeometryCollection;
 }
 export const GeometryCollection: GeometryCollectionStatic;
 
@@ -4706,7 +4684,7 @@ export interface MultiGeometry extends GeometryCollection {
     setCoordinates(coordinates: Coordinate[] | Coordinate[][] | Coordinate[][][]): this;
 }
 export interface MultiGeometryStatic {
-    new (geoType: Class, type: string, data: Geometry[], options?: GeometryOptions): any;
+    new(geoType: Class, type: string, data: Geometry[], options?: GeometryOptions): any;
 }
 export const MultiGeometry: MultiGeometryStatic;
 
@@ -4719,7 +4697,7 @@ export interface MultiPoint extends MultiGeometry {
     findClosest(coordinate: Coordinate): Coordinate;
 }
 export interface MultiPointStatic {
-    new (data: number[][] | Coordinate[] | Marker[], options?: GeometryOptions): MultiPoint;
+    new(data: number[][] | Coordinate[] | Marker[], options?: GeometryOptions): MultiPoint;
 }
 
 export const MultiPoint: MultiPointStatic;
@@ -4729,7 +4707,7 @@ export interface MultiLineString extends MultiGeometry {
 }
 
 export interface MultiLineStringStatic {
-    new (data: number[][][] | Coordinate[][] | LineString[], options?: LineStringOptions): MultiLineString;
+    new(data: number[][][] | Coordinate[][] | LineString[], options?: LineStringOptions): MultiLineString;
 }
 export const MultiLineString: MultiLineStringStatic;
 
@@ -4738,7 +4716,7 @@ export interface MultiPolygon extends MultiGeometry {
 }
 
 export interface MultiPolygonStatic {
-    new (data: number[][][][] | Coordinate[][][] | Polygon[], options?: GeometryOptions): MultiPolygon;
+    new(data: number[][][][] | Coordinate[][][] | Polygon[], options?: GeometryOptions): MultiPolygon;
 }
 
 export const MultiPolygon: MultiPolygonStatic;
@@ -5000,7 +4978,6 @@ export class CRS {
  * A core class used internally for mapping map's (usually geographical) coordinates to 2d points.<br>
  *
  * @category geo
- *
  */
 export interface Transformation {
     /**
@@ -5033,7 +5010,7 @@ export interface TransformationStatic {
      * e.g.: Transformation parameters for Google map: [1, -1, -20037508.34, 20037508.34] <br>
      * @param   matrix transformation array
      */
-    new (matrix: number[]): Transformation;
+    new(matrix: number[]): Transformation;
 }
 export const Transformation: TransformationStatic;
 

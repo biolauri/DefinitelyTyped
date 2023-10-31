@@ -1,4 +1,4 @@
-import * as URI from '../';
+import * as URI from "../";
 
 export = URITemplate;
 export as namespace URITemplate;
@@ -10,7 +10,7 @@ declare namespace URITemplate {
     interface URITemplateVariable {
         name: string;
         explode: boolean;
-        maxLength?: number;
+        maxLength?: number | undefined;
     }
 
     interface URITemplateExpression {
@@ -29,13 +29,13 @@ declare namespace URITemplate {
          * @description The parsed parts of the URI Template. Only present after calling
          *              `parse()` first.
          */
-        parts?: ReadonlyArray<URITemplatePart>;
+        parts?: ReadonlyArray<URITemplatePart> | undefined;
     }
 
     interface URITemplateStatic {
         (template: string): URITemplate;
 
-        new (template: string): URITemplate;
+        new(template: string): URITemplate;
     }
 
     type URITemplateValue = string | ReadonlyArray<string> | { [key: string]: string } | undefined | null;

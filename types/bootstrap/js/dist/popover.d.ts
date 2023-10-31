@@ -1,8 +1,41 @@
-import * as Popper from "@popperjs/core";
-import BaseComponent from "./base-component";
+import BaseComponent, { GetInstanceFactory, GetOrCreateInstanceFactory } from "./base-component";
 import Tooltip from "./tooltip";
 
 declare class Popover extends BaseComponent {
+    static getInstance: GetInstanceFactory<Popover>;
+
+    /**
+     * Static method which allows you to get the popover instance associated with
+     *  a DOM element, or create a new one in case it wasn’t initialised
+     */
+    static getOrCreateInstance: GetOrCreateInstanceFactory<Popover, Partial<Popover.Options>>;
+
+    static jQueryInterface: Popover.jQueryInterface;
+
+    static NAME: "popover";
+
+    /**
+     * Default settings of this plugin
+     *
+     * @link https://getbootstrap.com/docs/5.0/getting-started/javascript/#default-settings
+     */
+    static Default: Popover.Options;
+
+    static DefaultType: Record<keyof Popover.Options, string>;
+
+    static Event: Record<
+        | "CLICK"
+        | "FOCUSIN"
+        | "FOCUSOUT"
+        | "HIDDEN"
+        | "HIDE"
+        | "INSERTED"
+        | "MOUSEENTER"
+        | "MOUSELEAVE"
+        | "SHOW"
+        | "SHOWN",
+        string
+    >;
     constructor(element: string | Element, options?: Partial<Popover.Options>);
 
     /**
@@ -44,7 +77,7 @@ declare class Popover extends BaseComponent {
     /**
      * Toggles the ability for an element’s popover to be shown or hidden.
      */
-    toggleEnable(): void;
+    toggleEnabled(): void;
 
     /**
      * Updates the position of an element’s popover.
@@ -52,41 +85,9 @@ declare class Popover extends BaseComponent {
     update(): void;
 
     /**
-     * Static method which allows you to get the popover instance associated
-     * with a DOM element
+     * Gives a way to change the popover’s content after its initialization.
      */
-    static getInstance(element: Element, options?: Partial<Popover.Options>): Popover | null;
-
-    static jQueryInterface: Popover.jQueryInterface;
-
-    static NAME: "popover";
-
-    /**
-     * Default settings of this plugin
-     *
-     * @link https://getbootstrap.com/docs/5.0/getting-started/javascript/#default-settings
-     */
-    static Default: Popover.Options;
-
-    static DATA_KEY: string;
-
-    static EVENT_KEY: string;
-
-    static DefaultType: Record<keyof Popover.Options, string>;
-
-    static Event: Record<
-        | "CLICK"
-        | "FOCUSIN"
-        | "FOCUSOUT"
-        | "HIDDEN"
-        | "HIDE"
-        | "INSERTED"
-        | "MOUSEENTER"
-        | "MOUSELEAVE"
-        | "SHOW"
-        | "SHOWN",
-        string
-    >;
+    setContent(content?: Record<string, string | Element | Tooltip.SetContentFunction | null>): void;
 }
 
 declare namespace Popover {
@@ -132,7 +133,7 @@ declare namespace Popover {
          *
          * @default ''
          */
-        content: string | Element | ((this: HTMLElement) => string);
+        content: string | Element | JQuery | ((this: HTMLElement) => string | Element | JQuery);
 
         /**
          * To change Bootstrap's default Popper.js config
@@ -157,10 +158,11 @@ declare namespace Popover {
             | "toggle"
             | "enable"
             | "disable"
-            | "toggleEnable"
+            | "toggleEnabled"
             | "update"
+            | "setContent"
             | "dispose",
-    ) => void;
+    ) => JQuery;
 }
 
 export default Popover;

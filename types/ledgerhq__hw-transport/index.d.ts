@@ -1,9 +1,3 @@
-// Type definitions for @ledgerhq/hw-transport 4.21
-// Project: https://github.com/LedgerHQ/ledgerjs/tree/master/packages/hw-transport, https://github.com/ledgerhq/ledgerjs
-// Definitions by: Daniel Byrne <https://github.com/danwbyrne>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.3
-
 /// <reference types="node" />
 
 declare class Transport<TDescriptor extends Descriptor = string> {
@@ -40,9 +34,9 @@ declare class Transport<TDescriptor extends Descriptor = string> {
 export type Device = any;
 export type Descriptor = string; // ?
 export interface DescriptorEvent<Descriptor> {
-    type: 'add' | 'remove';
+    type: "add" | "remove";
     descriptor: Descriptor;
-    device?: Device;
+    device?: Device | undefined;
 }
 export interface Observer<Ev> {
     readonly next: (event: Ev) => any;

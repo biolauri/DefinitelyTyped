@@ -1,18 +1,18 @@
-import { ToolbarPosition, ToolbarButtonName, TableauEventName } from './enums';
+import { TableauEventName, ToolbarButtonName, ToolbarPosition } from "./enums";
+import { Sheet, SheetInfo } from "./sheet";
 import {
     CustomViewEvent,
     FilterEvent,
     MarksEvent,
     ParameterEvent,
     StoryPointSwitchEvent,
-    TabSwitchEvent,
     TableauEvent,
+    TabSwitchEvent,
     ToolbarStateEvent,
     UrlActionEvent,
     VizResizeEvent,
-} from './viz.event';
-import { Workbook } from './workbook';
-import { Sheet, SheetInfo } from './sheet';
+} from "./viz.event";
+import { Workbook } from "./workbook";
 
 // Define types to use in addEventListener and removeEventListener overloads
 export type TableauEventCustomView = Extract<
@@ -35,7 +35,7 @@ export type TableauEventUrlAction = Extract<TableauEventName, TableauEventName.U
 export type TableauEventVizResize = Extract<TableauEventName, TableauEventName.VIZ_RESIZE>;
 
 // Embedded device types, controls which variant of the viz displays
-export type DeviceType = 'default' | 'desktop' | 'tablet' | 'phone';
+export type DeviceType = "default" | "desktop" | "tablet" | "phone";
 
 export class VizManager {
     getVizs(): Viz[];
@@ -85,7 +85,7 @@ export class Viz {
     showExportPowerPointDialog(): void;
     showExportDataDialog(worksheetInDashboard: Sheet | SheetInfo | string): void;
     showExportCrossTabDialog(worksheetInDashboard: Sheet | SheetInfo | string): void;
-    exportCrossTabToExcel(worksheetInDashboard: Sheet | SheetInfo | string): void;
+    exportCrossTabToExcel(worksheetInDashboard?: Sheet | SheetInfo | string): void;
     showShareDialog(): void;
     setFrameSize(width: number, height: number): void;
     getCurrentUrlAsync(): Promise<string>;
@@ -94,16 +94,16 @@ export class Viz {
 }
 
 export interface VizCreateOptions {
-    disableUrlActionsPopups?: boolean;
-    hideTabs?: boolean;
-    hideToolbar?: boolean;
-    instanceIdToClone?: string;
-    width?: string;
-    height?: string;
-    device?: DeviceType;
-    onFirstInteractive?: (event: TableauEvent) => void;
-    onFirstVizSizeKnown?: (event: VizResizeEvent) => void;
-    toolbarPosition?: ToolbarPosition;
+    disableUrlActionsPopups?: boolean | undefined;
+    hideTabs?: boolean | undefined;
+    hideToolbar?: boolean | undefined;
+    instanceIdToClone?: string | undefined;
+    width?: string | undefined;
+    height?: string | undefined;
+    device?: DeviceType | undefined;
+    onFirstInteractive?: ((event: TableauEvent) => void) | undefined;
+    onFirstVizSizeKnown?: ((event: VizResizeEvent) => void) | undefined;
+    toolbarPosition?: ToolbarPosition | undefined;
 }
 
 export class ToolbarState {

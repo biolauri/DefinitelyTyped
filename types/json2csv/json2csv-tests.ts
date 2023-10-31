@@ -1,5 +1,4 @@
 import { createReadStream, createWriteStream } from "fs";
-import { Transform as NodeTransform } from "stream";
 import {
     AsyncParser,
     FieldValueCallbackInfo,
@@ -10,15 +9,16 @@ import {
     Transform,
     transforms,
 } from "json2csv";
+import { Transform as NodeTransform } from "stream";
 
 const { flatten, unwind } = transforms;
 let s: string;
 let obj: object;
 
 interface ExampleObj {
-    str?: string;
-    num?: number;
-    obj?: object;
+    str?: string | undefined;
+    num?: number | undefined;
+    obj?: object | undefined;
 }
 
 /**************

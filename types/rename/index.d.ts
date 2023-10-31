@@ -1,8 +1,3 @@
-// Type definitions for rename 1.0
-// Project: https://github.com/popomore/rename
-// Definitions by: Aankhen <https://github.com/Aankhen>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 export = rename;
 
 declare function rename(filepath: string | rename.FileObject, transformer: rename.Transformer): rename.FilePath;
@@ -10,26 +5,28 @@ declare function rename(filepath: string | rename.FileObject, transformer: renam
 declare namespace rename {
     interface FileObject {
         // using package's terminology
-        dirname?: string;
-        basename?: string;
-        extname?: string;
-        path?: string;
-        hash?: string; // not populated by package
-        origin?: string;
+        dirname?: string | undefined;
+        basename?: string | undefined;
+        extname?: string | undefined;
+        path?: string | undefined;
+        hash?: string | undefined; // not populated by package
+        origin?: string | undefined;
     }
 
     interface Specification {
-        dirname?: string;
-        prefix?: string;
-        basename?: string;
-        suffix?: string;
-        extname?: string;
+        dirname?: string | undefined;
+        prefix?: string | undefined;
+        basename?: string | undefined;
+        suffix?: string | undefined;
+        extname?: string | undefined;
     }
 
-    type FilePath = string
+    type FilePath =
+        | string
         | Specification;
 
-    type Transformer = ((spec: FileObject) => FilePath)
+    type Transformer =
+        | ((spec: FileObject) => FilePath)
         | FilePath;
 
     interface ParsedFileObject {

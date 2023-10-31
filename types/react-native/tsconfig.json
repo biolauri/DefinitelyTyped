@@ -1,28 +1,32 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "lib": ["es6"],
+        "lib": [
+            "es6"
+        ],
         "noImplicitAny": true,
         "noImplicitThis": true,
         "strictNullChecks": true,
         "strictFunctionTypes": true,
-        "baseUrl": "../",
         "jsx": "react",
-        "typeRoots": [
-            "../"
-        ],
         "types": [],
         "noEmit": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "paths": {
+            "react-native": ["./index.d.ts"]
+        }
     },
     "files": [
         "index.d.ts",
-        "test/index.tsx",
-        "test/globals.tsx",
         "test/animated.tsx",
+        "test/experimental.tsx",
+        "test/fabric-component-sample.ts",
+        "test/globals.tsx",
+        "test/index.tsx",
         "test/init-example.tsx",
         "test/legacy-properties.tsx",
         "test/stylesheet-create.tsx",
-        "test/stylesheet-flatten.tsx"
+        "test/stylesheet-flatten.tsx",
+        "test/turbo-module-sample.ts"
     ]
 }

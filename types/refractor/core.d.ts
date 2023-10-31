@@ -1,4 +1,4 @@
-import * as Prism from 'prismjs';
+import * as Prism from "prismjs";
 
 export interface RefractorSyntax {
     displayName: string;
@@ -22,18 +22,18 @@ export namespace AST {
     }
 
     interface Properties {
-        className?: string[];
+        className?: string[] | undefined;
         [key: string]: any;
     }
 
     interface Element extends Unist.Parent {
-        type: 'element';
+        type: "element";
         tagName: string;
         properties: Properties;
     }
 
     interface Text extends Unist.Text {
-        type: 'text';
+        type: "text";
     }
 }
 

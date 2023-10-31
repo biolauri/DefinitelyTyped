@@ -64,7 +64,7 @@ declare namespace GoogleAdsScripts {
             startMinute: number;
             endHour: number;
             endMinute: number;
-            bidModifier?: number;
+            bidModifier?: number | undefined;
         }
 
         /** An operation representing creation of a new ad schedule. */
@@ -87,11 +87,13 @@ declare namespace GoogleAdsScripts {
          *      }
          */
         interface AdScheduleSelector
-            extends Base.Selector<AdScheduleIterator>,
+            extends
+                Base.Selector<AdScheduleIterator>,
                 Base.SelectorForDateRange,
                 Base.SelectorOrderBy,
                 Base.SelectorWithCondition,
                 Base.SelectorWithIds,
-                Base.SelectorWithLimit {}
+                Base.SelectorWithLimit
+        {}
     }
 }

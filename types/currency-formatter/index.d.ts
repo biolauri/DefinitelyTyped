@@ -1,10 +1,3 @@
-// Type definitions for currency-formatter 1.5
-// Project: https://github.com/smirzaei/currency-formatter#readme
-// Definitions by: Mohamed Hegazy <https://github.com/mhegazy>
-//                 David Paz <https://github.com/davidmpaz>
-//                 Piotr Błażejewicz <https://github.com/peterblazejewicz>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 export const currencies: Currency[];
 export const defaultCurrency: Omit<Currency, "code">;
 export function findCurrency(currencyCode: string): Currency | undefined;
@@ -40,17 +33,18 @@ export interface Currency {
 }
 
 export interface FormatOptions {
-    code?: string;
-    locale?: string;
-    symbol?: string;
-    decimal?: string;
-    thousand?: string;
-    precision?: number;
+    code?: string | undefined;
+    locale?: string | undefined;
+    symbol?: string | undefined;
+    decimal?: string | undefined;
+    thousand?: string | undefined;
+    precision?: number | undefined;
     format?:
         | string
         | {
-              pos: string;
-              neg: string;
-              zero: string;
-          };
+            pos: string;
+            neg: string;
+            zero: string;
+        }
+        | undefined;
 }

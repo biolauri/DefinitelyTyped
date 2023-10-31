@@ -1,15 +1,10 @@
-// Type definitions for glob-expand
-// Project: https://github.com/anodynos/node-glob-expand
-// Definitions by: vvakame <https://github.com/vvakame>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 /// <reference types="glob"/>
 
 import * as glob from "glob";
 
 interface Option {
-    filter?: string | ((filePath: string) => boolean);
-    cwd?: string;
+    filter?: string | ((filePath: string) => boolean) | undefined;
+    cwd?: string | undefined;
 }
 
 type _glob = typeof glob;

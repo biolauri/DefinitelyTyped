@@ -1,19 +1,14 @@
-// Type definitions for inquirer-fuzzy-path 2.3
-// Project: https://github.com/adelsz/inquirer-fuzzy-path
-// Definitions by: 迷子 (Maiko Tan) <https://github.com/MaikoTan>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
-import { Answers, KeyUnion, QuestionCollection } from 'inquirer';
-import { AutocompleteQuestionOptions } from 'inquirer-autocomplete-prompt';
-import InquirerAutocomplete = require('inquirer-autocomplete-prompt');
-import { Interface as ReadlineInterface } from 'readline';
+import { Answers, KeyUnion, QuestionCollection } from "inquirer";
+import { AutocompleteQuestionOptions } from "inquirer-autocomplete-prompt";
+import InquirerAutocomplete = require("inquirer-autocomplete-prompt");
+import { Interface as ReadlineInterface } from "readline";
 
 export = InquirerFuzzyPath;
 
 /**
  * Provides the functionality to create a new Inquirer plugin
  */
-declare class InquirerFuzzyPath<T> extends InquirerAutocomplete<T> {
+declare class InquirerFuzzyPath<T extends Answers> extends InquirerAutocomplete<T> {
     /**
      * Create new InquirerFuzzyPath
      *
@@ -54,11 +49,12 @@ declare namespace InquirerFuzzyPath {
      * The type of the answers.
      */
     interface FuzzyPathQuestionOptions<T extends Answers = Answers>
-        extends Omit<AutocompleteQuestionOptions<T>, 'type'> {
+        extends Partial<Omit<AutocompleteQuestionOptions<T>, "type">>
+    {
         /**
          * The key to save the answer to the answers-hash.
          */
-        type: 'fuzzypath';
+        type: "fuzzypath";
 
         /**
          * The key to save the answer to the answers-hash.
@@ -68,27 +64,27 @@ declare namespace InquirerFuzzyPath {
         /**
          * The root search directory, default to ".".
          */
-        rootPath?: string;
+        rootPath?: string | undefined;
 
         /**
          * A function to exclude some paths from the file-system scan.
          */
-        excludePath?: (path: string) => boolean;
+        excludePath?: ((path: string) => boolean) | undefined;
 
         /**
          * A function to exclude some paths from the final list.
          */
-        excludeFilter?: (path: string) => boolean;
+        excludeFilter?: ((path: string) => boolean) | undefined;
 
         /**
          * A string to specify the type of nodes to display, default to "any".
          */
-        itemType?: 'any' | 'directory' | 'file';
+        itemType?: "any" | "directory" | "file" | undefined;
 
         /**
          * An integer (>= 0) to limit the depth of sub-folders to scan,
          * undefined means infinite.
          */
-        depthLimit?: number;
+        depthLimit?: number | undefined;
     }
 }

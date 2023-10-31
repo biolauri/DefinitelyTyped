@@ -1,14 +1,9 @@
-// Type definitions for speedtest-net 2.1
-// Project: https://github.com/ddsol/speedtest.net#readme
-// Definitions by: Florian Imdahl <https://github.com/ffflorian>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 declare namespace exec {
     type CancelFunction = (setCancelHandler?: symbol, newHandler?: () => void) => boolean | void;
     type ProgressFunction = (event?: SpeedTestEvent) => void;
 
     interface BaseEvent {
-        type: 'config' | 'log' | 'testStart' | 'ping' | 'download' | 'upload' | 'result';
+        type: "config" | "log" | "testStart" | "ping" | "download" | "upload" | "result";
     }
 
     /** Sent when the test is in the upload phase. */
@@ -16,7 +11,7 @@ declare namespace exec {
         /** Indicates the overall progress of the test as a fraction (0 to 1). */
         progress: number;
         timestamp: Date;
-        type: 'upload';
+        type: "upload";
         upload: DownloadUploadData;
     }
 
@@ -25,7 +20,7 @@ declare namespace exec {
         /** Indicates the overall progress of the test as a fraction (0 to 1). */
         progress: number;
         timestamp: Date;
-        type: 'download';
+        type: "download";
     }
 
     interface DownloadUploadData {
@@ -34,7 +29,7 @@ declare namespace exec {
         bytes: number;
         elapsed: number;
         /** Indicates the progress of the current test. */
-        progress?: number;
+        progress?: number | undefined;
     }
 
     interface PingData {
@@ -42,7 +37,7 @@ declare namespace exec {
         jitter: number;
         /** Milliseconds */
         latency: number;
-        progress?: number;
+        progress?: number | undefined;
     }
 
     /** Sent when the test is in the ping phase. */
@@ -51,7 +46,7 @@ declare namespace exec {
         /** Indicates the overall progress of the test as a fraction (0 to 1). */
         progress: number;
         timestamp: Date;
-        type: 'ping';
+        type: "ping";
     }
 
     interface SuiteData {
@@ -105,7 +100,7 @@ declare namespace exec {
         progress: number;
         servers: ServerData[];
         suite: SuiteData;
-        type: 'config';
+        type: "config";
     }
 
     /**
@@ -119,7 +114,7 @@ declare namespace exec {
         /** Indicates the overall progress of the test as a fraction (0 to 1). */
         progress: number;
         timestamp: Date;
-        type: 'log';
+        type: "log";
     }
 
     interface ResultEvent extends BaseEvent {
@@ -134,7 +129,7 @@ declare namespace exec {
         };
         server: ServerData;
         timestamp: Date;
-        type: 'result';
+        type: "result";
         upload: DownloadUploadData;
     }
 
@@ -149,13 +144,13 @@ declare namespace exec {
     interface ServerData {
         country: string;
         host: string;
-        host_functional?: string;
+        host_functional?: string | undefined;
         id: number;
         ip: string;
         location: string;
         name: string;
         port: number;
-        sponsor?: string;
+        sponsor?: string | undefined;
     }
 
     /** This contains information about the test to be run. */
@@ -166,7 +161,7 @@ declare namespace exec {
         progress: number;
         server: ServerData;
         timestamp: Date;
-        type: 'testStart';
+        type: "testStart";
     }
 
     type SpeedTestEvent =
@@ -185,33 +180,33 @@ declare namespace exec {
          * GDPR terms you can read their disclaimer by running the speedtest-net
          * CLI without the --accept-license option.
          */
-        acceptGdpr?: boolean;
+        acceptGdpr?: boolean | undefined;
         /**
          * Set to `true` to accept the Ookla EULA, TOS and Privacy policy. This
          * must be done (at least) once on the system. If you have not accepted
          * the Ookla license terms, you can view the links to their agreements
          * by running the speedtest-net CLI without the --accept-license option.
          */
-        acceptLicense?: boolean;
+        acceptLicense?: boolean | undefined;
         /** Binary executable path of the Ookla speedtest CLI */
-        binary?: string;
+        binary?: string | undefined;
         /** Default '1.0.0' Binary executable version */
-        binaryVersion?: string;
+        binaryVersion?: string | undefined;
         /**
          * A cancellation function created with `speedTest.makeCancel()` to
          * cancel the test.
          */
-        cancel?: CancelFunction;
+        cancel?: CancelFunction | undefined;
         /** Server host to connect to */
-        host?: string;
+        host?: string | undefined;
         /** Function to handle progress events */
-        progress?: ProgressFunction;
+        progress?: ProgressFunction | undefined;
         /** ID of the server to restrict the tests against. */
-        serverId?: string;
+        serverId?: string | undefined;
         /** IP of the network interface to bind */
-        sourceIp?: string;
+        sourceIp?: string | undefined;
         /** Log level for `{ type: log }` progress events */
-        verbosity?: number;
+        verbosity?: number | undefined;
     }
 
     function makeCancel(): CancelFunction;

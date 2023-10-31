@@ -1,9 +1,3 @@
-// Type definitions for cloudflare 2.7
-// Project: https://github.com/cloudflare/node-cloudflare
-// Definitions by: Samuel Corsi-House <https://github.com/Xenfo>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// Minimum TypeScript Version: 3.3
-
 declare namespace Cloudflare {
     type RecordTypes =
         | "A"
@@ -24,49 +18,98 @@ declare namespace Cloudflare {
         | "SSHFP"
         | "SVCB"
         | "TLSA"
-        | "URI read only";
+        | "URI";
 
     type ResponseObjectPromise = Promise<object>;
 
     interface AuthObject {
-        email?: string;
-        key?: string;
-        token?: string;
+        email?: string | undefined;
+        key?: string | undefined;
+        token?: string | undefined;
     }
 
     interface DnsRecordWithoutPriority {
-        type: Exclude<RecordTypes, 'MX' | 'SRV' | 'URI'>;
+        type: Exclude<RecordTypes, "MX" | "SRV" | "URI">;
         name: string;
         content: string;
         ttl: number;
-        proxied?: boolean;
+        proxied?: boolean | undefined;
     }
 
     interface DnsRecordWithPriority {
-        type: Extract<RecordTypes, 'MX' | 'SRV' | 'URI'>;
+        type: Extract<RecordTypes, "MX" | "URI">;
         name: string;
         content: string;
         ttl: number;
-        proxied?: boolean;
+        proxied?: boolean | undefined;
         priority: number;
     }
 
-    type DnsRecord = DnsRecordWithPriority | DnsRecordWithoutPriority;
+    interface SrvDnsRecord {
+        type: "SRV";
+        data: {
+            name: string;
+            service: string;
+            proto: string;
+            ttl: number;
+            proxied?: boolean | undefined;
+            priority: number;
+            weight: number;
+            port: number;
+            target: string;
+        };
+    }
+
+    type DnsRecord = DnsRecordWithPriority | DnsRecordWithoutPriority | SrvDnsRecord;
+    type DnsRecordByType<RecordType extends RecordTypes> = RecordType extends "MX" | "URI" ? DnsRecordWithPriority
+        : RecordType extends "SRV" ? SrvDnsRecord
+        : RecordType extends Exclude<RecordTypes, "MX" | "SRV" | "URI"> ? DnsRecordWithoutPriority
+        : DnsRecord;
 
     interface DNSRecords {
-        edit(
+        edit(zone_id: string, id: string, record: DnsRecord): ResponseObjectPromise;
+        browse<RecordType extends RecordTypes = any>(
             zone_id: string,
-            id: string,
-            record: DnsRecord,
-        ): ResponseObjectPromise;
-        browse(zone_id: string): ResponseObjectPromise;
+            options?: DnsRecordsBrowseOptions<RecordType>,
+        ): Promise<DnsRecordsBrowseResponse<RecordType>>;
         export(zone_id: string): ResponseObjectPromise;
         del(zone_id: string, id: string): ResponseObjectPromise;
         read(zone_id: string, id: string): ResponseObjectPromise;
-        add(
-            zone_id: string,
-            record: DnsRecord,
-        ): ResponseObjectPromise;
+        add(zone_id: string, record: DnsRecord): ResponseObjectPromise;
+    }
+
+    interface DnsRecordsBrowseOptions<RecordType extends RecordTypes> {
+        page?: number;
+        per_page?: number;
+        name?: string;
+        content?: string;
+        type?: RecordType;
+        order?: "type" | "name" | "content" | "ttl" | "proxied";
+        direction?: "asc" | "desc";
+        match?: "any" | "all";
+        tag?: string;
+        tag_match?: "any" | "all";
+        search?: string;
+        comment?: string;
+        // TODO: support nested filters (for example tag.absent)
+    }
+
+    interface DnsRecordsBrowseResponse<RecordType extends RecordTypes> {
+        result: Array<DnsRecordByType<RecordType>> | null;
+        result_info: {
+            page: number;
+            per_page: number;
+            count: number;
+            total_count: number;
+        };
+        success: boolean;
+        errors: ResponseMessageObject[];
+        messages: ResponseMessageObject[];
+    }
+
+    interface ResponseMessageObject {
+        code: number;
+        message: string;
     }
 
     interface EnterpriseZoneWorkerScripts {
@@ -93,13 +136,20 @@ declare namespace Cloudflare {
 
     interface EnterpriseZoneWorkersKV {
         browse(account_id: string, namespace_id: string): ResponseObjectPromise;
-        add(account_id: string, namespace_id: string, value: string): ResponseObjectPromise;
+        add(account_id: string, namespace_id: string, key_name: string, value: string): ResponseObjectPromise;
         read(account_id: string, namespace_id: string, key_name: string): ResponseObjectPromise;
         del(account_id: string, namespace_id: string, key_name: string): ResponseObjectPromise;
         addMulti(
             account_id: string,
             namespace_id: string,
-            data: Array<{ pattern: string; script: string }>,
+            data: Array<{
+                key: string;
+                value: string;
+                expiration?: number;
+                expiration_ttl?: number;
+                metadata?: object;
+                base64?: boolean;
+            }>,
         ): ResponseObjectPromise;
         delMulti(account_id: string, namespace_id: string, data: string[]): ResponseObjectPromise;
     }
@@ -112,7 +162,7 @@ declare namespace Cloudflare {
         edit(
             id: string,
             page_rule: {
-                tragets: [
+                targets: [
                     {
                         target: string;
                         constraint: {
@@ -127,12 +177,12 @@ declare namespace Cloudflare {
                         value: string;
                     },
                 ];
-                priority?: number;
-                status?: string;
+                priority?: number | undefined;
+                status?: string | undefined;
             },
         ): ResponseObjectPromise;
         add(zone: {
-            tragets: [
+            targets: [
                 {
                     target: string;
                     constraint: {
@@ -147,8 +197,8 @@ declare namespace Cloudflare {
                     value: string;
                 },
             ];
-            priority?: number;
-            status?: string;
+            priority?: number | undefined;
+            status?: string | undefined;
         }): ResponseObjectPromise;
         del(id: string): ResponseObjectPromise;
         browse(): ResponseObjectPromise;
@@ -161,16 +211,16 @@ declare namespace Cloudflare {
         add(zone: {
             name: string;
             action: { id: string };
-            jump_start?: boolean;
-            type?: "full" | "partial";
+            jump_start?: boolean | undefined;
+            type?: "full" | "partial" | undefined;
         }): ResponseObjectPromise;
         edit(
             id: string,
             zone: {
                 name: string;
                 action: { id: string };
-                jump_start?: boolean;
-                type?: "full" | "partial";
+                jump_start?: boolean | undefined;
+                type?: "full" | "partial" | undefined;
             },
         ): ResponseObjectPromise;
         read(id: string): ResponseObjectPromise;
@@ -179,10 +229,11 @@ declare namespace Cloudflare {
             params: {
                 files?:
                     | string[]
-                    | { url: string; headers: { Origin: string; "CF-IPCountry": string; "CF-Device-Type": string } };
-                tags?: string[];
-                hosts?: string[];
-                prefixes?: string[];
+                    | { url: string; headers: { Origin: string; "CF-IPCountry": string; "CF-Device-Type": string } }
+                    | undefined;
+                tags?: string[] | undefined;
+                hosts?: string[] | undefined;
+                prefixes?: string[] | undefined;
             },
         ): ResponseObjectPromise;
         browse(): ResponseObjectPromise;

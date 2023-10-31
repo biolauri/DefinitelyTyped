@@ -1,22 +1,17 @@
-// Type definitions for node-validator
-// Project: https://www.npmjs.com/package/node-validator
-// Definitions by: Ken Gorab <https://github.com/kengorab>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 declare namespace ValidatorOptions {
     interface IsStringOptions {
-        regex?: RegExp,
-        message?: String
+        regex?: RegExp | undefined;
+        message?: String | undefined;
     }
 
     interface IsNumberOptions {
-        min?: Number,
-        max?: Number
+        min?: Number | undefined;
+        max?: Number | undefined;
     }
 
     interface IsDateOptions {
-        format?: String,
-        message?: String
+        format?: String | undefined;
+        message?: String | undefined;
     }
 
     type Options = IsStringOptions | IsNumberOptions | IsDateOptions;
@@ -26,14 +21,14 @@ declare namespace Validator {
     type ValidateFn = (value: any, onError: (message: String, childName: String, childValie: any) => void) => void;
 
     interface Validatable {
-        validate: ValidateFn
+        validate: ValidateFn;
     }
 
     interface IsObjectValidator extends Validatable {
-        withRequired: (name: String, validator: Validatable) => IsObjectValidator,
-        withOptional: (name: String, validator: Validatable) => IsObjectValidator,
-        withCustom: (customValidator: ValidateFn) => IsObjectValidator,
-        validate: ValidateFn
+        withRequired: (name: String, validator: Validatable) => IsObjectValidator;
+        withOptional: (name: String, validator: Validatable) => IsObjectValidator;
+        withCustom: (customValidator: ValidateFn) => IsObjectValidator;
+        validate: ValidateFn;
     }
 
     function express(validator: Validatable): any;
@@ -59,6 +54,6 @@ declare namespace Validator {
     function isAnyObject(): IsObjectValidator;
 }
 
-declare module 'node-validator' {
+declare module "node-validator" {
     export = Validator;
 }

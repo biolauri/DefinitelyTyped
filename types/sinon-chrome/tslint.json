@@ -1,10 +1,8 @@
 {
-    "extends": "dtslint/dt.json",
+    "extends": "@definitelytyped/dtslint/dt.json",
     "rules": {
         "array-type": false,
         "ban-types": false,
-        "dt-header": false,
-        "export-just-namespace": false,
         "no-duplicate-variable": false,
         "no-mergeable-namespace": false,
         "no-reference-import": false,
@@ -12,7 +10,6 @@
         "no-unnecessary-qualifier": false,
         "no-var-keyword": false,
         "only-arrow-functions": false,
-        "prefer-const": false,
-        "strict-export-declare-modifiers": false
+        "prefer-const": false
     }
 }

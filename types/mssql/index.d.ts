@@ -1,40 +1,53 @@
-// Type definitions for mssql 7.1.0
-// Project: https://www.npmjs.com/package/mssql
-// Definitions by: COLSA Corporation <http://www.colsa.com/>
-//                 Jørgen Elgaard Larsen <https://github.com/elhaard>
-//                 Peter Keuter <https://github.com/pkeuter>
-//                 Jeff Wooden <https://github.com/woodenconsulting>
-//                 Cahil Foley <https://github.com/cahilfoley>
-//                 Rifa Achrinza <https://github.com/achrinza>
-//                 Daniel Hensby <https://github.com/dhensby>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 3.6
+// @credit COLSA Corporation <http://www.colsa.com/>
 
 /// <reference types="node" />
 
-
-import events = require('events');
-import tds = require('tedious');
-import msnodesql = require('msnodesqlv8');
-import { Pool } from 'tarn';
-import { CallbackOrPromise, PoolOptions } from 'tarn/dist/Pool';
+import events = require("events");
+import { Readable, ReadableOptions } from "stream";
+import tds = require("tedious");
+import { Pool } from "tarn";
+import { CallbackOrPromise, PoolOptions } from "tarn/dist/Pool";
 export interface ISqlType {
     type: ISqlTypeFactory;
 }
-export interface ISqlTypeWithNoParams extends ISqlType { type: ISqlTypeFactoryWithNoParams }
-export interface ISqlTypeWithLength extends ISqlType { type: ISqlTypeFactoryWithLength; length: number }
-export interface ISqlTypeWithScale extends ISqlType { type: ISqlTypeFactoryWithScale; scale: number }
-export interface ISqlTypeWithPrecisionScale extends ISqlType { type: ISqlTypeFactoryWithPrecisionScale; precision: number, scale: number }
-export interface ISqlTypeWithTvpType extends ISqlType { type: ISqlTypeFactoryWithTvpType; tvpType: any }
+export interface ISqlTypeWithNoParams extends ISqlType {
+    type: ISqlTypeFactoryWithNoParams;
+}
+export interface ISqlTypeWithLength extends ISqlType {
+    type: ISqlTypeFactoryWithLength;
+    length: number;
+}
+export interface ISqlTypeWithScale extends ISqlType {
+    type: ISqlTypeFactoryWithScale;
+    scale: number;
+}
+export interface ISqlTypeWithPrecisionScale extends ISqlType {
+    type: ISqlTypeFactoryWithPrecisionScale;
+    precision: number;
+    scale: number;
+}
+export interface ISqlTypeWithTvpType extends ISqlType {
+    type: ISqlTypeFactoryWithTvpType;
+    tvpType: any;
+}
 
 export interface ISqlTypeFactory {
 }
-export interface ISqlTypeFactoryWithNoParams extends ISqlTypeFactory { (): ISqlTypeWithNoParams; }
-export interface ISqlTypeFactoryWithLength extends ISqlTypeFactory { (length?: number): ISqlTypeWithLength }
-export interface ISqlTypeFactoryWithScale extends ISqlTypeFactory { (scale?: number): ISqlTypeWithScale }
-export interface ISqlTypeFactoryWithPrecisionScale extends ISqlTypeFactory { (precision?: number, scale?: number): ISqlTypeWithPrecisionScale; }
-export interface ISqlTypeFactoryWithTvpType extends ISqlTypeFactory { (tvpType?: any): ISqlTypeWithTvpType }
-
+export interface ISqlTypeFactoryWithNoParams extends ISqlTypeFactory {
+    (): ISqlTypeWithNoParams;
+}
+export interface ISqlTypeFactoryWithLength extends ISqlTypeFactory {
+    (length?: number): ISqlTypeWithLength;
+}
+export interface ISqlTypeFactoryWithScale extends ISqlTypeFactory {
+    (scale?: number): ISqlTypeWithScale;
+}
+export interface ISqlTypeFactoryWithPrecisionScale extends ISqlTypeFactory {
+    (precision?: number, scale?: number): ISqlTypeWithPrecisionScale;
+}
+export interface ISqlTypeFactoryWithTvpType extends ISqlTypeFactory {
+    (tvpType?: any): ISqlTypeWithTvpType;
+}
 
 export declare var VarChar: ISqlTypeFactoryWithLength;
 export declare var NVarChar: ISqlTypeFactoryWithLength;
@@ -70,7 +83,7 @@ export declare var Geography: ISqlTypeFactoryWithNoParams;
 export declare var Geometry: ISqlTypeFactoryWithNoParams;
 export declare var Variant: ISqlTypeFactoryWithNoParams;
 
-export type Connection = tds.Connection | msnodesql.Connection;
+export type Connection = tds.Connection;
 
 export declare var TYPES: {
     VarChar: ISqlTypeFactoryWithLength;
@@ -112,7 +125,7 @@ export declare var MAX: number;
 export declare var fix: boolean;
 export declare var Promise: any;
 
-interface IMap extends Array<{ js: any, sql: any }> {
+interface IMap extends Array<{ js: any; sql: any }> {
     register(jstype: any, sql: any): void;
 }
 
@@ -126,18 +139,18 @@ export interface IColumnMetadata {
         length: number;
         type: (() => ISqlType) | ISqlType;
         udt?: any;
-        scale?: number;
-        precision?: number;
+        scale?: number | undefined;
+        precision?: number | undefined;
         nullable: boolean;
         caseSensitive: boolean;
         identity: boolean;
         readOnly: boolean;
-    }
+    };
 }
 export interface IResult<T> {
-    recordsets: IRecordSet<T>[];
-    recordset: IRecordSet<T>;
-    rowsAffected: number[],
+    recordsets: T extends Array<any> ? { [P in keyof T]: IRecordSet<T[P]> } : IRecordSet<T>[];
+    recordset: IRecordSet<T extends Array<any> ? T[0] : T>;
+    rowsAffected: number[];
     output: { [key: string]: any };
 }
 
@@ -156,58 +169,56 @@ export interface IRecordSet<T> extends Array<T> {
 type IIsolationLevel = number;
 
 export declare var ISOLATION_LEVEL: {
-    READ_UNCOMMITTED: IIsolationLevel
-    READ_COMMITTED: IIsolationLevel
-    REPEATABLE_READ: IIsolationLevel
-    SERIALIZABLE: IIsolationLevel
-    SNAPSHOT: IIsolationLevel
-}
+    READ_UNCOMMITTED: IIsolationLevel;
+    READ_COMMITTED: IIsolationLevel;
+    REPEATABLE_READ: IIsolationLevel;
+    SERIALIZABLE: IIsolationLevel;
+    SNAPSHOT: IIsolationLevel;
+};
 
-export interface IOptions extends tds.ConnectionOptions {
-    beforeConnect?: void;
-    connectionString?: string;
-    enableArithAbort?: boolean;
-    instanceName?: string;
-    trustedConnection?: boolean;
-    useUTC?: boolean;
+export interface IOptions extends Omit<tds.ConnectionOptions, "useColumnNames"> {
+    beforeConnect?: void | undefined;
+    connectionString?: string | undefined;
+    trustedConnection?: boolean | undefined;
 }
 
 export declare var pool: ConnectionPool;
 
-export interface PoolOpts<T> extends Omit<PoolOptions<T>, 'create' | 'destroy' | 'min' | 'max'> {
-    create?: CallbackOrPromise<T>;
-    destroy?: (resource: T) => any;
-    min?: number;
-    max?: number;
+export interface PoolOpts<T> extends Omit<PoolOptions<T>, "create" | "destroy" | "min" | "max"> {
+    create?: CallbackOrPromise<T> | undefined;
+    destroy?: ((resource: T) => any) | undefined;
+    min?: number | undefined;
+    max?: number | undefined;
 }
 
 export interface config {
-    driver?: string;
-    user?: string;
-    password?: string;
+    driver?: string | undefined;
+    user?: string | undefined;
+    password?: string | undefined;
     server: string;
-    port?: number;
-    domain?: string;
-    database?: string;
-    connectionTimeout?: number;
-    requestTimeout?: number;
-    stream?: boolean;
-    parseJSON?: boolean;
-    options?: IOptions;
-    pool?: PoolOpts<Connection>;
-    arrayRowMode?: boolean;
+    port?: number | undefined;
+    domain?: string | undefined;
+    database?: string | undefined;
+    connectionTimeout?: number | undefined;
+    requestTimeout?: number | undefined;
+    stream?: boolean | undefined;
+    parseJSON?: boolean | undefined;
+    options?: IOptions | undefined;
+    pool?: PoolOpts<Connection> | undefined;
+    arrayRowMode?: boolean | undefined;
+    authentication?: tds.ConnectionAuthentication | undefined;
     /**
      * Invoked before opening the connection. The parameter conn is the configured
      * tedious Connection. It can be used for attaching event handlers.
      */
-    beforeConnect?: (conn: Connection) => void
+    beforeConnect?: ((conn: Connection) => void) | undefined;
 }
 
 export declare class MSSQLError extends Error {
     constructor(message: Error | string, code?: string);
     public code: string;
     public name: string;
-    public originalError?: Error;
+    public originalError?: Error | undefined;
 }
 
 export declare class ConnectionPool extends events.EventEmitter {
@@ -220,6 +231,9 @@ export declare class ConnectionPool extends events.EventEmitter {
     public readonly pending: number;
     public readonly borrowed: number;
     public readonly pool: Pool<Connection>;
+    public static parseConnectionString(
+        connectionString: string,
+    ): config & { options: IOptions; pool: Partial<PoolOpts<Connection>> };
     public constructor(config: config, callback?: (err?: any) => void);
     public constructor(connectionString: string, callback?: (err?: any) => void);
     public query(command: string): Promise<IResult<any>>;
@@ -243,11 +257,11 @@ export declare class ConnectionPool extends events.EventEmitter {
 export declare class ConnectionError extends MSSQLError {}
 
 export interface IColumnOptions {
-    nullable?: boolean;
-    primary?: boolean;
-    identity?: boolean;
-    readOnly?: boolean;
-    length?: number
+    nullable?: boolean | undefined;
+    primary?: boolean | undefined;
+    identity?: boolean | undefined;
+    readOnly?: boolean | undefined;
+    length?: number | undefined;
 }
 
 export interface IColumn extends ISqlType {
@@ -260,7 +274,7 @@ declare class columns extends Array<IColumn> {
     public add(name: string, type: (() => ISqlType) | ISqlType, options?: IColumnOptions): number;
 }
 
-type IRow = (string | number | boolean | Date | Buffer | undefined)[];
+type IRow = (string | number | boolean | Date | Buffer | undefined | null)[];
 
 declare class rows extends Array<IRow> {
     public add(...row: IRow): number;
@@ -271,11 +285,11 @@ export declare class Table {
     public columns: columns;
     public rows: rows;
     public constructor(tableName?: string);
-    public schema?: string;
-    public database?: string;
-    public name?: string;
-    public path?: string;
-    public temporary?: boolean;
+    public schema?: string | undefined;
+    public database?: string | undefined;
+    public name?: string | undefined;
+    public path?: string | undefined;
+    public temporary?: boolean | undefined;
 }
 
 interface IRequestParameters {
@@ -288,7 +302,7 @@ interface IRequestParameters {
         scale: number;
         precision: number;
         tvpType: any;
-    }
+    };
 }
 
 /**
@@ -296,13 +310,13 @@ interface IRequestParameters {
  */
 export interface IBulkOptions {
     /** Honors constraints during bulk load, using T-SQL CHECK_CONSTRAINTS. (default: false) */
-    checkConstraints?: boolean;
+    checkConstraints?: boolean | undefined;
     /** Honors insert triggers during bulk load, using the T-SQL FIRE_TRIGGERS. (default: false) */
-    fireTriggers?: boolean;
+    fireTriggers?: boolean | undefined;
     /** Honors null value passed, ignores the default values set on table, using T-SQL KEEP_NULLS. (default: false) */
-    keepNulls?: boolean;
+    keepNulls?: boolean | undefined;
     /** Places a bulk update(BU) lock on table while performing bulk load, using T-SQL TABLOCK. (default: false) */
-    tableLock?: boolean;
+    tableLock?: boolean | undefined;
 }
 
 export declare class Request extends events.EventEmitter {
@@ -318,7 +332,10 @@ export declare class Request extends events.EventEmitter {
     public constructor(preparedStatement: PreparedStatement);
     public execute(procedure: string): Promise<IProcedureResult<any>>;
     public execute<Entity>(procedure: string): Promise<IProcedureResult<Entity>>;
-    public execute<Entity>(procedure: string, callback: (err?: any, recordsets?: IProcedureResult<Entity>, returnValue?: any) => void): void;
+    public execute<Entity>(
+        procedure: string,
+        callback: (err?: any, recordsets?: IProcedureResult<Entity>, returnValue?: any) => void,
+    ): void;
     public input(name: string, value: any): Request;
     public input(name: string, type: (() => ISqlType) | ISqlType, value: any): Request;
     public replaceInput(name: string, value: any): Request;
@@ -343,15 +360,16 @@ export declare class Request extends events.EventEmitter {
     public cancel(): void;
     public pause(): boolean;
     public resume(): boolean;
+    public toReadableStream(streamOptions?: ReadableOptions): Readable;
 }
 
 export declare class RequestError extends MSSQLError {
-    public number?: number;
-    public lineNumber?: number;
-    public state?: string;
-    public class?: string;
-    public serverName?: string;
-    public procName?: string;
+    public number?: number | undefined;
+    public lineNumber?: number | undefined;
+    public state?: string | undefined;
+    public class?: string | undefined;
+    public serverName?: string | undefined;
+    public procName?: string | undefined;
 }
 
 export declare class Transaction extends events.EventEmitter {
@@ -363,7 +381,10 @@ export declare class Transaction extends events.EventEmitter {
      * @param [callback] A callback which is called after transaction has began, or an error has occurred. If omited, method returns Promise.
      */
     public begin(isolationLevel?: IIsolationLevel): Promise<Transaction>;
-    public begin(isolationLevel?: IIsolationLevel, callback?: (err?: ConnectionError | TransactionError) => void): Transaction;
+    public begin(
+        isolationLevel?: IIsolationLevel,
+        callback?: (err?: ConnectionError | TransactionError) => void,
+    ): Transaction;
     public commit(): Promise<void>;
     public commit(callback: (err?: any) => void): void;
     public rollback(): Promise<void>;
@@ -394,3 +415,28 @@ export declare class PreparedStatement extends events.EventEmitter {
 }
 
 export declare class PreparedStatementError extends MSSQLError {}
+
+/**
+ * Open global connection pool.
+ * @param config Connection configuration object or connection string
+ */
+export declare function connect(config: config | string): Promise<ConnectionPool>;
+
+/**
+ * Open global connection pool.
+ * @param config Connection configuration object or connection string.
+ * @param callback A callback which is called after connection has established, or an error has occurred
+ */
+export declare function connect(config: config | string, callback?: (err?: Error) => void): void;
+
+export declare function query(command: string): Promise<IResult<any>>;
+export declare function query(command: TemplateStringsArray, ...interpolations: any[]): Promise<IResult<any>>;
+export declare function query<Entity>(command: string): Promise<IResult<Entity>>;
+export declare function query<Entity>(
+    command: TemplateStringsArray,
+    ...interpolations: any[]
+): Promise<IResult<Entity>>;
+export declare function query<Entity>(
+    command: string,
+    callback: (err?: Error, recordset?: IResult<Entity>) => void,
+): void;

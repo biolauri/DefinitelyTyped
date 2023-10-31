@@ -1,8 +1,7 @@
 {
-    "extends": "dtslint/dt.json",
+    "extends": "@definitelytyped/dtslint/dt.json",
     "rules": {
         "array-type": false,
-        "dt-header": false,
         "interface-name": false,
         "jsdoc-format": false,
         "no-inferrable-types": false,
@@ -11,7 +10,6 @@
         "no-redundant-jsdoc-2": false,
         "no-var-keyword": false,
         "npm-naming": false,
-        "strict-export-declare-modifiers": false,
         "unified-signatures": false
     }
 }

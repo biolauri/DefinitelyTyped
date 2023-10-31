@@ -1,16 +1,3 @@
-// Type definitions for react-helmet 6.1
-// Project: https://github.com/nfl/react-helmet
-// Definitions by: Evan Bremer <https://github.com/evanbb>
-//                 Isman Usoh <https://github.com/isman-usoh>
-//                 François Nguyen <https://github.com/lith-light-g>
-//                 Kok Sam <https://github.com/sammkj>
-//                 Yui T. <https://github.com/yuit>
-//                 Yamagishi Kazutoshi <https://github.com/ykzts>
-//                 Justin Hall <https://github.com/wKovacs64>
-//                 Andriy2 <https://github.com/Andriy2>
-//                 Piotr Błażejewicz <https://github.com/peterblazejewicz>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 import * as React from "react";
 
 interface OtherElementAttributes {
@@ -35,32 +22,35 @@ export interface HelmetTags {
 }
 
 export interface HelmetProps {
-    async?: boolean;
+    async?: boolean | undefined;
     base?: any;
-    bodyAttributes?: BodyProps;
-    defaultTitle?: string;
-    defer?: boolean;
-    encodeSpecialCharacters?: boolean;
-    htmlAttributes?: HtmlProps;
-    onChangeClientState?: (newState: any, addedTags: HelmetTags, removedTags: HelmetTags) => void;
-    link?: LinkProps[];
-    meta?: MetaProps[];
-    noscript?: any[];
-    script?: any[];
-    style?: any[];
-    title?: string;
-    titleAttributes?: object;
-    titleTemplate?: string;
+    bodyAttributes?: BodyProps | undefined;
+    children?: React.ReactNode;
+    defaultTitle?: string | undefined;
+    defer?: boolean | undefined;
+    encodeSpecialCharacters?: boolean | undefined;
+    htmlAttributes?: HtmlProps | undefined;
+    onChangeClientState?: ((newState: any, addedTags: HelmetTags, removedTags: HelmetTags) => void) | undefined;
+    link?: LinkProps[] | undefined;
+    meta?: MetaProps[] | undefined;
+    noscript?: any[] | undefined;
+    script?: any[] | undefined;
+    style?: any[] | undefined;
+    title?: string | undefined;
+    titleAttributes?: object | undefined;
+    titleTemplate?: string | undefined;
 }
 
 /**
  * Used by Helmet.peek()
  */
-export type HelmetPropsToState = HelmetTags &
-    Pick<
+export type HelmetPropsToState =
+    & HelmetTags
+    & Pick<
         HelmetProps,
         "bodyAttributes" | "defer" | "htmlAttributes" | "onChangeClientState" | "title" | "titleAttributes"
-    > & {
+    >
+    & {
         encode: Required<HelmetProps["encodeSpecialCharacters"]>;
     };
 
@@ -91,7 +81,7 @@ export interface HelmetData {
 
 export interface HelmetDatum {
     toString(): string;
-    toComponent(): React.Component<any>;
+    toComponent(): React.ReactElement;
 }
 
 export interface HelmetHTMLBodyDatum {

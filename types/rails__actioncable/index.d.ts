@@ -1,23 +1,17 @@
-// Type definitions for @rails/actioncable 6.1
-// Project: https://github.com/rails/rails/blob/main/actioncable/app/javascript/action_cable
-// Definitions by: Martin Badin <https://github.com/martin-badin>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// Minimum TypeScript Version: 3.6
-
 export as namespace ActionCable;
 
 export enum MessageTypes {
-    confirmation = 'confirm_subscription',
-    disconnect = 'disconnect',
-    ping = 'ping',
-    rejection = 'reject_subscription',
-    welcome = 'welcome',
+    confirmation = "confirm_subscription",
+    disconnect = "disconnect",
+    ping = "ping",
+    rejection = "reject_subscription",
+    welcome = "welcome",
 }
 
 export enum DisconnectReasons {
-    invalid_request = 'invalid_request',
-    server_restart = 'server_restart',
-    unauthorized = 'unauthorized',
+    invalid_request = "invalid_request",
+    server_restart = "server_restart",
+    unauthorized = "unauthorized",
 }
 
 export interface Mixin {
@@ -33,8 +27,8 @@ export interface Mixin {
 
     received?(data: any): void;
 
-    readonly documentIsActive?: boolean;
-    readonly appearingOn?: string | null;
+    readonly documentIsActive?: boolean | undefined;
+    readonly appearingOn?: string | null | undefined;
 
     [key: string]: any;
 }
@@ -48,10 +42,10 @@ export interface ChannelNameWithParams {
  * @see https://github.com/rails/rails/blob/main/actioncable/app/javascript/action_cable/internal.js
  */
 export const INTERNAL: {
-    default_mount_path: '/cable';
+    default_mount_path: "/cable";
     disconnect_reasons: typeof DisconnectReasons;
     message_types: typeof MessageTypes;
-    protocols: ['actioncable-v1-json', 'actioncable-unsupported'];
+    protocols: ["actioncable-v1-json", "actioncable-unsupported"];
 };
 
 /**
@@ -181,6 +175,28 @@ export class Subscriptions<C = Consumer> {
     readonly subscriptions: Array<Subscription<C>>;
 
     create<M>(channelName: string | ChannelNameWithParams, mixin?: Mixin & M): Subscription<C> & Mixin & M;
+
+    private add<T extends Subscription>(subscription: T): T;
+
+    private remove<T extends Subscription>(subscription: T): T;
+
+    private reject(identifier: string): Subscription[];
+
+    private forget<T extends Subscription>(subscription: T): T;
+
+    private findAll(identifier: string): Subscription[];
+
+    private reload(): Subscription[];
+
+    private notifyAll(callbackName: string, ...args: any): Subscription[];
+
+    private notify(subscription: Subscription, callbackName: string, ...args: any): Subscription[];
+
+    private subscribe(subscription: Subscription): void;
+
+    private confirmSubscription(identifier: string): void;
+
+    private sendCommand(subscription: Subscription, command: any): boolean;
 }
 
 /**
@@ -201,7 +217,7 @@ export function createWebSocketURL(url: string): string;
  */
 export const logger: {
     log(...messages: any[]): void;
-    enabled?: boolean;
+    enabled?: boolean | undefined;
 };
 
 /**
